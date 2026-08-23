@@ -32,7 +32,21 @@ a { color: var(--accent); text-underline-offset: 0.16em; }
 a:hover { text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-.wrap { max-width: 46rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+/* Le texte reste en colonne etroite pour se lire ; les figures prennent toute
+   la largeur. Une seule grille tient les deux. */
+.wrap {
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+  display: grid;
+  grid-template-columns: 1fr min(42rem, 100%) 1fr;
+}
+.wrap > * { grid-column: 2; }
+.wrap > .fig,
+.wrap > .large { grid-column: 1 / -1; }
+
+/* les pages sans figure gardent l'ancienne mesure */
+.wrap.etroit { max-width: 46rem; grid-template-columns: 1fr min(46rem, 100%) 1fr; }
 
 .brand {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
@@ -322,3 +336,30 @@ footer a { color: var(--muted); }
 .t-axe   { fill: var(--muted); font-size: 12px; font-family: "IBM Plex Mono", monospace; }
 .t-cle   { fill: var(--accent); font-size: 12.5px; font-family: "IBM Plex Mono", monospace; }
 .t-note  { fill: var(--faint); font-size: 11px; }
+
+/* annotations sur une capture ou une mesure */
+.cadre    { fill: none; stroke: var(--accent); stroke-width: 2; }
+.rappel   { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+.rappel-h { stroke: var(--accent); stroke-width: 1; }
+.zone     { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+.t-annot  { fill: var(--ink-soft); font-size: 13px; }
+.t-annot-s{ fill: var(--muted);    font-size: 12px; }
+.t-groupe {
+  fill: var(--muted); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: "IBM Plex Mono", monospace;
+}
+.barre-fond { fill: #14171c; }
+.barre      { fill: var(--accent); fill-opacity: .55; }
+.t-val      { fill: var(--ink); font-size: 13px; font-weight: 600;
+              font-family: "IBM Plex Mono", monospace; }
+.fig figcaption a { color: var(--muted); }
+
+/* une capture vient d'ailleurs : on la detache au lieu de la fondre dans la page */
+.fig image { outline: 1px solid var(--rule-hi); }
+
+/* un titre de section suivi d'un bloc a filet : un seul trait, pas deux */
+h2 + .decision { border-top: none; padding-top: 0.4rem; margin-top: 1rem; }
+
+.fig { margin: 2.2rem 0 0; }
+.fig + h2 { margin-top: 3.4rem; }
+h2 + .fig { margin-top: 1rem; }

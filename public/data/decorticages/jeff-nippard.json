@@ -121,6 +121,27 @@
       "unite": "USD",
       "libelle": "Prix du lot le plus cher",
       "source": "boutique"
+    },
+    {
+      "id": "n_debutant",
+      "valeur": "6",
+      "unite": "programmes",
+      "libelle": "Programmes couvrant le niveau débutant, compte affiché par le filtre",
+      "source": "boutique"
+    },
+    {
+      "id": "n_intermediaire",
+      "valeur": "25",
+      "unite": "programmes",
+      "libelle": "Programmes couvrant le niveau intermédiaire, compte affiché par le filtre",
+      "source": "boutique"
+    },
+    {
+      "id": "n_collection",
+      "valeur": "26",
+      "unite": "programmes",
+      "libelle": "Programmes dans la collection des programmes d'entraînement",
+      "source": "boutique"
     }
   ],
   "nombres_hors_mesure": [
@@ -184,8 +205,8 @@
     {
       "id": "d3",
       "titre": "Différencier par la position, pas par le prix",
-      "fait": "Chaque programme affiche sa position sur {{c:nb_axes}} axes : le niveau, de débutant à avancé, et l'objectif, entre prise de muscle et prise de force. Un programme peut occuper une plage plutôt qu'un point, par exemple intermédiaire à avancé.",
-      "pourquoi": "C'est ce qui rend le prix unique tenable. La différence entre deux offres doit s'afficher quelque part ; si elle n'est pas dans le prix, il faut un autre langage. Deux axes suffisent, et ils sont lisibles d'un coup d'œil, ce qu'une liste de caractéristiques ne permet jamais.",
+      "fait": "Chaque programme affiche sa position sur {{c:nb_axes}} axes : le niveau, de débutant à avancé, et l'objectif, entre prise de muscle et prise de force. Un programme peut occuper une plage plutôt qu'un point, et les filtres du site en donnent le compte : {{c:n_intermediaire}} programmes couvrent le niveau intermédiaire, {{c:n_debutant}} seulement le niveau débutant, sur une collection de {{c:n_collection}}.",
+      "pourquoi": "C'est ce qui rend le prix unique tenable. La différence entre deux offres doit s'afficher quelque part ; si elle n'est pas dans le prix, il faut un autre langage. Deux axes suffisent, et ils se lisent d'un coup d'œil, ce qu'une liste de caractéristiques ne permet jamais. Le déséquilibre du catalogue devient visible du même coup : il est écrit pour des gens qui s'entraînent déjà.",
       "verdict": "copiable",
       "verdict_texte": "Copiable tel quel, quel que soit ton domaine. Trouve les deux questions qui séparent réellement tes offres et affiche la réponse sur chaque page. Si tu n'arrives pas à en trouver deux, c'est que tes offres n'en font qu'une.",
       "preuve": {
@@ -260,5 +281,39 @@
       "date": "2026-08-23",
       "note": "Première publication. Catalogue et plan du site relevés le jour même, aucune donnée reprise d'un tiers."
     }
-  ]
+  ],
+  "filtres": {
+    "releve_le": "2026-08-23",
+    "url": "https://jeffnippard.com/collections/training-programs",
+    "groupes": {
+      "Niveau couvert": [
+        [
+          "Débutant",
+          6
+        ],
+        [
+          "Intermédiaire",
+          25
+        ],
+        [
+          "Avancé",
+          24
+        ]
+      ],
+      "Objectif": [
+        [
+          "Prise de muscle",
+          16
+        ],
+        [
+          "Les deux",
+          10
+        ],
+        [
+          "Prise de force",
+          5
+        ]
+      ]
+    }
+  }
 }

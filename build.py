@@ -31,7 +31,7 @@ TETE = """<!doctype html>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<main class="wrap">
+<main class="wrap {classe}">
 """
 
 PIED = """
@@ -62,6 +62,7 @@ def page_index():
     d = DATA
     r = d["repartition"]
     out = [TETE.format(
+        classe="etroit",
         titre=html.escape(d["titre"]),
         desc=html.escape(f'{d["total"]} questions entre une audience et une première vente '
                          f'encaissée. {r["vide"]} n\'ont aucune source connue.'),
@@ -174,6 +175,7 @@ def page_repere(r):
     d = DATA
 
     out = [TETE.format(
+        classe="etroit",
         titre=html.escape(r["question"]),
         desc=html.escape(f'{r["id"]} · {r["question"]} Chiffre sourcé, daté, '
                          f'avec le nom de qui a intérêt à ce qu\'il soit vrai.'),
@@ -285,8 +287,9 @@ def main():
         dossier = PUBLIC / "ressources" / r["id"]
         dossier.mkdir(parents=True, exist_ok=True)
         (dossier / "index.html").write_text(page_decorticage(r), encoding="utf-8")
-        (dossier / "carte-du-systeme.svg").write_text(
-            figures.svg_autonome(figures.carte_du_systeme()), encoding="utf-8")
+        (dossier / "chronologie-des-prix.svg").write_text(
+            figures.svg_autonome(figures.chronologie_des_prix(figures.charger_catalogue(RACINE))),
+            encoding="utf-8")
         print(f"écrit : {dossier}/index.html ({len(r['decisions'])} décisions, "
               f"{len(r['chiffres'])} chiffres, 3 figures)")
 
@@ -312,6 +315,7 @@ def page_decorticage(r):
     catalogue = figures.charger_catalogue(RACINE)
 
     out = [TETE.format(
+        classe="",
         titre=html.escape(r["titre"]),
         desc=html.escape(r["sujet"]),
     )]
@@ -327,7 +331,7 @@ def page_decorticage(r):
 
   <p class="reponse">{ancrer(r["resume"], chiffres)}</p>
 
-{figures.carte_du_systeme()}
+{figures.preuve_des_prix()}
 
   <h2>Le catalogue, prix par prix</h2>
 {figures.chronologie_des_prix(catalogue)}
@@ -350,8 +354,9 @@ def page_decorticage(r):
     <p class="preuve">Preuve : {html.escape(p["quoi"])} ·
       <a href="{html.escape(p["url"])}">source</a> · relevé le {p["date"]}</p>
   </section>''')
-        if dec["id"] == "d3":
-            out.append("\n" + figures.grille_des_axes())
+        if dec["id"] == "d3" and r.get("filtres"):
+            g = {k: [tuple(x) for x in v] for k, v in r["filtres"]["groupes"].items()}
+            out.append("\n" + figures.distribution_du_catalogue(g))
 
     out.append(f'''
   <h2>Ce qui n’est pas visible</h2>
@@ -365,8 +370,8 @@ def page_decorticage(r):
   </ol>
 
   <div class="cta">
-    <a class="bouton bouton-plein" href="/ressources/jeff-nippard/carte-du-systeme.svg" download>
-      Télécharger la carte du système</a>
+    <a class="bouton bouton-plein" href="/ressources/jeff-nippard/chronologie-des-prix.svg" download>
+      Télécharger la chronologie des prix</a>
     <a class="bouton" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">
       Travailler avec nous</a>
   </div>
