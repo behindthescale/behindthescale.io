@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""Génère les pages du référentiel à partir de data/perimetre.json.
+"""Genere le site a partir de public/data/.
 
 Usage : python3 build.py
-Aucune dépendance. Le JSON est la source ; ce script ne fabrique jamais de valeur.
+Aucune dependance. Les JSON sont la source ; ce script ne fabrique jamais une
+valeur. Un controle qui echoue arrete tout, et rien n'est ecrit.
+
+Trois pages, un seul chassis :
+  /ressources/                  la porte, les neuf chapitres
+  /ressources/<n>-<slug>/       un chapitre et ses items
+  /ressources/cas/<slug>/       un decorticage complet
 """
 
+import datetime
 import html
 import json
 import pathlib
@@ -13,40 +20,14 @@ import controles
 import figures
 
 RACINE = pathlib.Path(__file__).parent
-PUBLIC = RACINE / "public"  # seul ce dossier est servi ; le reste du depot ne l'est pas
+PUBLIC = RACINE / "public"
 DATA = json.loads((PUBLIC / "data" / "perimetre.json").read_text(encoding="utf-8"))
-PUBLIES = {f.stem.upper() for f in (PUBLIC / "data" / "reperes").glob("*.json")}
-DECORTICAGES = PUBLIC / "data" / "decorticages"
+CHAPITRES = PUBLIC / "data" / "chapitres"
+CAS = PUBLIC / "data" / "cas"
+
+AUJOURD_HUI = datetime.date.fromisoformat(DATA["date"])
 
 TETE = """<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{titre}</title>
-<meta name="description" content="{desc}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/style.css">
-</head>
-<body>
-<main class="wrap {classe}">
-"""
-
-PIED = """
-  <footer>
-    <p>{editeur} · {version}, {date} · {licence}</p>
-    <p><a href="/">behindthescale.io</a> · <a href="/data/perimetre.json">les données de cette page</a></p>
-  </footer>
-
-</main>
-</body>
-</html>
-"""
-
-
-TETE_DOC = """<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="utf-8">
@@ -61,22 +42,21 @@ TETE_DOC = """<!doctype html>
 <body class="doc">
 
 <aside class="side">
-  <a class="side-marque" href="/">Behind The Scale</a>
+  <a class="side-marque" href="/ressources/">Behind The Scale</a>
   <nav class="sommaire">
 {sommaire}  </nav>
   <a class="side-cta" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">Travailler avec nous</a>
 </aside>
 
 <div class="doc-col">
-  <a class="doc-dl" href="{telechargement}" download>Télécharger</a>
+  <a class="doc-dl" href="{telechargement}">Les données</a>
   <main class="doc-main">
 """
 
-PIED_DOC = """
+PIED = """
     <footer>
       <p>{editeur} · {licence}</p>
-      <p><a href="/ressources/">Toutes les ressources</a> ·
-         <a href="/data/decorticages/{ident}.json">les données de cette page</a></p>
+      <p><a href="/ressources/">Tous les chapitres</a> · <a href="{donnees}">les données de cette page</a></p>
     </footer>
   </main>
 </div>
@@ -84,98 +64,29 @@ PIED_DOC = """
 </html>
 """
 
+LIBELLE_VERDICT = {
+    "copiable": "Copiable tel quel",
+    "conditionnel": "Copiable sous condition",
+    "non_copiable": "À ne pas reproduire",
+}
 
-def classe_etat(etat):
-    """Rend la classe CSS d'un état, sans jamais réinterpréter sa valeur."""
-    tete = etat[0] if etat else "?"
-    return {"S": "st-S", "F": "st-F", "Ø": "st-O"}.get(tete, "st-O")
+LIBELLE_TYPE = {
+    "mesure": "Mesure",
+    "zone_blanche": "Zone blanche",
+    "principe": "Raisonnement",
+    "cas": "Cas",
+    "a_rediger": "À vérifier",
+}
 
-
-def libelle_etat(etat):
-    tete = etat[0] if etat else "?"
-    base = {"S": "source solide", "F": "source faible", "Ø": "zone blanche"}.get(tete, etat)
-    return base + (" *" if len(etat) > 1 else "")
-
-
-def page_index():
-    """L'index : meme chassis que les decorticages, sinon l'ensemble se disloque."""
-    d, r = DATA, DATA["repartition"]
-    decorticages = charger_decorticages()
-
-    som = ['    <p class="som-titre">Décorticages</p>\n']
-    for dec in decorticages:
-        som.append(f'    <a href="/ressources/{dec["id"]}/"><span class="som-n">→</span>'
-                   f'{html.escape(dec["titre"])}</a>\n')
-    som.append('    <p class="som-titre">La bibliothèque</p>\n')
-    for e in d["etapes"]:
-        som.append(f'    <a href="#e{e["n"]}"><span class="som-n">{e["n"]}</span>'
-                   f'{html.escape(e["titre"])}</a>\n')
-
-    out = [TETE_DOC.format(
-        titre="Ressources",
-        desc=html.escape("Des systèmes de créateurs, démontés décision par décision. "
-                         "Chaque affirmation porte sa preuve et son verdict."),
-        sommaire="".join(som),
-        telechargement="/data/perimetre.json",
-    )]
-
-    out.append(f'''    <p class="doc-eyebrow">Behind The Scale</p>
-    <h1>Ressources</h1>
-    <p class="doc-lede">Des systèmes de créateurs, démontés décision par décision. Chaque
-      affirmation porte sa preuve, sa date, et le verdict de ce que tu peux en copier.</p>
-''')
-
-    for dec in decorticages:
-        n_cop = sum(1 for x in dec["decisions"] if x["verdict"] == "copiable")
-        out.append(f'''
-    <a class="carte" href="/ressources/{dec["id"]}/">
-      <span class="carte-eyebrow">Décorticage · {html.escape(dec["cout_de_lecture"])}</span>
-      <span class="carte-titre">{html.escape(dec["titre"])}</span>
-      <span class="carte-sous">{html.escape(dec["sujet"])}</span>
-      <span class="carte-pied">{len(dec["decisions"])} décisions relevées ·
-        {n_cop} copiables telles quelles · observé le {dec["date_observation"]}</span>
-    </a>''')
-
-    out.append(f'''
-    <section class="bloc">
-      <p class="bloc-n">Sous les décorticages</p>
-      <h2 class="bloc-titre">La bibliothèque</h2>
-      <p class="bloc-fait">Une liste fermée de {d["total"]} questions qui vont d'une audience à une
-        première vente encaissée. Elle sert de réserve de preuves : quand un décorticage avance un
-        chiffre, il renvoie ici.</p>
-      <p class="bloc-pourquoi"><strong>{r["vide"]} de ces questions n'ont aucune source connue</strong>,
-        et c'est le résultat le plus utile de la liste. {html.escape(d["avertissement"])}</p>
-      <p class="preuve">{r["solide"]} source solide · {r["faible"]} source faible ou intéressée ·
-        {r["vide"]} zone blanche</p>
-    </section>
-''')
-
-    for e in d["etapes"]:
-        out.append(f'''
-    <section class="bloc" id="e{e["n"]}">
-      <p class="bloc-n">Étape {e["n"]} · {len(e["reperes"])} repères</p>
-      <h2 class="bloc-titre">{html.escape(e["titre"])}</h2>
-      <div class="rows">''')
-        for rep in e["reperes"]:
-            q = html.escape(rep["question"])
-            if rep["id"] in PUBLIES:
-                q = f'<a href="/ressources/{rep["id"].lower()}/">{q}</a>'
-            out.append(f'''
-        <div class="row"><span class="id">{rep["id"]}</span><span class="q">{q}</span>
-          <span class="st {classe_etat(rep["etat"])}">{libelle_etat(rep["etat"])}</span></div>''')
-        out.append('''
-      </div>
-    </section>''')
-
-    out.append(PIED_DOC.format(editeur=html.escape(d["editeur"]),
-                              licence=d["licence"], ident="jeff-nippard"))
-    return "".join(out)
+FORMULE_ZONE_BLANCHE = ("Aucune source publiée ne répond à cette question. Ce n’est pas un manque "
+                        "de ce manuel, c’est un résultat sur l’état du domaine.")
 
 
 def ancrer(texte, chiffres):
-    """Remplace les ancres {{c:id}} par la valeur declaree, et la rend reperable a l'oeil.
+    """Remplace les ancres {{c:id}} par la valeur declaree.
 
-    Aucune valeur n'est ecrite a la main dans un texte : c'est ce que verifie C3.
+    Aucune valeur ne s'ecrit a la main dans un texte : c'est ce que verifie C3,
+    et c'est ce qui autorise la couleur. Un mot colore porte une source.
     """
     def remplacer(m):
         c = chiffres[m.group(1)]
@@ -184,187 +95,259 @@ def ancrer(texte, chiffres):
     return controles.ANCRE.sub(remplacer, html.escape(texte))
 
 
-def pastilles(source):
-    """La barre de tracabilite : ce que la source publie, pas ce qu'elle vaut."""
-    tests = [
-        ("échantillon publié", bool(source.get("n"))),
-        ("date de terrain", bool(source.get("terrain"))),
-        ("méthode consultable", bool(source.get("methode_consultable"))),
-        ("accès ouvert", bool(source.get("acces_ouvert"))),
-        ("éditeur sans intérêt", source.get("interet") == 0),
-    ]
-    return "".join(
-        f'<span class="pastille {"ok" if v else "ko"}">{"●" if v else "○"} {html.escape(t)}</span>'
-        for t, v in tests
-    )
+def age_en_mois(d):
+    if not d:
+        return None
+    j = datetime.date.fromisoformat(d)
+    return (AUJOURD_HUI.year - j.year) * 12 + AUJOURD_HUI.month - j.month
 
 
-def page_repere(r):
-    chiffres = {c["id"]: c for c in r.get("chiffres", [])}
-    src = r["sources"][0]
-    d = DATA
-
-    out = [TETE.format(
-        classe="etroit",
-        titre=html.escape(r["question"]),
-        desc=html.escape(f'{r["id"]} · {r["question"]} Chiffre sourcé, daté, '
-                         f'avec le nom de qui a intérêt à ce qu\'il soit vrai.'),
-    )]
-
-    out.append(f'''  <p class="brand"><a href="/ressources/">Ressources</a> · {html.escape(r["etape"])}</p>
-  <p class="repere-id">{r["id"]}</p>
-  <h1>{html.escape(r["question"])}</h1>
-  <div class="legend">
-    <span>Lecture : {html.escape(r["cout_de_lecture"])}</span>
-    <span class="{classe_etat("S" if r["etat"] == "mesure" else "Ø")}">
-      {"mesure" if r["etat"] == "mesure" else html.escape(r["etat"])}</span>
-    <span>Intérêt de la source : niveau {src["interet"]}</span>
-  </div>
-
-  <p class="reponse">{ancrer(r["reponse"], chiffres)}</p>
-
-  <h2>La source</h2>
-  <p><em>{html.escape(src["titre"])}</em>, {html.escape(src["auteurs"])}.
-    {html.escape(src["reference"])}. <a href="{html.escape(src["url"])}">Lire la source</a>.</p>
-  <p class="note">n = {html.escape(src["n"])} · terrain : {html.escape(src["terrain"])} ·
-    {html.escape(src["methode_consultable"])}</p>
-  <div class="barre">{pastilles(src)}</div>
-
-  <h2>Qui a intérêt à ce que ce chiffre soit cru vrai</h2>
-  <p>{html.escape(src["beneficiaire"])}</p>
-
-  <h2>Ce que ce chiffre ne dit pas</h2>
-  <p>{ancrer(r["limites"], chiffres)}</p>
-
-  <h2>La lecture qui manque au champ</h2>
-  <p>{ancrer(r["lecture_inversion"], chiffres)}</p>
-  <p class="note">{ancrer(r["limite_inversion"], chiffres)}</p>
-
-  <h2>Notre intérêt à nous</h2>
-  <p>{ancrer(r["notre_interet"], chiffres)}</p>
-
-  <h2>Les chiffres de cette page</h2>
-  <div class="rows">''')
-
-    for c in r.get("chiffres", []):
-        out.append(f'''
-      <div class="row">
-        <span class="id">{html.escape(str(c["valeur"]))}</span>
-        <span class="q">{html.escape(c["libelle"])}</span>
-        <span class="st st-O">{html.escape(c["unite"])}</span>
-      </div>''')
-
-    out.append(f'''
-  </div>
-
-  <h2>À lire ensuite</h2>
-  <div class="rows">''')
-    for l in r["liens_sortants"]:
-        etat = "publié" if l.get("publie") else "à venir"
-        out.append(f'''
-      <div class="row">
-        <span class="id">{l["id"]}</span>
-        <span class="q">{html.escape(l["question"])}</span>
-        <span class="st st-O">{etat}</span>
-      </div>''')
-    out.append('''
-  </div>
-''')
-
-    out.append(f'''
-  <h2>Citer ce repère</h2>
-  <p class="note mono">{html.escape(r["citation_suggeree"])}</p>
-  <p class="note">Version {r["version"]}, consulté le {r["date_consultation"]} ·
-    <a href="/data/reperes/{r["id"].lower()}.json">les données de ce repère</a></p>
-''')
-
-    out.append(PIED.format(editeur=html.escape(d["editeur"]), version=d["version"],
-                           date=d["date"], licence=d["licence"]))
-    return "".join(out)
+def bandeau_fraicheur(d):
+    """P10 rendu visible : le seul point ou nous depassons la reference."""
+    m = age_en_mois(d)
+    if m is None or m < 12:
+        return ""
+    if m < 24:
+        return (f'<p class="perime">Vérifié il y a {m} mois. Au-delà d’un an, ce que dit cet item '
+                f'peut avoir changé sans que nous l’ayons constaté.</p>')
+    return (f'<p class="perime perime-fort">Vérifié il y a {m} mois. Cet item est sorti de l’index '
+            f'et n’est plus affirmé, mais son adresse est conservée pour que les citations tiennent.</p>')
 
 
-def charger_reperes():
-    dossier = PUBLIC / "data" / "reperes"
+def charger(dossier):
     if not dossier.exists():
         return []
     return [json.loads(f.read_text(encoding="utf-8")) for f in sorted(dossier.glob("*.json"))]
 
 
-def main():
-    reperes = charger_reperes()
-
-    # Les controles d'abord : un seul qui echoue et rien n'est ecrit.
-    alertes, deja_vues = [], set()
-    for r in reperes:
-        alertes += controles.controler(r, deja_vues)
-
-    cible = PUBLIC / "ressources" / "index.html"
-    cible.parent.mkdir(exist_ok=True)
-    cible.write_text(page_index(), encoding="utf-8")
-
-    total = sum(len(e["reperes"]) for e in DATA["etapes"])
-    assert total == DATA["total"], f"incohérence : {total} repères pour un total annoncé de {DATA['total']}"
-    print(f"écrit : {cible} ({total} repères, {DATA['repartition']['vide']} zones blanches)")
-
-    for r in reperes:
-        page = PUBLIC / "ressources" / r["id"].lower() / "index.html"
-        page.parent.mkdir(parents=True, exist_ok=True)
-        page.write_text(page_repere(r), encoding="utf-8")
-        print(f"écrit : {page} ({len(r.get('chiffres', []))} chiffres déclarés, tous contrôlés)")
-
-    for r in charger_decorticages():
-        controles.controler_decorticage(r)
-        dossier = PUBLIC / "ressources" / r["id"]
-        dossier.mkdir(parents=True, exist_ok=True)
-        (dossier / "index.html").write_text(page_decorticage(r), encoding="utf-8")
-        (dossier / "chronologie-des-prix.svg").write_text(
-            figures.svg_autonome(figures.chronologie_des_prix(figures.charger_catalogue(RACINE))),
-            encoding="utf-8")
-        print(f"écrit : {dossier}/index.html ({len(r['decisions'])} décisions, "
-              f"{len(r['chiffres'])} chiffres, 3 figures)")
-
-    for a in alertes:
-        print(f"  ⚠ {a}")
+def publiables(ch):
+    return [i for i in ch.get("items", []) if i["type"] != "a_rediger"]
 
 
+def page_porte(chapitres, cas):
+    som = ['    <p class="som-titre">Les chapitres</p>\n']
+    for ch in chapitres:
+        som.append(f'    <a href="/ressources/{ch["n"]}-{ch["slug"]}/">'
+                   f'<span class="som-n">{ch["n"]}</span>{html.escape(ch["titre"])}</a>\n')
+    if cas:
+        som.append('    <p class="som-titre">Les cas</p>\n')
+        for c in cas:
+            som.append(f'    <a href="/ressources/cas/{c["id"]}/"><span class="som-n">→</span>'
+                       f'{html.escape(c["titre"])}</a>\n')
+
+    publies = sum(len(publiables(ch)) for ch in chapitres)
+
+    out = [TETE.format(
+        titre="Le manuel",
+        desc=html.escape("Le manuel de la monétisation d’audience pour un créateur francophone. "
+                         "Chaque affirmation dit d’où elle vient et quand elle a été vérifiée."),
+        sommaire="".join(som),
+        telechargement="/data/perimetre.json",
+    )]
+
+    out.append(f'''    <p class="doc-eyebrow">Behind The Scale</p>
+    <h1>Le manuel</h1>
+    <p class="doc-lede">Ce qu’il faut savoir entre une audience et une première vente encaissée,
+      en neuf chapitres. Chaque affirmation dit d’où elle vient et quand elle a été vérifiée
+      pour la dernière fois.</p>
+    <p class="doc-resume">Le périmètre est fermé à {DATA["total"]} questions : une question qui
+      n’entre pas dans ces neuf chapitres ne sera pas traitée. <strong>{publies} sont publiées</strong>
+      à ce jour. Les autres sont listées à leur place, sans réponse, parce qu’annoncer un manuel
+      complet qui ne l’est pas serait la première chose à ne pas croire ici.</p>
+''')
+
+    for ch in chapitres:
+        n_pub, n_tot = len(publiables(ch)), len(ch.get("items", []))
+        n_out = len(ch.get("outils", []))
+        etat = {"complet": "complet", "en_cours": "en cours", "annonce": "annoncé"}[ch["etat"]]
+        out.append(f'''
+    <a class="carte" href="/ressources/{ch["n"]}-{ch["slug"]}/">
+      <span class="carte-eyebrow">Chapitre {ch["n"]} · {etat}</span>
+      <span class="carte-titre">{html.escape(ch["titre"])}</span>
+      <span class="carte-sous">{html.escape(ch["annonce"])}</span>
+      <span class="carte-pied">{n_pub} publié{"s" if n_pub > 1 else ""} sur {n_tot}{f" · {n_out} outils" if n_out else ""}</span>
+    </a>''')
+
+    if cas:
+        out.append('''
+    <section class="bloc">
+      <p class="bloc-n">À part</p>
+      <h2 class="bloc-titre">Les cas</h2>
+      <p class="bloc-pourquoi">Un chapitre dit ce qu’on sait. Un cas montre un système entier qui
+        tourne, décision par décision, avec le verdict de ce qui se copie et de ce qui ne se copie
+        pas. Les chapitres y renvoient.</p>
+    </section>''')
+        for c in cas:
+            n_cop = sum(1 for x in c["decisions"] if x["verdict"] == "copiable")
+            out.append(f'''
+    <a class="carte" href="/ressources/cas/{c["id"]}/">
+      <span class="carte-eyebrow">Cas · {html.escape(c["cout_de_lecture"])}</span>
+      <span class="carte-titre">{html.escape(c["titre"])}</span>
+      <span class="carte-sous">{html.escape(c["sujet"])}</span>
+      <span class="carte-pied">{len(c["decisions"])} décisions · {n_cop} copiables telles quelles ·
+        observé le {c["date_observation"]}</span>
+    </a>''')
+
+    out.append(PIED.format(editeur=html.escape(DATA["editeur"]), licence=DATA["licence"],
+                           donnees="/data/perimetre.json"))
+    return "".join(out)
 
 
-# --- Le decorticage --------------------------------------------------------
+def rendu_item(it):
+    chiffres = {c["id"]: c for c in it.get("chiffres", [])}
+    t = it["type"]
+    out = [f'''
+    <section class="bloc" id="{it["id"].lower()}">
+      <p class="bloc-n"><span class="etiq etiq-{t}">{LIBELLE_TYPE[t]}</span>{it["id"]}</p>
+      <h2 class="bloc-titre">{html.escape(it["titre"])}</h2>''']
 
-LIBELLE_VERDICT = {
-    "copiable": "Copiable tel quel",
-    "conditionnel": "Copiable sous condition",
-    "non_copiable": "À ne pas reproduire",
-}
+    if t == "a_rediger":
+        out.append('''
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>''')
+
+    elif t == "zone_blanche":
+        out.append(f'''
+      <p class="bloc-fait">{FORMULE_ZONE_BLANCHE}</p>
+      <p class="bloc-pourquoi"><strong>Ce qu’il faudrait pour la combler.</strong>
+        {ancrer(it["ce_qu_il_faudrait"], chiffres)}</p>
+      <p class="bloc-pourquoi"><strong>Qui pourrait le mesurer.</strong>
+        {ancrer(it["qui_pourrait_le_mesurer"], chiffres)}</p>''')
+
+    elif t == "cas":
+        out.append(f'''
+      <p class="bloc-fait">{ancrer(it["texte"], chiffres)}</p>
+      <p class="preuve"><a href="/ressources/cas/{it["cas_slug"]}/">Lire le cas entier</a></p>''')
+
+    else:
+        out.append(f'''
+      <p class="bloc-fait">{ancrer(it["texte"], chiffres)}</p>''')
+        if it.get("limites"):
+            out.append(f'''
+      <p class="bloc-pourquoi">{ancrer(it["limites"], chiffres)}</p>''')
+        if t == "principe":
+            out.append(f'''
+      <p class="bloc-pourquoi"><strong>D’où vient ce raisonnement.</strong>
+        {ancrer(it["fondement"], chiffres)}</p>''')
+
+    srcs = it.get("sources", [])
+    if len(srcs) == 1:
+        s = srcs[0]
+        i = s.get("interet")
+        mention = ("éditeur sans intérêt dans le champ" if i == 0
+                   else f"intérêt de l’éditeur : niveau {i}" if i is not None else "")
+        out.append(f'''
+      <p class="preuve">{html.escape(s["titre"])} ·
+        <a href="{html.escape(s["url"])}">source</a>{" · " + mention if mention else ""}</p>''')
+    elif srcs:
+        # plusieurs sources : une seule ligne, sinon la trace pese plus que le texte
+        liens = " · ".join(f'<a href="{html.escape(s["url"])}" title="{html.escape(s["titre"])}">'
+                           f'{html.escape(s.get("court") or s["titre"].split()[-1])}</a>'
+                           for s in srcs)
+        niveaux = {s.get("interet") for s in srcs}
+        n = (f"tous de niveau {niveaux.pop()}" if len(niveaux) == 1
+             else "niveaux d’intérêt mêlés")
+        out.append(f'''
+      <p class="preuve">Sources : {liens} · intérêt de l’éditeur : {n}</p>''')
+
+    if it.get("verifie_le"):
+        out.append(f'''
+      <p class="preuve">Vérifié le {it["verifie_le"]}</p>{bandeau_fraicheur(it["verifie_le"])}''')
+
+    out.append('''
+    </section>''')
+    return "".join(out)
 
 
-def page_decorticage(r):
-    """Une colonne unique, un sommaire fixe, aucune alternance de largeur.
+def rendu_outil(o):
+    prix = (f'<span class="outil-prix">{html.escape(o["prix"])}</span>'
+            f'<span class="outil-prix-date">relevé le {o["prix_verifie_le"]}</span>'
+            if o.get("prix") else '')
+    return f'''
+      <div class="outil">
+        <p class="outil-nom"><a href="{html.escape(o["url"])}">{html.escape(o["nom"])}</a>{prix}</p>
+        <p class="outil-fait">{html.escape(o["fait"])}</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> {html.escape(o["pourquoi"])}</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> {html.escape(o["ne_fait_pas"])}</p>
+      </div>'''
 
-    Modele : eptwts.com, la reference donnee par Alois. Une seule figure y est
-    admise, celle qui porte une donnee qu'aucune phrase ne remplace.
-    """
+
+def page_chapitre(ch, chapitres):
+    som = ['    <p class="som-titre">Les chapitres</p>\n']
+    for c in chapitres:
+        actif = ' class="actif"' if c["n"] == ch["n"] else ""
+        som.append(f'    <a href="/ressources/{c["n"]}-{c["slug"]}/"{actif}>'
+                   f'<span class="som-n">{c["n"]}</span>{html.escape(c["titre"])}</a>\n')
+    pub = publiables(ch)
+    if pub:
+        som.append('    <p class="som-titre">Dans ce chapitre</p>\n')
+        for it in pub:
+            som.append(f'    <a href="#{it["id"].lower()}"><span class="som-n">·</span>'
+                       f'{html.escape(it["titre"][:58])}</a>\n')
+    if ch.get("outils"):
+        som.append('    <p class="som-titre">Les outils</p>\n')
+        som.append('    <a href="#outils"><span class="som-n">·</span>Ce avec quoi on le fait</a>\n')
+
+    out = [TETE.format(
+        titre=html.escape(ch["titre"]),
+        desc=html.escape(ch["annonce"]),
+        sommaire="".join(som),
+        telechargement=f'/data/chapitres/{ch["n"]}-{ch["slug"]}.json',
+    )]
+
+    n_pub, n_tot = len(pub), len(ch.get("items", []))
+    out.append(f'''    <p class="doc-eyebrow">Chapitre {ch["n"]}</p>
+    <h1>{html.escape(ch["titre"])}</h1>
+    <p class="doc-lede">{html.escape(ch["annonce"])}</p>''')
+    if ch.get("intro"):
+        out.append(f'''
+    <p class="doc-resume">{html.escape(ch["intro"])}</p>''')
+    out.append(f'''
+    <p class="preuve">{n_pub} publié{"s" if n_pub > 1 else ""} sur {n_tot} · chapitre {ch["etat"].replace("_", " ")}</p>
+''')
+
+    for it in ch.get("items", []):
+        out.append(rendu_item(it))
+
+    if ch.get("outils"):
+        out.append('''
+    <section class="bloc" id="outils">
+      <p class="bloc-n">Les outils</p>
+      <h2 class="bloc-titre">Ce avec quoi on le fait</h2>
+      <p class="bloc-pourquoi">Un outil se juge dans le problème qu’il règle, jamais dans une liste
+        à part. Chacun porte ce qu’il ne fait pas, sinon c’est une recommandation déguisée.</p>''')
+        for o in ch["outils"]:
+            out.append(rendu_outil(o))
+        out.append('''
+    </section>''')
+
+    out.append(PIED.format(editeur=html.escape(DATA["editeur"]), licence=DATA["licence"],
+                           donnees=f'/data/chapitres/{ch["n"]}-{ch["slug"]}.json'))
+    return "".join(out)
+
+
+def page_cas(r):
     chiffres = {c["id"]: c for c in r.get("chiffres", [])}
     src = r["sources"][0]
 
-    entrees = [(f'd{i}', f'{i:02d}', dec["titre"]) for i, dec in enumerate(r["decisions"], 1)]
-    sommaire = ['    <p class="som-titre">Les décisions</p>\n']
-    for ancre, n, titre in entrees:
-        sommaire.append(f'    <a href="#{ancre}"><span class="som-n">{n}</span>'
-                        f'{html.escape(titre)}</a>\n')
-    sommaire.append('    <p class="som-titre">Et ensuite</p>\n')
-    sommaire.append('    <a href="#invisible"><span class="som-n">·</span>Ce qui n’est pas visible</a>\n')
-    sommaire.append('    <a href="#actions"><span class="som-n">·</span>Ce que tu fais cette semaine</a>\n')
-    sommaire.append('    <a href="#methode"><span class="som-n">·</span>Comment ceci a été relevé</a>\n')
+    som = ['    <p class="som-titre">Les décisions</p>\n']
+    for i, dec in enumerate(r["decisions"], 1):
+        som.append(f'    <a href="#d{i}"><span class="som-n">{i:02d}</span>'
+                   f'{html.escape(dec["titre"])}</a>\n')
+    som.append('    <p class="som-titre">Et ensuite</p>\n')
+    for ancre, txt in (("invisible", "Ce qui n’est pas visible"),
+                       ("actions", "Ce que tu fais cette semaine"),
+                       ("methode", "Comment ceci a été relevé")):
+        som.append(f'    <a href="#{ancre}"><span class="som-n">·</span>{txt}</a>\n')
 
-    out = [TETE_DOC.format(
+    out = [TETE.format(
         titre=html.escape(r["titre"]),
         desc=html.escape(r["sujet"]),
-        sommaire="".join(sommaire),
-        telechargement=f'/ressources/{r["id"]}/chronologie-des-prix.svg',
+        sommaire="".join(som),
+        telechargement=f'/data/cas/{r["id"]}.json',
     )]
 
-    out.append(f'''    <p class="doc-eyebrow">Décorticage · observé le {r["date_observation"]}</p>
+    out.append(f'''    <p class="doc-eyebrow">Cas · observé le {r["date_observation"]}</p>
     <h1>{html.escape(r["titre"])}</h1>
     <p class="doc-lede">{html.escape(r["sujet"])}</p>
     <p class="doc-resume">{ancrer(r["resume"], chiffres)}</p>
@@ -390,7 +373,7 @@ def page_decorticage(r):
     <section class="bloc" id="invisible">
       <p class="bloc-n">La limite</p>
       <h2 class="bloc-titre">Ce qui n’est pas visible</h2>
-      <p>{ancrer(r["invisible"], chiffres)}</p>
+      <p class="bloc-fait">{ancrer(r["invisible"], chiffres)}</p>
     </section>
 
     <section class="bloc" id="actions">
@@ -406,23 +389,86 @@ def page_decorticage(r):
     <section class="bloc" id="methode">
       <p class="bloc-n">La méthode</p>
       <h2 class="bloc-titre">Comment ceci a été relevé</h2>
-      <p>{html.escape(src["methode"])}</p>
+      <p class="bloc-fait">{html.escape(src["methode"])}</p>
       <p class="preuve"><a href="{html.escape(src["url"])}">{html.escape(src["titre"])}</a>,
         consultée le {src["date_consultation"]} ·
-        <a href="/data/cas/{r["id"]}/collecte.json">les données brutes archivées</a></p>
+        <a href="/data/collectes/{r["id"]}/collecte.json">les données brutes archivées</a></p>
       <p class="preuve">{html.escape(r["citation_suggeree"])}</p>
     </section>
 ''')
 
-    out.append(PIED_DOC.format(editeur=html.escape(DATA["editeur"]),
-                              licence=DATA["licence"], ident=r["id"]))
+    out.append(PIED.format(editeur=html.escape(DATA["editeur"]), licence=DATA["licence"],
+                           donnees=f'/data/cas/{r["id"]}.json'))
     return "".join(out)
 
 
-def charger_decorticages():
-    if not DECORTICAGES.exists():
-        return []
-    return [json.loads(f.read_text(encoding="utf-8")) for f in sorted(DECORTICAGES.glob("*.json"))]
+def page_redirection(vers, motif):
+    """Une adresse publiee ne rend jamais une erreur (P10)."""
+    return f'''<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url={vers}">
+<link rel="canonical" href="{vers}">
+<title>Déplacé</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="doc">
+<div class="doc-col"><main class="doc-main">
+  <p class="doc-eyebrow">Déplacé</p>
+  <h1>Cette page a changé d’adresse</h1>
+  <p class="doc-lede">{html.escape(motif)}</p>
+  <p><a href="{vers}">Continuer</a></p>
+</main></div>
+</body>
+</html>
+'''
+
+
+def main():
+    chapitres = sorted(charger(CHAPITRES), key=lambda c: c["n"])
+    cas = charger(CAS)
+    slugs_cas = {c["id"] for c in cas}
+
+    for ch in chapitres:
+        controles.controler_chapitre(ch, slugs_cas)
+    for c in cas:
+        controles.controler_decorticage(c)
+
+    base = PUBLIC / "ressources"
+    base.mkdir(parents=True, exist_ok=True)
+    (base / "index.html").write_text(page_porte(chapitres, cas), encoding="utf-8")
+    print(f"écrit : /ressources/ ({len(chapitres)} chapitres, {len(cas)} cas)")
+
+    for ch in chapitres:
+        d = base / f'{ch["n"]}-{ch["slug"]}'
+        d.mkdir(exist_ok=True)
+        (d / "index.html").write_text(page_chapitre(ch, chapitres), encoding="utf-8")
+        n_out = len(ch.get("outils", []))
+        print(f"écrit : /ressources/{ch['n']}-{ch['slug']}/ "
+              f"({len(publiables(ch))}/{len(ch.get('items', []))} publiés"
+              f"{f', {n_out} outils' if n_out else ''})")
+
+    for c in cas:
+        d = base / "cas" / c["id"]
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "index.html").write_text(page_cas(c), encoding="utf-8")
+        (d / "chronologie-des-prix.svg").write_text(
+            figures.svg_autonome(figures.chronologie_des_prix(figures.charger_catalogue(RACINE))),
+            encoding="utf-8")
+        print(f"écrit : /ressources/cas/{c['id']}/ ({len(c['decisions'])} décisions)")
+
+    for ancienne, vers, motif in [
+        ("r-004", "/ressources/0-le-seuil/#r-004",
+         "Les repères sont devenus les items des chapitres. Celui-ci vit désormais dans le "
+         "chapitre 0, à la même place dans le parcours."),
+        ("jeff-nippard", "/ressources/cas/jeff-nippard/",
+         "Les cas ont désormais leur propre dossier."),
+    ]:
+        d = base / ancienne
+        d.mkdir(exist_ok=True)
+        (d / "index.html").write_text(page_redirection(vers, motif), encoding="utf-8")
+        print(f"redirigé : /ressources/{ancienne}/ → {vers}")
 
 
 if __name__ == "__main__":

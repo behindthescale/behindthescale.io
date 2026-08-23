@@ -1,0 +1,277 @@
+{
+  "n": 6,
+  "slug": "encaisser",
+  "titre": "Encaisser",
+  "annonce": "Recevoir l’argent, et le garder : prestataires, gels de compte, litiges.",
+  "etat": "en_cours",
+  "verifie_le": "2026-08-23",
+  "intro": "Encaisser n’est pas vendre. Ce chapitre porte ce qui se passe après le clic sur payer : ce que prend le prestataire, qui doit la TVA, et ce qui peut bloquer l’argent une fois qu’il est arrivé.",
+  "items": [
+    {
+      "id": "R-067",
+      "type": "principe",
+      "titre": "« Quel prestataire de paiement quand on démarre ? »",
+      "etat_estime": "F",
+      "verifie_le": "2026-08-23",
+      "texte": "Le choix ne se fait pas sur le taux affiché mais sur deux questions : où sont tes acheteurs, et qui porte la TVA. Un vendeur européen qui vend à des Européens paie le moins cher chez un prestataire européen, mais reste redevable de la TVA de chaque pays d’achat. Un vendeur qui passe par un revendeur de référence paie nettement plus, et la déclaration ne lui appartient plus. Le taux le plus bas est donc rarement le coût le plus bas.",
+      "fondement": "Comparaison des grilles publiées relevées dans ce chapitre, et de ce que chaque prestataire annonce prendre en charge. Ce n’est pas une mesure : aucun de nous n’a encaissé avec ces quatre outils, et rien ici ne remplace un avis comptable.",
+      "sources": [
+        {
+          "titre": "Grille tarifaire publique de Stripe France",
+          "url": "https://stripe.com/fr/pricing",
+          "interet": 2,
+          "court": "Stripe"
+        },
+        {
+          "titre": "Documentation publique des frais de Whop",
+          "url": "https://docs.whop.com/fees",
+          "interet": 2,
+          "court": "Whop"
+        },
+        {
+          "titre": "Page tarifaire publique de Lemon Squeezy",
+          "url": "https://www.lemonsqueezy.com/pricing",
+          "interet": 2,
+          "court": "Lemon Squeezy"
+        },
+        {
+          "titre": "Page tarifaire publique de Gumroad",
+          "url": "https://gumroad.com/pricing",
+          "interet": 2,
+          "court": "Gumroad"
+        }
+      ]
+    },
+    {
+      "id": "R-068",
+      "type": "mesure",
+      "titre": "« Ça me coûte combien, réellement, d'encaisser 100 € ? »",
+      "etat_estime": "S",
+      "verifie_le": "2026-08-23",
+      "texte": "Quatre tarifs publiés, relevés le même jour. Stripe en France : {{c:t_stripe}} pour une carte européenne standard. Whop : {{c:t_whop}}, plus {{c:t_whop_intl}} si la carte est internationale et {{c:t_whop_conv}} si une conversion de devise s’applique. Lemon Squeezy : {{c:t_lemon}}. Gumroad : {{c:t_gumroad}} en vente directe, et {{c:t_gumroad_d}} pour une vente venue de sa place de marché. L’écart entre le moins cher et le plus cher dépasse un facteur six.",
+      "limites": "Aucun de ces taux n’est comparable tel quel, et c’est le vrai résultat de ce relevé. Whop facture en dollars et ne définit nulle part ce qu’il appelle une carte domestique : pour un vendeur français encaissant des cartes françaises, la question de savoir si les suppléments s’appliquent change le coût du simple au double, et la documentation ne permet pas de trancher. Convertir ces taux dans une devise unique supposerait un taux de change à une date donnée, que nous n’avons pas figé. Enfin ces grilles ne portent que le coût d’encaissement : ni la TVA, ni les frais de virement vers ton compte, ni le coût d’un impayé.",
+      "chiffres": [
+        {
+          "id": "t_stripe",
+          "valeur": "1,5 % + 0,25 €",
+          "unite": "par transaction",
+          "libelle": "Stripe, carte européenne standard, tarif France",
+          "source": "stripe"
+        },
+        {
+          "id": "t_whop",
+          "valeur": "2,7 % + 0,30 $",
+          "unite": "par transaction",
+          "libelle": "Whop, carte dite domestique",
+          "source": "whop"
+        },
+        {
+          "id": "t_whop_intl",
+          "valeur": "1,5 %",
+          "unite": "supplément",
+          "libelle": "Whop, supplément carte internationale",
+          "source": "whop"
+        },
+        {
+          "id": "t_whop_conv",
+          "valeur": "1 %",
+          "unite": "supplément",
+          "libelle": "Whop, supplément si conversion de devise",
+          "source": "whop"
+        },
+        {
+          "id": "t_lemon",
+          "valeur": "5 % + 0,50 $",
+          "unite": "par transaction",
+          "libelle": "Lemon Squeezy, tarif unique annoncé",
+          "source": "lemon"
+        },
+        {
+          "id": "t_gumroad",
+          "valeur": "10 % + 0,50 $",
+          "unite": "par transaction",
+          "libelle": "Gumroad, vente directe",
+          "source": "gumroad"
+        },
+        {
+          "id": "t_gumroad_d",
+          "valeur": "30 %",
+          "unite": "par transaction",
+          "libelle": "Gumroad, vente issue de sa place de marché Discover",
+          "source": "gumroad"
+        }
+      ],
+      "sources": [
+        {
+          "titre": "Grille tarifaire publique de Stripe France",
+          "url": "https://stripe.com/fr/pricing",
+          "interet": 2,
+          "court": "Stripe"
+        },
+        {
+          "titre": "Documentation publique des frais de Whop",
+          "url": "https://docs.whop.com/fees",
+          "interet": 2,
+          "court": "Whop"
+        },
+        {
+          "titre": "Page tarifaire publique de Lemon Squeezy",
+          "url": "https://www.lemonsqueezy.com/pricing",
+          "interet": 2,
+          "court": "Lemon Squeezy"
+        },
+        {
+          "titre": "Page tarifaire publique de Gumroad",
+          "url": "https://gumroad.com/pricing",
+          "interet": 2,
+          "court": "Gumroad"
+        }
+      ],
+      "nombres_hors_mesure": [
+        {
+          "ecrit": "100",
+          "motif": "Montant d’exemple de la question, pas une mesure."
+        }
+      ]
+    },
+    {
+      "id": "R-069",
+      "type": "a_rediger",
+      "titre": "« Mon compte peut-il être gelé pile au moment du pic ? »",
+      "etat_estime": "S",
+      "verifie_le": null
+    },
+    {
+      "id": "R-070",
+      "type": "a_rediger",
+      "titre": "« C'est quoi une réserve, et combien de temps mon argent est bloqué ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-071",
+      "type": "a_rediger",
+      "titre": "« Quand est-ce que l'argent arrive sur mon compte ? »",
+      "etat_estime": "S",
+      "verifie_le": null
+    },
+    {
+      "id": "R-072",
+      "type": "principe",
+      "titre": "« Qui déclare la TVA, moi ou la plateforme ? »",
+      "etat_estime": "F, contradiction",
+      "verifie_le": "2026-08-23",
+      "texte": "Cela dépend d’une seule chose : qui est le vendeur au sens du droit. Si la plateforme se déclare revendeur de référence, c’est elle qui facture l’acheteur final, elle qui collecte la TVA au taux de son pays, et toi qui lui vends. Si la plateforme n’est qu’un encaisseur, le vendeur c’est toi, et la TVA du pays de l’acheteur t’incombe dès le premier euro pour un produit numérique vendu à un particulier européen.",
+      "fondement": "Distinction annoncée publiquement par les prestataires eux-mêmes dans leurs pages tarifaires. Ceci n’est pas un conseil juridique : le texte applicable est la directive TVA, et nous ne l’avons pas encore relue ligne à ligne pour ce chapitre. Le repère qui portera cette lecture est au chapitre 7.",
+      "sources": [
+        {
+          "titre": "Grille tarifaire publique de Stripe France",
+          "url": "https://stripe.com/fr/pricing",
+          "interet": 2,
+          "court": "Stripe"
+        },
+        {
+          "titre": "Documentation publique des frais de Whop",
+          "url": "https://docs.whop.com/fees",
+          "interet": 2,
+          "court": "Whop"
+        },
+        {
+          "titre": "Page tarifaire publique de Lemon Squeezy",
+          "url": "https://www.lemonsqueezy.com/pricing",
+          "interet": 2,
+          "court": "Lemon Squeezy"
+        },
+        {
+          "titre": "Page tarifaire publique de Gumroad",
+          "url": "https://gumroad.com/pricing",
+          "interet": 2,
+          "court": "Gumroad"
+        }
+      ],
+      "nombres_hors_mesure": [
+        {
+          "ecrit": "7",
+          "motif": "Numéro de chapitre cité, pas une grandeur."
+        }
+      ]
+    },
+    {
+      "id": "R-073",
+      "type": "a_rediger",
+      "titre": "« À partir de combien d'impayés je suis en danger ? »",
+      "etat_estime": "S",
+      "verifie_le": null
+    },
+    {
+      "id": "R-074",
+      "type": "a_rediger",
+      "titre": "« Qu'est-ce qui déclenche une contestation sur un produit numérique ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-075",
+      "type": "a_rediger",
+      "titre": "« Paiement en 3 fois : combien d'échéances échouent ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-076",
+      "type": "a_rediger",
+      "titre": "« J'accepte quelles devises ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-077",
+      "type": "a_rediger",
+      "titre": "« Mon premier client est hors UE. Ça change quoi ? »",
+      "etat_estime": "S",
+      "verifie_le": null
+    }
+  ],
+  "outils": [
+    {
+      "nom": "Stripe",
+      "url": "https://stripe.com/fr/pricing",
+      "prix": "1,5 % + 0,25 € par transaction",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Encaisse une carte et verse sur ton compte bancaire. C’est la brique de paiement, rien d’autre.",
+      "pourquoi": "Le tarif le plus bas des quatre pour un vendeur européen encaissant des cartes européennes, et le seul dont la grille est publiée en euros.",
+      "ne_fait_pas": "Ni boutique, ni page de vente, ni gestion de la TVA. Tu restes le vendeur au sens du droit, donc redevable dans le pays de chaque acheteur.",
+      "verifie_le": "2026-08-23"
+    },
+    {
+      "nom": "Whop",
+      "url": "https://docs.whop.com/fees",
+      "prix": "2,7 % + 0,30 $, plus 1,5 % carte internationale et 1 % conversion",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Vend l’accès à un espace, à une communauté ou à un contenu, avec le paiement et la gestion des membres au même endroit.",
+      "pourquoi": "Le seul du lot qui vend un accès récurrent à une communauté sans rien assembler soi-même.",
+      "ne_fait_pas": "Il ne dit nulle part ce qu’il entend par carte domestique, alors que trois de ses lignes de frais en dépendent. Ses frais sont en dollars, et le versement vers un compte européen porte son propre coût.",
+      "verifie_le": "2026-08-23"
+    },
+    {
+      "nom": "Lemon Squeezy",
+      "url": "https://www.lemonsqueezy.com/pricing",
+      "prix": "5 % + 0,50 $ par transaction",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Vend à ta place en tant que revendeur de référence : il facture l’acheteur, collecte la TVA et te reverse.",
+      "pourquoi": "C’est le seul des quatre qui retire la TVA européenne de tes mains, et c’est ce que tu paies dans l’écart de taux.",
+      "ne_fait_pas": "Il coûte plus de trois fois le tarif de Stripe. Sur un produit à faible marge, l’écart mange davantage que le temps de déclaration qu’il fait gagner.",
+      "verifie_le": "2026-08-23"
+    },
+    {
+      "nom": "Gumroad",
+      "url": "https://gumroad.com/pricing",
+      "prix": "10 % + 0,50 $ en direct, 30 % via sa place de marché",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Boutique complète en quelques minutes : page, paiement, livraison du fichier.",
+      "pourquoi": "Le plus court chemin entre un fichier et une première vente, sans rien configurer.",
+      "ne_fait_pas": "Le taux le plus élevé des quatre, et il triple si l’acheteur vient de sa place de marché plutôt que de ton lien. Un même produit n’y rapporte donc pas le même montant selon d’où vient le client.",
+      "verifie_le": "2026-08-23"
+    }
+  ]
+}

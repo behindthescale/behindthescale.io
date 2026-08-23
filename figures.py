@@ -146,7 +146,7 @@ def distribution_du_catalogue(groupes):
 
 
 def charger_catalogue(racine):
-    f = pathlib.Path(racine) / "public" / "data" / "cas" / "jeff-nippard" / "collecte.json"
+    f = pathlib.Path(racine) / "public" / "data" / "collectes" / "jeff-nippard" / "collecte.json"
     return json.loads(f.read_text(encoding="utf-8"))["catalogue"]
 
 

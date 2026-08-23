@@ -245,3 +245,120 @@ def controler_decorticage(r):
     d4_actions(r)
     d5_nombres_libres(r)
     c2_attributs_chiffres(r)
+
+
+# --- Controles d'un chapitre et de ses items -------------------------------
+# Un chapitre accueille cinq types d'item. Le contrat par type est ce qui
+# permet d'ajouter un sujet nouveau sans casser le gabarit.
+
+TYPES_ITEM = {"mesure", "zone_blanche", "principe", "cas", "a_rediger"}
+
+CHAMPS_PAR_TYPE = {
+    "mesure":       ["texte", "verifie_le"],
+    "zone_blanche": ["ce_qu_il_faudrait", "qui_pourrait_le_mesurer", "verifie_le"],
+    "principe":     ["texte", "fondement", "verifie_le"],
+    "cas":          ["texte", "cas_slug", "verifie_le"],
+    "a_rediger":    ["etat_estime"],
+}
+
+CHAMPS_OUTIL = ["nom", "fait", "pourquoi", "url", "verifie_le"]
+
+# Champs rediges d'un item, soumis a l'interdiction de nombre libre.
+REDIGES_ITEM = ["texte", "fondement", "ce_qu_il_faudrait", "qui_pourrait_le_mesurer"]
+
+DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def ch1_structure(ch):
+    """Le chapitre porte son numero, son nom, son etat et ses items."""
+    for champ in ("n", "slug", "titre", "etat", "items"):
+        if ch.get(champ) in (None, "", []):
+            if champ == "items" and ch.get("etat") == "annonce":
+                continue
+            _echec(ch.get("slug", "?"), "CH1", f"chapitre sans {champ}")
+    if ch["etat"] not in ("complet", "en_cours", "annonce"):
+        _echec(ch["slug"], "CH1", f"etat de chapitre inconnu : {ch['etat']}")
+
+
+def ch2_types(ch):
+    """Chaque item declare un type admis et porte les champs de ce type."""
+    for it in ch.get("items", []):
+        t = it.get("type")
+        if t not in TYPES_ITEM:
+            _echec(ch["slug"], "CH2", f"item '{it.get('id', '?')}' de type inconnu : {t}")
+        if not it.get("titre"):
+            _echec(ch["slug"], "CH2", f"item '{it.get('id', '?')}' sans titre")
+        for champ in CHAMPS_PAR_TYPE[t]:
+            if it.get(champ) in (None, "", []):
+                _echec(ch["slug"], "CH2",
+                       f"item '{it['id']}' de type {t} sans {champ}")
+
+
+def ch3_fraicheur(ch):
+    """Une date de verification lisible, ou rien ne se publie (P10).
+
+    Un item 'a_rediger' n'affirme rien : il est dispense, et c'est pour ca
+    qu'il ne peut porter aucun texte.
+    """
+    for it in ch.get("items", []):
+        if it["type"] == "a_rediger":
+            if it.get("texte"):
+                _echec(ch["slug"], "CH3",
+                       f"item '{it['id']}' est a rediger mais porte deja un texte : "
+                       f"le publier suppose de le sourcer d'abord")
+            continue
+        d = it.get("verifie_le") or ""
+        if not DATE.match(d):
+            _echec(ch["slug"], "CH3", f"item '{it['id']}' : verifie_le illisible ({d!r})")
+
+
+def ch4_outils(ch):
+    """Un outil dit ce qu'il fait, pourquoi lui, et ce qu'il ne fait pas.
+
+    Un prix sans date de relevé est un chiffre orphelin (P7) : il est refuse.
+    """
+    for o in ch.get("outils", []):
+        for champ in CHAMPS_OUTIL:
+            if o.get(champ) in (None, "", []):
+                _echec(ch["slug"], "CH4", f"outil '{o.get('nom', '?')}' sans {champ}")
+        if o.get("prix") and not DATE.match(o.get("prix_verifie_le") or ""):
+            _echec(ch["slug"], "CH4",
+                   f"outil '{o['nom']}' affiche un prix sans date de releve lisible")
+        if not o.get("ne_fait_pas"):
+            _echec(ch["slug"], "CH4",
+                   f"outil '{o['nom']}' sans 'ne_fait_pas' : un outil qu'on ne borne pas "
+                   f"est une recommandation deguisee")
+
+
+def ch5_nombres_libres(ch):
+    """C3 etendu aux champs rediges des items et des outils."""
+    for it in ch.get("items", []):
+        declares = {c["id"] for c in it.get("chiffres", [])}
+        tolere = {str(n["ecrit"]) for n in it.get("nombres_hors_mesure", [])}
+        for champ in REDIGES_ITEM:
+            texte = it.get(champ) or ""
+            for ref in ANCRE.findall(texte):
+                if ref not in declares:
+                    _echec(ch["slug"], "CH5",
+                           f"item '{it['id']}' {champ} ancre un chiffre non declare : {ref}")
+            nu = ANCRE.sub(" ", texte)
+            for brut in re.findall(r"\d+(?:[\s.,  ]\d+)*", nu):
+                nombre = re.sub(r"[\s  ]+", " ", brut).strip()
+                if nombre not in tolere:
+                    _echec(ch["slug"], "CH5",
+                           f"nombre libre dans l'item '{it['id']}' ({champ}) : « {nombre} »")
+
+
+def ch6_cas_existants(ch, cas_connus):
+    for it in ch.get("items", []):
+        if it["type"] == "cas" and it["cas_slug"] not in cas_connus:
+            _echec(ch["slug"], "CH6", f"item '{it['id']}' renvoie a un cas absent : {it['cas_slug']}")
+
+
+def controler_chapitre(ch, cas_connus=()):
+    ch1_structure(ch)
+    ch2_types(ch)
+    ch3_fraicheur(ch)
+    ch4_outils(ch)
+    ch5_nombres_libres(ch)
+    ch6_cas_existants(ch, set(cas_connus))

@@ -1,0 +1,97 @@
+{
+  "n": 4,
+  "slug": "l-annonce",
+  "titre": "L'annonce à une audience qui n'a jamais rien acheté",
+  "annonce": "Le moment où une audience gratuite apprend qu’il existe quelque chose à payer.",
+  "etat": "annonce",
+  "verifie_le": null,
+  "intro": null,
+  "items": [
+    {
+      "id": "R-046",
+      "type": "a_rediger",
+      "titre": "« Combien d'abonnés je perds quand j'annonce du payant ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null,
+      "origine": "dérivé"
+    },
+    {
+      "id": "R-047",
+      "type": "a_rediger",
+      "titre": "« Combien de fois faut-il en parler ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-048",
+      "type": "a_rediger",
+      "titre": "« Je préviens avant, ou j'annonce d'un coup ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-049",
+      "type": "a_rediger",
+      "titre": "« Parler d'argent casse ma portée organique ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-050",
+      "type": "a_rediger",
+      "titre": "« Quelle part de mes abonnés voit une annonce donnée ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-051",
+      "type": "a_rediger",
+      "titre": "« Je l'annonce sur toutes mes plateformes ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-052",
+      "type": "a_rediger",
+      "titre": "« Lancement en fenêtre fermée ou vente permanente ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-053",
+      "type": "a_rediger",
+      "titre": "« Combien de temps dure la fenêtre ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-054",
+      "type": "a_rediger",
+      "titre": "« Combien d'emails ou de vidéos dans la séquence ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-055",
+      "type": "a_rediger",
+      "titre": "« Faut-il faire un live ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-056",
+      "type": "a_rediger",
+      "titre": "« Personne n'achète le premier jour. Je fais quoi ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-057",
+      "type": "a_rediger",
+      "titre": "« Un partenaire ou un affilié, dès la première vente ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    }
+  ],
+  "outils": []
+}

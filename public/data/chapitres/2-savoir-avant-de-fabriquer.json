@@ -1,0 +1,75 @@
+{
+  "n": 2,
+  "slug": "savoir-avant-de-fabriquer",
+  "titre": "Savoir avant de fabriquer",
+  "annonce": "Comment savoir si quelqu’un paiera, avant d’y passer trois mois.",
+  "etat": "annonce",
+  "verifie_le": null,
+  "intro": null,
+  "items": [
+    {
+      "id": "R-025",
+      "type": "a_rediger",
+      "titre": "« Comment savoir si mon audience paierait, avant de construire ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-026",
+      "type": "a_rediger",
+      "titre": "« Est-ce qu'un sondage prédit un achat ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-027",
+      "type": "a_rediger",
+      "titre": "« Quel pourcentage d'une liste d'attente achète ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-028",
+      "type": "a_rediger",
+      "titre": "« Une prévente, c'est un bon test ou un piège ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-029",
+      "type": "a_rediger",
+      "titre": "« Quelle part de mon audience sait seulement que je vends quelque chose ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-030",
+      "type": "a_rediger",
+      "titre": "« Combien de conversations avant de figer l'offre ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-031",
+      "type": "a_rediger",
+      "titre": "« Ceux qui commentent sont-ils ceux qui achètent ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-032",
+      "type": "a_rediger",
+      "titre": "« Mon audience connaît déjà le problème, ça change quoi à mon message ? »",
+      "etat_estime": "S",
+      "verifie_le": null
+    },
+    {
+      "id": "R-033",
+      "type": "a_rediger",
+      "titre": "« Je vends d'abord aux anciens abonnés ou aux nouveaux ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    }
+  ],
+  "outils": []
+}

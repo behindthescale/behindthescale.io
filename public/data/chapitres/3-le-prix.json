@@ -1,0 +1,173 @@
+{
+  "n": 3,
+  "slug": "le-prix",
+  "titre": "Le prix",
+  "annonce": "À combien, pourquoi ce chiffre-là, et ce qu’un écart de prix dit à celui qui le lit.",
+  "etat": "en_cours",
+  "verifie_le": "2026-08-23",
+  "intro": "Le prix est la seule décision que le lecteur voit avant d’acheter. Ce chapitre ne donne pas de barème : il porte ce qui est observable chez ceux qui vendent déjà, et nomme ce qui n’est mesuré nulle part.",
+  "items": [
+    {
+      "id": "R-034",
+      "type": "a_rediger",
+      "titre": "« Combien pour un premier produit ? »",
+      "etat_estime": "F",
+      "verifie_le": null,
+      "origine": "dérivé"
+    },
+    {
+      "id": "R-035",
+      "type": "a_rediger",
+      "titre": "« Quel est le prix réellement pratiqué en français ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-036",
+      "type": "a_rediger",
+      "titre": "« Prix rond ou prix en 7 et 9 ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-037",
+      "type": "cas",
+      "titre": "« Est-ce que je peux augmenter après ? »",
+      "etat_estime": "Ø",
+      "verifie_le": "2026-08-23",
+      "cas_slug": "jeff-nippard",
+      "texte": "Un cas observé dit qu’on peut aussi ne jamais augmenter. Jeff Nippard vend {{c:n_prod}} produits et n’a pas touché à son prix depuis février 2022 : le programme sorti en juillet 2026 porte le même {{c:prix}} que le premier. La question n’est donc pas de savoir si tu peux augmenter, mais ce que ton prix dirait s’il bougeait.",
+      "chiffres": [
+        {
+          "id": "prix",
+          "valeur": "49,99 $",
+          "unite": "USD",
+          "libelle": "Prix unique du catalogue de Jeff Nippard",
+          "source": "cas"
+        },
+        {
+          "id": "part",
+          "valeur": "31",
+          "unite": "versions sur 62",
+          "libelle": "Versions vendues à ce prix",
+          "source": "cas"
+        },
+        {
+          "id": "n_prod",
+          "valeur": "28",
+          "unite": "produits",
+          "libelle": "Produits au catalogue",
+          "source": "cas"
+        }
+      ],
+      "sources": [
+        {
+          "titre": "Relevé du catalogue public de jeffnippard.com",
+          "url": "https://jeffnippard.com/products.json?limit=250",
+          "interet": 0,
+          "court": "le catalogue"
+        }
+      ],
+      "nombres_hors_mesure": [
+        {
+          "ecrit": "2022",
+          "motif": "Année, portée par la date de publication du catalogue."
+        },
+        {
+          "ecrit": "2026",
+          "motif": "Année, portée par la date de publication du catalogue."
+        }
+      ]
+    },
+    {
+      "id": "R-038",
+      "type": "a_rediger",
+      "titre": "« Un prix de lancement, ça change quoi ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-039",
+      "type": "a_rediger",
+      "titre": "« Paiement en plusieurs fois dès la première vente ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-040",
+      "type": "a_rediger",
+      "titre": "« Je baisse le prix pour les pays où le pouvoir d'achat est plus bas ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-041",
+      "type": "a_rediger",
+      "titre": "« J'affiche TTC ou HT, et pour qui ? »",
+      "etat_estime": "S",
+      "verifie_le": null
+    },
+    {
+      "id": "R-042",
+      "type": "a_rediger",
+      "titre": "« La TVA sort de ma marge ou s'ajoute ? »",
+      "etat_estime": "S partiel, contradiction",
+      "verifie_le": null
+    },
+    {
+      "id": "R-043",
+      "type": "cas",
+      "titre": "« Une offre ou trois formules ? »",
+      "etat_estime": "Ø",
+      "verifie_le": "2026-08-23",
+      "cas_slug": "jeff-nippard",
+      "texte": "Il existe une troisième réponse, et un cas la montre en entier : le même prix sur tout le catalogue. Chez Jeff Nippard, {{c:part}} portent {{c:prix}}, et ce qui distingue les offres n’est pas leur tarif mais leur position affichée sur deux axes. Quand le prix cesse d’être un argument, tout le reste du site doit en devenir un.",
+      "chiffres": [
+        {
+          "id": "prix",
+          "valeur": "49,99 $",
+          "unite": "USD",
+          "libelle": "Prix unique du catalogue de Jeff Nippard",
+          "source": "cas"
+        },
+        {
+          "id": "part",
+          "valeur": "31",
+          "unite": "versions sur 62",
+          "libelle": "Versions vendues à ce prix",
+          "source": "cas"
+        },
+        {
+          "id": "n_prod",
+          "valeur": "28",
+          "unite": "produits",
+          "libelle": "Produits au catalogue",
+          "source": "cas"
+        }
+      ],
+      "sources": [
+        {
+          "titre": "Relevé du catalogue public de jeffnippard.com",
+          "url": "https://jeffnippard.com/products.json?limit=250",
+          "interet": 0,
+          "court": "le catalogue"
+        }
+      ]
+    },
+    {
+      "id": "R-044",
+      "type": "a_rediger",
+      "titre": "« Un prix bas rassure ou décrédibilise, quand personne ne m'a jamais acheté ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-045",
+      "type": "a_rediger",
+      "titre": "« Est-ce que j'ai le droit de faire payer ce que je donnais ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    }
+  ],
+  "outils": []
+}

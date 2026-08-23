@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encaisser</title>
+<meta name="description" content="Recevoir l’argent, et le garder : prestataires, gels de compte, litiges.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="doc">
+
+<aside class="side">
+  <a class="side-marque" href="/ressources/">Behind The Scale</a>
+  <nav class="sommaire">
+    <p class="som-titre">Les chapitres</p>
+    <a href="/ressources/0-le-seuil/"><span class="som-n">0</span>Le seuil : ai-je le droit d&#x27;essayer ?</a>
+    <a href="/ressources/1-ce-que-je-vends/"><span class="som-n">1</span>Ce que je vends</a>
+    <a href="/ressources/2-savoir-avant-de-fabriquer/"><span class="som-n">2</span>Savoir avant de fabriquer</a>
+    <a href="/ressources/3-le-prix/"><span class="som-n">3</span>Le prix</a>
+    <a href="/ressources/4-l-annonce/"><span class="som-n">4</span>L&#x27;annonce à une audience qui n&#x27;a jamais rien acheté</a>
+    <a href="/ressources/5-la-page-et-la-conversion/"><span class="som-n">5</span>La page et la conversion</a>
+    <a href="/ressources/6-encaisser/" class="actif"><span class="som-n">6</span>Encaisser</a>
+    <a href="/ressources/7-le-cadre-legal-et-fiscal/"><span class="som-n">7</span>Le cadre légal et fiscal</a>
+    <a href="/ressources/8-la-vente-tient-elle/"><span class="som-n">8</span>La vente tient-elle ?</a>
+    <p class="som-titre">Dans ce chapitre</p>
+    <a href="#r-067"><span class="som-n">·</span>« Quel prestataire de paiement quand on démarre ? »</a>
+    <a href="#r-068"><span class="som-n">·</span>« Ça me coûte combien, réellement, d&#x27;encaisser 100 € ? »</a>
+    <a href="#r-072"><span class="som-n">·</span>« Qui déclare la TVA, moi ou la plateforme ? »</a>
+    <p class="som-titre">Les outils</p>
+    <a href="#outils"><span class="som-n">·</span>Ce avec quoi on le fait</a>
+  </nav>
+  <a class="side-cta" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">Travailler avec nous</a>
+</aside>
+
+<div class="doc-col">
+  <a class="doc-dl" href="/data/chapitres/6-encaisser.json">Les données</a>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Chapitre 6</p>
+    <h1>Encaisser</h1>
+    <p class="doc-lede">Recevoir l’argent, et le garder : prestataires, gels de compte, litiges.</p>
+    <p class="doc-resume">Encaisser n’est pas vendre. Ce chapitre porte ce qui se passe après le clic sur payer : ce que prend le prestataire, qui doit la TVA, et ce qui peut bloquer l’argent une fois qu’il est arrivé.</p>
+    <p class="preuve">3 publiés sur 11 · chapitre en cours</p>
+
+    <section class="bloc" id="r-067">
+      <p class="bloc-n"><span class="etiq etiq-principe">Raisonnement</span>R-067</p>
+      <h2 class="bloc-titre">« Quel prestataire de paiement quand on démarre ? »</h2>
+      <p class="bloc-fait">Le choix ne se fait pas sur le taux affiché mais sur deux questions : où sont tes acheteurs, et qui porte la TVA. Un vendeur européen qui vend à des Européens paie le moins cher chez un prestataire européen, mais reste redevable de la TVA de chaque pays d’achat. Un vendeur qui passe par un revendeur de référence paie nettement plus, et la déclaration ne lui appartient plus. Le taux le plus bas est donc rarement le coût le plus bas.</p>
+      <p class="bloc-pourquoi"><strong>D’où vient ce raisonnement.</strong>
+        Comparaison des grilles publiées relevées dans ce chapitre, et de ce que chaque prestataire annonce prendre en charge. Ce n’est pas une mesure : aucun de nous n’a encaissé avec ces quatre outils, et rien ici ne remplace un avis comptable.</p>
+      <p class="preuve">Sources : <a href="https://stripe.com/fr/pricing" title="Grille tarifaire publique de Stripe France">Stripe</a> · <a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · <a href="https://www.lemonsqueezy.com/pricing" title="Page tarifaire publique de Lemon Squeezy">Lemon Squeezy</a> · <a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · intérêt de l’éditeur : tous de niveau 2</p>
+      <p class="preuve">Vérifié le 2026-08-23</p>
+    </section>
+    <section class="bloc" id="r-068">
+      <p class="bloc-n"><span class="etiq etiq-mesure">Mesure</span>R-068</p>
+      <h2 class="bloc-titre">« Ça me coûte combien, réellement, d&#x27;encaisser 100 € ? »</h2>
+      <p class="bloc-fait">Quatre tarifs publiés, relevés le même jour. Stripe en France : <span class="v" title="Stripe, carte européenne standard, tarif France · par transaction">1,5 % + 0,25 €</span> pour une carte européenne standard. Whop : <span class="v" title="Whop, carte dite domestique · par transaction">2,7 % + 0,30 $</span>, plus <span class="v" title="Whop, supplément carte internationale · supplément">1,5 %</span> si la carte est internationale et <span class="v" title="Whop, supplément si conversion de devise · supplément">1 %</span> si une conversion de devise s’applique. Lemon Squeezy : <span class="v" title="Lemon Squeezy, tarif unique annoncé · par transaction">5 % + 0,50 $</span>. Gumroad : <span class="v" title="Gumroad, vente directe · par transaction">10 % + 0,50 $</span> en vente directe, et <span class="v" title="Gumroad, vente issue de sa place de marché Discover · par transaction">30 %</span> pour une vente venue de sa place de marché. L’écart entre le moins cher et le plus cher dépasse un facteur six.</p>
+      <p class="bloc-pourquoi">Aucun de ces taux n’est comparable tel quel, et c’est le vrai résultat de ce relevé. Whop facture en dollars et ne définit nulle part ce qu’il appelle une carte domestique : pour un vendeur français encaissant des cartes françaises, la question de savoir si les suppléments s’appliquent change le coût du simple au double, et la documentation ne permet pas de trancher. Convertir ces taux dans une devise unique supposerait un taux de change à une date donnée, que nous n’avons pas figé. Enfin ces grilles ne portent que le coût d’encaissement : ni la TVA, ni les frais de virement vers ton compte, ni le coût d’un impayé.</p>
+      <p class="preuve">Sources : <a href="https://stripe.com/fr/pricing" title="Grille tarifaire publique de Stripe France">Stripe</a> · <a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · <a href="https://www.lemonsqueezy.com/pricing" title="Page tarifaire publique de Lemon Squeezy">Lemon Squeezy</a> · <a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · intérêt de l’éditeur : tous de niveau 2</p>
+      <p class="preuve">Vérifié le 2026-08-23</p>
+    </section>
+    <section class="bloc" id="r-069">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-069</p>
+      <h2 class="bloc-titre">« Mon compte peut-il être gelé pile au moment du pic ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-070">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-070</p>
+      <h2 class="bloc-titre">« C&#x27;est quoi une réserve, et combien de temps mon argent est bloqué ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-071">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-071</p>
+      <h2 class="bloc-titre">« Quand est-ce que l&#x27;argent arrive sur mon compte ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-072">
+      <p class="bloc-n"><span class="etiq etiq-principe">Raisonnement</span>R-072</p>
+      <h2 class="bloc-titre">« Qui déclare la TVA, moi ou la plateforme ? »</h2>
+      <p class="bloc-fait">Cela dépend d’une seule chose : qui est le vendeur au sens du droit. Si la plateforme se déclare revendeur de référence, c’est elle qui facture l’acheteur final, elle qui collecte la TVA au taux de son pays, et toi qui lui vends. Si la plateforme n’est qu’un encaisseur, le vendeur c’est toi, et la TVA du pays de l’acheteur t’incombe dès le premier euro pour un produit numérique vendu à un particulier européen.</p>
+      <p class="bloc-pourquoi"><strong>D’où vient ce raisonnement.</strong>
+        Distinction annoncée publiquement par les prestataires eux-mêmes dans leurs pages tarifaires. Ceci n’est pas un conseil juridique : le texte applicable est la directive TVA, et nous ne l’avons pas encore relue ligne à ligne pour ce chapitre. Le repère qui portera cette lecture est au chapitre 7.</p>
+      <p class="preuve">Sources : <a href="https://stripe.com/fr/pricing" title="Grille tarifaire publique de Stripe France">Stripe</a> · <a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · <a href="https://www.lemonsqueezy.com/pricing" title="Page tarifaire publique de Lemon Squeezy">Lemon Squeezy</a> · <a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · intérêt de l’éditeur : tous de niveau 2</p>
+      <p class="preuve">Vérifié le 2026-08-23</p>
+    </section>
+    <section class="bloc" id="r-073">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-073</p>
+      <h2 class="bloc-titre">« À partir de combien d&#x27;impayés je suis en danger ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-074">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-074</p>
+      <h2 class="bloc-titre">« Qu&#x27;est-ce qui déclenche une contestation sur un produit numérique ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-075">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-075</p>
+      <h2 class="bloc-titre">« Paiement en 3 fois : combien d&#x27;échéances échouent ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-076">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-076</p>
+      <h2 class="bloc-titre">« J&#x27;accepte quelles devises ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="r-077">
+      <p class="bloc-n"><span class="etiq etiq-a_rediger">À vérifier</span>R-077</p>
+      <h2 class="bloc-titre">« Mon premier client est hors UE. Ça change quoi ? »</h2>
+      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
+        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>
+    </section>
+    <section class="bloc" id="outils">
+      <p class="bloc-n">Les outils</p>
+      <h2 class="bloc-titre">Ce avec quoi on le fait</h2>
+      <p class="bloc-pourquoi">Un outil se juge dans le problème qu’il règle, jamais dans une liste
+        à part. Chacun porte ce qu’il ne fait pas, sinon c’est une recommandation déguisée.</p>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://stripe.com/fr/pricing">Stripe</a><span class="outil-prix">1,5 % + 0,25 € par transaction</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Encaisse une carte et verse sur ton compte bancaire. C’est la brique de paiement, rien d’autre.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le tarif le plus bas des quatre pour un vendeur européen encaissant des cartes européennes, et le seul dont la grille est publiée en euros.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Ni boutique, ni page de vente, ni gestion de la TVA. Tu restes le vendeur au sens du droit, donc redevable dans le pays de chaque acheteur.</p>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://docs.whop.com/fees">Whop</a><span class="outil-prix">2,7 % + 0,30 $, plus 1,5 % carte internationale et 1 % conversion</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Vend l’accès à un espace, à une communauté ou à un contenu, avec le paiement et la gestion des membres au même endroit.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le seul du lot qui vend un accès récurrent à une communauté sans rien assembler soi-même.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Il ne dit nulle part ce qu’il entend par carte domestique, alors que trois de ses lignes de frais en dépendent. Ses frais sont en dollars, et le versement vers un compte européen porte son propre coût.</p>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://www.lemonsqueezy.com/pricing">Lemon Squeezy</a><span class="outil-prix">5 % + 0,50 $ par transaction</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Vend à ta place en tant que revendeur de référence : il facture l’acheteur, collecte la TVA et te reverse.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> C’est le seul des quatre qui retire la TVA européenne de tes mains, et c’est ce que tu paies dans l’écart de taux.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Il coûte plus de trois fois le tarif de Stripe. Sur un produit à faible marge, l’écart mange davantage que le temps de déclaration qu’il fait gagner.</p>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://gumroad.com/pricing">Gumroad</a><span class="outil-prix">10 % + 0,50 $ en direct, 30 % via sa place de marché</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Boutique complète en quelques minutes : page, paiement, livraison du fichier.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le plus court chemin entre un fichier et une première vente, sans rien configurer.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Le taux le plus élevé des quatre, et il triple si l’acheteur vient de sa place de marché plutôt que de ton lien. Un même produit n’y rapporte donc pas le même montant selon d’où vient le client.</p>
+      </div>
+    </section>
+    <footer>
+      <p>Behind The Scale · CC BY 4.0</p>
+      <p><a href="/ressources/">Tous les chapitres</a> · <a href="/data/chapitres/6-encaisser.json">les données de cette page</a></p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+{
+  "n": 1,
+  "slug": "ce-que-je-vends",
+  "titre": "Ce que je vends",
+  "annonce": "Cours, communauté, accompagnement, gabarit : ce qui se vend en premier quand on n’a jamais rien vendu.",
+  "etat": "annonce",
+  "verifie_le": null,
+  "intro": null,
+  "items": [
+    {
+      "id": "R-013",
+      "type": "a_rediger",
+      "titre": "« Cours, communauté, coaching, ebook, template : lequel en premier ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-014",
+      "type": "a_rediger",
+      "titre": "« Quel format se vend le mieux quand on n'a jamais rien vendu ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-015",
+      "type": "a_rediger",
+      "titre": "« Abonnement ou paiement unique pour une première offre ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-016",
+      "type": "a_rediger",
+      "titre": "« Faut-il que ce soit fini avant de le vendre ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-017",
+      "type": "a_rediger",
+      "titre": "« Combien de temps pour fabriquer un premier produit ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-018",
+      "type": "a_rediger",
+      "titre": "« Combien d'heures de contenu il faut dedans ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-019",
+      "type": "a_rediger",
+      "titre": "« Je vends quoi, que je ne donne pas déjà gratuitement ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-020",
+      "type": "a_rediger",
+      "titre": "« Un produit à 20 € ou un accompagnement à 900 € pour commencer ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    },
+    {
+      "id": "R-021",
+      "type": "a_rediger",
+      "titre": "« Est-ce que je peux vendre du 1-to-1 avant un produit scalable ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-022",
+      "type": "a_rediger",
+      "titre": "« Combien de gens vont réellement finir ce qu'ils achètent ? »",
+      "etat_estime": "S",
+      "verifie_le": null,
+      "origine": "dérivé"
+    },
+    {
+      "id": "R-023",
+      "type": "a_rediger",
+      "titre": "« Un faible taux d'achèvement, ça me coûte quoi ? »",
+      "etat_estime": "Ø",
+      "verifie_le": null
+    },
+    {
+      "id": "R-024",
+      "type": "a_rediger",
+      "titre": "« Faut-il une garantie satisfait ou remboursé ? »",
+      "etat_estime": "F",
+      "verifie_le": null
+    }
+  ],
+  "outils": []
+}
