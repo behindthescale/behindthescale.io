@@ -1,0 +1,10 @@
+{
+  // Site statique servi par Cloudflare Workers Static Assets.
+  // Aucun code executable : `public/` est publie tel quel, le reste du depot ne l'est pas.
+  "name": "behindthescale-io",
+  "compatibility_date": "2026-08-23",
+  "assets": {
+    "directory": "./public",
+    "not_found_handling": "404-page"
+  }
+}

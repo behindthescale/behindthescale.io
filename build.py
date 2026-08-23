@@ -10,7 +10,8 @@ import json
 import pathlib
 
 RACINE = pathlib.Path(__file__).parent
-DATA = json.loads((RACINE / "data" / "perimetre.json").read_text(encoding="utf-8"))
+PUBLIC = RACINE / "public"  # seul ce dossier est servi ; le reste du depot ne l'est pas
+DATA = json.loads((PUBLIC / "data" / "perimetre.json").read_text(encoding="utf-8"))
 
 TETE = """<!doctype html>
 <html lang="fr">
@@ -117,7 +118,7 @@ def page_index():
 
 
 def main():
-    cible = RACINE / "ressources" / "index.html"
+    cible = PUBLIC / "ressources" / "index.html"
     cible.parent.mkdir(exist_ok=True)
     cible.write_text(page_index(), encoding="utf-8")
 
