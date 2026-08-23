@@ -365,16 +365,32 @@ h2 + .decision { border-top: none; padding-top: 0.4rem; margin-top: 1rem; }
 h2 + .fig { margin-top: 1rem; }
 
 /* =======================================================================
-   Le chassis d'un decorticage : un sommaire fixe, une colonne unique.
-   Aucune alternance de largeur : c'est ce qui cassait la lecture.
+   Le chassis d'un decorticage.
+
+   Le systeme est celui d'eptwts.com : gris seuls, hierarchie par la taille et
+   la valeur plutot que par la couleur, sommaire fixe a 17rem, une colonne.
+   Notre ecart tient en une regle : la couleur est reservee a ce qui est
+   verifiable. Une valeur coloree porte une source ; rien d'autre n'en prend.
    ======================================================================= */
 
 body.doc {
+  --d-bg:      #0A0B0D;
+  --d-surface: #16181C;
+  --d-chip:    #22262D;
+  --d-line:    #ffffff14;
+  --d-line-f:  #ffffff24;
+  --d-ink:     #F5F6F8;
+  --d-muted:   #9AA1AC;
+  --d-faint:   #6B7280;
+
+  background: var(--d-bg);
+  color: var(--d-ink);
   display: grid;
   grid-template-columns: 17rem minmax(0, 1fr);
   min-height: 100vh;
 }
 
+/* ---- le sommaire ---- */
 .side {
   position: sticky;
   top: 0;
@@ -382,160 +398,231 @@ body.doc {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 1.6rem 1.4rem 1.4rem;
-  border-right: 1px solid var(--rule);
+  padding: 1.5rem 0 1.3rem;
+  border-right: 1px solid var(--d-line);
   overflow-y: auto;
 }
-
 .side-marque {
+  padding: 0 1.4rem;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6875rem;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: var(--d-ink);
   text-decoration: none;
 }
-.side-marque:hover { color: var(--accent); }
+.side-marque:hover { color: var(--d-muted); }
 
-.sommaire { margin-top: 2.2rem; display: flex; flex-direction: column; }
+.sommaire { margin-top: 2rem; display: flex; flex-direction: column; }
 .som-titre {
+  padding: 0 1.4rem;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.625rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--faint);
-  margin: 1.5rem 0 0.6rem;
+  color: var(--d-faint);
+  margin: 1.4rem 0 0.5rem;
 }
 .som-titre:first-child { margin-top: 0; }
 .sommaire a {
   display: grid;
-  grid-template-columns: 1.9rem 1fr;
-  gap: 0 0.2rem;
-  padding: 0.32rem 0;
+  grid-template-columns: 1.7rem 1fr;
+  align-items: baseline;
+  gap: 0 0.3rem;
+  padding: 0.42rem 1.4rem;
+  border-left: 2px solid transparent;
   font-size: 0.8125rem;
-  line-height: 1.35;
-  color: var(--muted);
+  line-height: 1.4;
+  color: var(--d-muted);
   text-decoration: none;
 }
-.sommaire a:hover { color: var(--ink); }
+.sommaire a:hover  { color: var(--d-ink); background: var(--d-surface); }
+.sommaire a:target,
+.sommaire a.actif  { color: var(--d-ink); border-left-color: var(--d-ink); }
 .som-n {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
   font-size: 0.6875rem;
-  color: var(--faint);
+  color: var(--d-faint);
 }
 
 .side-cta {
-  margin-top: auto;
-  padding: 0.65rem 1rem;
+  margin: auto 1.4rem 0;
+  padding: 0.6rem 1rem;
   text-align: center;
-  border: 1px solid var(--rule-hi);
-  color: var(--ink);
+  background: var(--d-ink);
+  color: #16181C;
   text-decoration: none;
   font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: 3px;
 }
-.side-cta:hover { border-color: var(--accent); color: var(--accent); }
+.side-cta:hover { background: #fff; }
 
+/* ---- la colonne ---- */
 .doc-col { position: relative; }
 .doc-dl {
   position: absolute;
-  top: 1.6rem;
+  top: 1.5rem;
   right: 1.6rem;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--rule-hi);
-  color: var(--muted);
+  padding: 0.38rem 0.85rem;
+  border: 1px solid var(--d-line-f);
+  border-radius: 3px;
+  color: var(--d-muted);
   text-decoration: none;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
+  font-size: 0.75rem;
 }
-.doc-dl:hover { border-color: var(--accent); color: var(--accent); }
+.doc-dl:hover { color: var(--d-ink); border-color: var(--d-ink); }
 
-.doc-main { max-width: 40rem; margin: 0 auto; padding: 4.2rem 1.6rem 6rem; }
+.doc-main { max-width: 40rem; margin: 0 auto; padding: 4.4rem 1.6rem 6rem; }
 
 .doc-eyebrow {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: var(--faint);
+  color: var(--d-faint);
   margin: 0;
 }
 .doc-main h1 {
-  font-size: clamp(1.7rem, 3.2vw, 2.2rem);
-  line-height: 1.15;
-  margin-top: 0.9rem;
+  font-size: clamp(1.65rem, 3vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.14;
+  text-wrap: balance;
+  margin-top: 0.8rem;
 }
-.doc-lede { font-size: 1.0625rem; color: var(--muted); margin-top: 0.9rem; }
+.doc-lede { font-size: 1rem; color: var(--d-muted); margin-top: 0.8rem; line-height: 1.55; }
 .doc-resume {
-  font-size: 1.0625rem;
-  color: var(--ink-soft);
-  margin-top: 1.6rem;
-  padding-top: 1.6rem;
-  border-top: 1px solid var(--rule);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--d-ink);
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--d-line);
 }
 
-/* un bloc = un titre-affirmation, son fait, sa raison, son verdict */
-.bloc { padding-top: 2.2rem; margin-top: 2.2rem; border-top: 1px solid var(--rule); }
+/* ---- un bloc : affirmation, fait, raison, verdict, trace ---- */
+.bloc { padding-top: 2rem; margin-top: 2rem; border-top: 1px solid var(--d-line); }
 .bloc-n {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
   font-size: 0.625rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--faint);
+  color: var(--d-faint);
   margin: 0;
 }
 .bloc-titre {
   font-family: Archivo, Arial, sans-serif;
-  font-size: 1.1875rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  letter-spacing: -0.005em;
-  line-height: 1.3;
+  letter-spacing: -0.015em;
+  line-height: 1.32;
   text-transform: none;
-  color: var(--ink);
+  text-wrap: balance;
+  color: var(--d-ink);
   border-bottom: none;
   padding-bottom: 0;
-  margin: 0.45rem 0 0;
+  margin: 0.4rem 0 0;
 }
-.bloc-fait { color: var(--ink); }
-.bloc p { font-size: 0.96875rem; line-height: 1.62; color: var(--ink-soft); }
+/* le fait porte la mesure : taille pleine. La raison commente : plus petite. */
+.bloc-fait { font-size: 0.9375rem; line-height: 1.6; color: var(--d-ink); margin-top: 0.7rem; }
+.bloc-pourquoi { font-size: 0.84375rem; line-height: 1.65; color: var(--d-muted); margin-top: 0.7rem; }
 
 .doc-main .verdict {
   display: block;
   background: none;
-  padding: 0 0 0 0.95rem;
-  margin-top: 1.1rem;
-  font-size: 0.9375rem;
+  border-left: 2px solid var(--d-line-f);
+  padding: 0.1rem 0 0.1rem 0.9rem;
+  margin-top: 0.95rem;
+  font-size: 0.84375rem;
+  line-height: 1.6;
+  color: var(--d-muted);
 }
 .doc-main .v-label {
   display: inline;
+  padding: 0.08rem 0.4rem;
+  margin-right: 0.4rem;
+  border-radius: 3px;
+  background: var(--d-chip);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.doc-main .v-copiable     { border-left-color: var(--solide); }
+.doc-main .v-conditionnel { border-left-color: var(--faible); }
+.doc-main .v-non_copiable { border-left-color: var(--refus); }
+
+/* la trace : discrete, mais toujours la. C'est ce que la reference n'a pas. */
+.doc-main .preuve {
+  margin-top: 0.8rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6875rem;
-  letter-spacing: 0.1em;
-  padding: 0;
-  margin-right: 0.35rem;
+  line-height: 1.7;
+  color: var(--d-faint);
+}
+.doc-main .preuve a { color: var(--d-muted); }
+
+/* une valeur coloree porte une source. Rien d'autre ne prend la couleur. */
+.doc-main .v {
+  font-weight: 600;
+  color: var(--accent);
+  border-bottom: none;
+  white-space: nowrap;
 }
 
-.action { display: grid; grid-template-columns: 1.7rem 1fr; margin-top: 1.1rem; }
+.action { display: grid; grid-template-columns: 1.6rem 1fr; margin-top: 1rem;
+          font-size: 0.9375rem; line-height: 1.6; color: var(--d-ink); }
 .action-n {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.8125rem;
-  color: var(--accent);
+  color: var(--d-faint);
 }
 
-.doc-main .bloc .preuve,
-.doc-main .preuve {
-  margin-top: 0.9rem;
-  font-size: 0.6875rem;
-  line-height: 1.75;
-  color: var(--faint);
-}
-.doc-main .fig { margin: 2rem 0 0; }
-.doc-main footer { margin-top: 3.5rem; }
+.doc-main .fig { margin: 1.6rem 0 0; }
+.doc-main .fig figcaption { font-size: 0.75rem; color: var(--d-faint); margin-top: 0.6rem; }
+.doc-main footer { margin-top: 3.5rem; border-top-color: var(--d-line); color: var(--d-faint); }
+.doc-main footer a { color: var(--d-muted); }
 
 @media (max-width: 62rem) {
   body.doc { grid-template-columns: 1fr; }
   .side { position: static; height: auto; border-right: none;
-          border-bottom: 1px solid var(--rule); }
-  .side-cta { margin-top: 1.6rem; }
-  .doc-dl { position: static; display: inline-block; margin: 1.6rem 0 0 1.6rem; }
-  .doc-main { padding-top: 1.6rem; }
+          border-bottom: 1px solid var(--d-line); padding-bottom: 1.2rem; }
+  .side-cta { margin-top: 1.4rem; }
+  .doc-dl { position: static; display: inline-block; margin: 1.4rem 0 0 1.6rem; }
+  .doc-main { padding-top: 1.4rem; }
 }
+
+/* la carte d'un decorticage, dans l'index */
+.carte {
+  display: block;
+  margin-top: 1.6rem;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--d-line-f);
+  border-radius: 4px;
+  text-decoration: none;
+  transition: border-color .15s, background .15s;
+}
+.carte:hover { border-color: var(--d-ink); background: var(--d-surface); }
+.carte-eyebrow {
+  display: block;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--d-faint);
+}
+.carte-titre { display: block; font-size: 1.125rem; font-weight: 600; line-height: 1.3;
+               color: var(--d-ink); margin-top: 0.5rem; letter-spacing: -0.015em; }
+.carte-sous  { display: block; font-size: 0.875rem; line-height: 1.55;
+               color: var(--d-muted); margin-top: 0.45rem; }
+.carte-pied  { display: block; font-family: "IBM Plex Mono", ui-monospace, monospace;
+               font-size: 0.6875rem; color: var(--d-faint); margin-top: 0.7rem; }
+
+.doc-main .rows { margin-top: 1rem; border-top: 1px solid var(--d-line); }
+.doc-main .row  { border-bottom: 1px solid var(--d-line); padding: 0.55rem 0; }
+.doc-main .row .q { font-size: 0.875rem; color: var(--d-muted); }
+.doc-main .row .id { color: var(--d-faint); }
+.doc-main .row .q a { color: var(--d-ink); }

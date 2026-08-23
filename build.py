@@ -98,86 +98,77 @@ def libelle_etat(etat):
 
 
 def page_index():
-    d = DATA
-    r = d["repartition"]
-    out = [TETE.format(
-        classe="etroit",
-        titre=html.escape(d["titre"]),
-        desc=html.escape(f'{d["total"]} questions entre une audience et une première vente '
-                         f'encaissée. {r["vide"]} n\'ont aucune source connue.'),
+    """L'index : meme chassis que les decorticages, sinon l'ensemble se disloque."""
+    d, r = DATA, DATA["repartition"]
+    decorticages = charger_decorticages()
+
+    som = ['    <p class="som-titre">Décorticages</p>\n']
+    for dec in decorticages:
+        som.append(f'    <a href="/ressources/{dec["id"]}/"><span class="som-n">→</span>'
+                   f'{html.escape(dec["titre"])}</a>\n')
+    som.append('    <p class="som-titre">La bibliothèque</p>\n')
+    for e in d["etapes"]:
+        som.append(f'    <a href="#e{e["n"]}"><span class="som-n">{e["n"]}</span>'
+                   f'{html.escape(e["titre"])}</a>\n')
+
+    out = [TETE_DOC.format(
+        titre="Ressources",
+        desc=html.escape("Des systèmes de créateurs, démontés décision par décision. "
+                         "Chaque affirmation porte sa preuve et son verdict."),
+        sommaire="".join(som),
+        telechargement="/data/perimetre.json",
     )]
 
-    out.append(f'''  <p class="brand">{html.escape(d["editeur"])}</p>
-  <h1>Ressources</h1>
-  <p class="lede">Des systèmes de créateurs, démontés décision par décision.
-    Chaque affirmation porte sa preuve, sa date, et le verdict de ce que tu peux en copier.</p>
+    out.append(f'''    <p class="doc-eyebrow">Behind The Scale</p>
+    <h1>Ressources</h1>
+    <p class="doc-lede">Des systèmes de créateurs, démontés décision par décision. Chaque
+      affirmation porte sa preuve, sa date, et le verdict de ce que tu peux en copier.</p>
 ''')
 
-    decorticages = charger_decorticages()
     for dec in decorticages:
         n_cop = sum(1 for x in dec["decisions"] if x["verdict"] == "copiable")
         out.append(f'''
-  <a class="card" href="/ressources/{dec["id"]}/">
-    <span class="kicker">Décorticage · {html.escape(dec["cout_de_lecture"])}</span>
-    <span class="title">{html.escape(dec["titre"])}</span>
-    <span class="sub">{html.escape(dec["sujet"])}
-      {len(dec["decisions"])} décisions relevées, dont {n_cop} copiables telles quelles.</span>
-  </a>''')
+    <a class="carte" href="/ressources/{dec["id"]}/">
+      <span class="carte-eyebrow">Décorticage · {html.escape(dec["cout_de_lecture"])}</span>
+      <span class="carte-titre">{html.escape(dec["titre"])}</span>
+      <span class="carte-sous">{html.escape(dec["sujet"])}</span>
+      <span class="carte-pied">{len(dec["decisions"])} décisions relevées ·
+        {n_cop} copiables telles quelles · observé le {dec["date_observation"]}</span>
+    </a>''')
 
     out.append(f'''
-  <h2>La bibliothèque</h2>
-  <p>Sous les décorticages, une liste fermée de {d["total"]} questions qui vont d'une audience à une
-    première vente encaissée. Elle sert de réserve de preuves : quand un décorticage avance un
-    chiffre, il renvoie ici. <strong>{r["vide"]} de ces questions n'ont aucune source connue</strong>,
-    et c'est le résultat le plus utile de la liste.</p>
-
-  <div class="legend">
-    <span class="st-S">{r["solide"]} source solide</span>
-    <span class="st-F">{r["faible"]} source faible ou intéressée</span>
-    <span class="st-O">{r["vide"]} zone blanche</span>
-  </div>
-
-  <div class="warn">
-    <strong>Ce que cette liste ne sait pas encore.</strong>
-    {html.escape(d["avertissement"])}
-    Un astérisque signale un état nuancé : source partielle, adjacente, ou contredite.
-  </div>
+    <section class="bloc">
+      <p class="bloc-n">Sous les décorticages</p>
+      <h2 class="bloc-titre">La bibliothèque</h2>
+      <p class="bloc-fait">Une liste fermée de {d["total"]} questions qui vont d'une audience à une
+        première vente encaissée. Elle sert de réserve de preuves : quand un décorticage avance un
+        chiffre, il renvoie ici.</p>
+      <p class="bloc-pourquoi"><strong>{r["vide"]} de ces questions n'ont aucune source connue</strong>,
+        et c'est le résultat le plus utile de la liste. {html.escape(d["avertissement"])}</p>
+      <p class="preuve">{r["solide"]} source solide · {r["faible"]} source faible ou intéressée ·
+        {r["vide"]} zone blanche</p>
+    </section>
 ''')
 
     for e in d["etapes"]:
         out.append(f'''
-  <section class="step">
-    <h3>{e["n"]} · {html.escape(e["titre"])}</h3>
-    <p class="count">{len(e["reperes"])} repères</p>
-    <div class="rows">''')
+    <section class="bloc" id="e{e["n"]}">
+      <p class="bloc-n">Étape {e["n"]} · {len(e["reperes"])} repères</p>
+      <h2 class="bloc-titre">{html.escape(e["titre"])}</h2>
+      <div class="rows">''')
         for rep in e["reperes"]:
             q = html.escape(rep["question"])
             if rep["id"] in PUBLIES:
                 q = f'<a href="/ressources/{rep["id"].lower()}/">{q}</a>'
             out.append(f'''
-      <div class="row">
-        <span class="id">{rep["id"]}</span>
-        <span class="q">{q}</span>
-        <span class="st {classe_etat(rep["etat"])}">{libelle_etat(rep["etat"])}</span>
-      </div>''')
+        <div class="row"><span class="id">{rep["id"]}</span><span class="q">{q}</span>
+          <span class="st {classe_etat(rep["etat"])}">{libelle_etat(rep["etat"])}</span></div>''')
         out.append('''
-    </div>
-  </section>''')
+      </div>
+    </section>''')
 
-    out.append(f'''
-  <h2>Comment lire ces états</h2>
-  <p><strong>Source solide</strong> : une source indépendante ou normative semble exister, avec un
-    échantillon et une date, ou un texte de droit. <strong>Source faible</strong> : seules des
-    sources intéressées ont été trouvées, c'est-à-dire publiées par quelqu'un qui vend un produit
-    dont la demande augmente si le chiffre est cru vrai. <strong>Zone blanche</strong> : rien n'a
-    été trouvé.</p>
-  <p>Une zone blanche n'est pas un manque de ce référentiel, c'est un résultat sur l'état du
-    domaine. Elle vaut ce que vaut la liste des sources examinées et écartées, qui sera publiée
-    avec chaque repère.</p>
-''')
-
-    out.append(PIED.format(editeur=html.escape(d["editeur"]), version=d["version"],
-                           date=d["date"], licence=d["licence"]))
+    out.append(PIED_DOC.format(editeur=html.escape(d["editeur"]),
+                              licence=d["licence"], ident="jeff-nippard"))
     return "".join(out)
 
 
@@ -386,7 +377,7 @@ def page_decorticage(r):
       <p class="bloc-n">Décision {i:02d}</p>
       <h2 class="bloc-titre">{ancrer(dec["titre"], chiffres)}</h2>
       <p class="bloc-fait">{ancrer(dec["fait"], chiffres)}</p>
-      <p>{ancrer(dec["pourquoi"], chiffres)}</p>
+      <p class="bloc-pourquoi">{ancrer(dec["pourquoi"], chiffres)}</p>
       <p class="verdict v-{dec["verdict"]}"><span class="v-label">{LIBELLE_VERDICT[dec["verdict"]]}.</span>
         {ancrer(dec["verdict_texte"], chiffres)}</p>
       <p class="preuve">{html.escape(pr["quoi"])} ·
