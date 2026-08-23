@@ -152,6 +152,53 @@ strong { font-weight: 600; }
 }
 .warn strong { color: var(--faible); }
 
+/* page d'un repere */
+.repere-id {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--faint);
+  margin: 1.6rem 0 0;
+  letter-spacing: 0.04em;
+}
+
+.repere-id + h1 { margin-top: 0.2rem; }
+
+.reponse {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin-top: 1.8rem;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--accent);
+}
+
+/* toute valeur affichee vient d'un chiffre declare : rien ne s'ecrit a la main */
+.v {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-weight: 500;
+  color: var(--accent);
+  border-bottom: 1px dotted var(--rule-hi);
+  cursor: help;
+}
+
+.barre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  margin-top: 1rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.02em;
+}
+.pastille.ok { color: var(--solide); }
+.pastille.ko { color: var(--faint); }
+
+.brand a { color: var(--muted); text-decoration: none; }
+.brand a:hover { color: var(--accent); }
+.row .q a { color: var(--ink); }
+.row .q a:hover { color: var(--accent); }
+
 footer {
   margin-top: 4rem;
   padding-top: 1.4rem;
