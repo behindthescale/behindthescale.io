@@ -671,3 +671,75 @@ body.doc {
 .outil-pourquoi,
 .outil-limite   { font-size: 0.84375rem; color: var(--d-muted); margin-top: 0.5rem; line-height: 1.6; }
 .outil-limite strong { color: var(--d-ink); }
+
+/* =======================================================================
+   Trois niveaux : chapitre, sous-partie, leçon.
+   La leçon est bornée par un contrôle : 120 caractères de titre, 420 de
+   texte. Le style suit cette contrainte au lieu de la compenser.
+   ======================================================================= */
+
+.sp { margin-top: 3rem; }
+.sp-titre {
+  font-family: Archivo, Arial, sans-serif;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--d-ink);
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 0 0 0.4rem;
+}
+
+.lecon { padding: 1.15rem 0; border-top: 1px solid var(--d-line); }
+.lecon-lead {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.45;
+  color: var(--d-ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+.lecon-texte {
+  font-size: 0.84375rem;
+  line-height: 1.62;
+  color: var(--d-muted);
+  margin-top: 0.35rem;
+}
+.lecon-trace {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.45rem;
+  margin-top: 0.5rem;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  color: var(--d-faint);
+}
+.lecon-trace a { color: var(--d-muted); }
+
+.chip {
+  padding: 0.08rem 0.4rem;
+  border-radius: 3px;
+  background: var(--d-chip);
+  letter-spacing: 0.06em;
+  color: var(--solide);
+}
+.chip-constate { color: var(--faible); }
+
+/* à emporter : les livrables d'abord, les outils ensuite */
+.livrable { margin-top: 1.4rem; padding-left: 0.95rem; border-left: 2px solid var(--accent); }
+.livrable-titre { font-size: 0.9375rem; font-weight: 600; color: var(--d-ink); margin: 0; }
+.livrable-sert  { font-size: 0.84375rem; color: var(--d-muted); margin-top: 0.3rem; }
+.livrable-contenu {
+  margin-top: 0.7rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--d-surface);
+  border-radius: 3px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  color: var(--d-ink);
+  white-space: pre-wrap;
+  overflow-x: auto;
+}

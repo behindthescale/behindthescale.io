@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encaisser, et garder</title>
+<meta name="description" content="J’ai relevé le même jour ce que prennent quatre prestataires. L’écart m’a surpris, et les petites lignes encore plus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="doc">
+
+<aside class="side">
+  <a class="side-marque" href="/ressources/">Behind The Scale</a>
+  <nav class="sommaire">
+    <p class="som-titre">Les chapitres</p>
+    <a href="/ressources/1-ce-que-gagne-un-createur/"><span class="som-n">1</span>Ce que gagne vraiment un créateur</a>
+    <a href="/ressources/2-comment-on-vous-trouve/"><span class="som-n">2</span>Comment on vous trouve</a>
+    <a href="/ressources/3-ce-quon-va-vous-proposer/"><span class="som-n">3</span>Ce qu’un opérateur va vous proposer</a>
+    <a href="/ressources/4-vendre-a-une-audience/"><span class="som-n">4</span>Vendre à une audience qui n’a rien acheté</a>
+    <a href="/ressources/5-encaisser-et-garder/" class="actif"><span class="som-n">5</span>Encaisser, et garder</a>
+    <a href="/ressources/6-les-systemes-et-lia/"><span class="som-n">6</span>Les systèmes, et l’IA dedans</a>
+    <p class="som-titre">Dans ce chapitre</p>
+    <a href="#s1"><span class="som-n">·</span>Ce que prend le prestataire</a>
+    <a href="#s2"><span class="som-n">·</span>Qui doit la TVA</a>
+    <a href="#s3"><span class="som-n">·</span>Ce que je n’ai pas encore vérifié</a>
+    <a href="#outils"><span class="som-n">·</span>À emporter</a>
+  </nav>
+  <a class="side-cta" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">Travailler avec nous</a>
+</aside>
+
+<div class="doc-col">
+  <a class="doc-dl" href="/data/chapitres/5-encaisser-et-garder.json">Les données</a>
+  <main class="doc-main">
+    <p class="doc-eyebrow">Chapitre 5</p>
+    <h1>Encaisser, et garder</h1>
+    <p class="doc-lede">J’ai relevé le même jour ce que prennent quatre prestataires. L’écart m’a surpris, et les petites lignes encore plus.</p>
+
+    <section class="sp" id="s1">
+      <h2 class="sp-titre">Ce que prend le prestataire</h2>
+      <div class="lecon">
+        <p class="lecon-lead">Entre le moins cher et le plus cher, le facteur dépasse six.</p>
+        <p class="lecon-texte">Relevé le même jour : Stripe France <span class="v" title="Stripe, carte européenne standard · par transaction">1,5 % + 0,25 €</span>, Whop <span class="v" title="Whop, carte dite domestique · par transaction">2,7 % + 0,30 $</span>, Lemon Squeezy <span class="v" title="Lemon Squeezy, tarif unique · par transaction">5 % + 0,50 $</span>, Gumroad <span class="v" title="Gumroad, vente directe · par transaction">10 % + 0,50 $</span>. Sur mille euros encaissés, l’écart entre les extrêmes se compte en dizaines d’euros par mois.</p>
+        <p class="lecon-trace"><span class="chip">sourcé</span><a href="https://stripe.com/fr/pricing" title="Grille tarifaire publique de Stripe France">Stripe</a> · <a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · <a href="https://www.lemonsqueezy.com/pricing" title="Page tarifaire publique de Lemon Squeezy">Lemon Squeezy</a> · <a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · 2026-08-23</p>
+      </div>
+      <div class="lecon">
+        <p class="lecon-lead">Le taux affiché n’est jamais le taux payé.</p>
+        <p class="lecon-texte">Whop ajoute <span class="v" title="Whop, supplément carte internationale · supplément">1,5 %</span> si la carte est internationale et <span class="v" title="Whop, supplément conversion de devise · supplément">1 %</span> si une conversion s’applique. Pour un vendeur français encaissant des euros vers un compte en dollars, les deux peuvent tomber en même temps.</p>
+        <p class="lecon-trace"><span class="chip">sourcé</span><a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · 2026-08-23</p>
+      </div>
+      <div class="lecon">
+        <p class="lecon-lead">Personne ne définit ce qu’est une carte « domestique ».</p>
+        <p class="lecon-texte">Trois lignes de frais en dépendent chez Whop, et la documentation ne dit pas si une carte française l’est pour un vendeur français. Selon la réponse, le coût change du simple au double. Je n’ai pas trouvé de quoi trancher.</p>
+        <p class="lecon-trace"><span class="chip">sourcé</span><a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · 2026-08-23</p>
+      </div>
+      <div class="lecon">
+        <p class="lecon-lead">Chez Gumroad, la même vente ne rapporte pas pareil selon d’où vient le client.</p>
+        <p class="lecon-texte"><span class="v" title="Gumroad, vente directe · par transaction">10 % + 0,50 $</span> si l’acheteur vient de ton lien, <span class="v" title="Gumroad, vente issue de sa place de marché · par transaction">30 %</span> s’il vient de leur place de marché. Le produit est identique, le prix aussi, et ta part est divisée par trois.</p>
+        <p class="lecon-trace"><span class="chip">sourcé</span><a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · 2026-08-23</p>
+      </div>
+    </section>
+    <section class="sp" id="s2">
+      <h2 class="sp-titre">Qui doit la TVA</h2>
+      <div class="lecon">
+        <p class="lecon-lead">Tout dépend de qui est le vendeur au sens du droit.</p>
+        <p class="lecon-texte">Si la plateforme se déclare revendeur de référence, c’est elle qui facture l’acheteur, elle qui collecte la TVA, et toi qui lui vends. Si elle n’est qu’un encaisseur, le vendeur c’est toi, et la TVA du pays de l’acheteur t’incombe dès le premier euro.</p>
+        <p class="lecon-trace"><span class="chip">sourcé</span><a href="https://stripe.com/fr/pricing" title="Grille tarifaire publique de Stripe France">Stripe</a> · <a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · <a href="https://www.lemonsqueezy.com/pricing" title="Page tarifaire publique de Lemon Squeezy">Lemon Squeezy</a> · <a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · 2026-08-23</p>
+      </div>
+      <div class="lecon">
+        <p class="lecon-lead">Le tarif le plus bas est rarement le coût le plus bas.</p>
+        <p class="lecon-texte">Un revendeur de référence coûte trois fois Stripe et te retire la déclaration des mains. Selon ton volume et le temps que te coûte une déclaration multi-pays, l’écart de taux peut être le moins cher des deux.</p>
+        <p class="lecon-trace"><span class="chip">sourcé</span><a href="https://stripe.com/fr/pricing" title="Grille tarifaire publique de Stripe France">Stripe</a> · <a href="https://docs.whop.com/fees" title="Documentation publique des frais de Whop">Whop</a> · <a href="https://www.lemonsqueezy.com/pricing" title="Page tarifaire publique de Lemon Squeezy">Lemon Squeezy</a> · <a href="https://gumroad.com/pricing" title="Page tarifaire publique de Gumroad">Gumroad</a> · 2026-08-23</p>
+      </div>
+    </section>
+    <section class="sp" id="s3">
+      <h2 class="sp-titre">Ce que je n’ai pas encore vérifié</h2>
+      <div class="lecon">
+        <p class="lecon-lead">Je ne sais pas ce qui déclenche vraiment un gel de compte.</p>
+        <p class="lecon-texte">Le sujet revient partout dans les témoignages de créateurs, au pire moment, celui du pic de lancement. Je n’ai trouvé aucune règle publiée, seulement des conditions générales qui autorisent tout. À creuser avant d’en dire quoi que ce soit.</p>
+        <p class="lecon-trace"><span class="chip chip-constate">constaté</span>2026-08-23</p>
+      </div>
+      <div class="lecon">
+        <p class="lecon-lead">Je n’ai pas mesuré ce que coûte un impayé.</p>
+        <p class="lecon-texte">Les frais de contestation sont publiés, mais pas le taux au-delà duquel un prestataire durcit ses conditions. Tant que je n’ai pas ce seuil, je ne peux pas dire à partir de quand il y a danger.</p>
+        <p class="lecon-trace"><span class="chip chip-constate">constaté</span>2026-08-23</p>
+      </div>
+    </section>
+    <section class="sp" id="outils">
+      <h2 class="sp-titre">À emporter</h2>
+      <div class="livrable">
+        <p class="livrable-titre">Les quatre questions à poser avant de choisir</p>
+        <p class="livrable-sert">À trancher en dix minutes plutôt qu’en trois soirs. Copie-les et réponds dans l’ordre.</p>
+        <pre class="livrable-contenu">1. Où sont mes acheteurs : mon pays, l’Europe, hors Europe ?
+2. Est-ce que j’accepte de déclarer la TVA moi-même, ou je paie pour ne pas le faire ?
+3. Est-ce que je vends un fichier, un accès récurrent, ou les deux ?
+4. Quel est mon panier moyen ? Sous 20 €, le montant fixe par transaction pèse plus que le pourcentage.</pre>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://stripe.com/fr/pricing">Stripe</a><span class="outil-prix">1,5 % + 0,25 €</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Encaisse une carte et verse sur ton compte. La brique de paiement, rien d’autre.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le tarif le plus bas des quatre pour un vendeur européen, et la seule grille publiée en euros.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Ni boutique, ni page de vente, ni TVA. Tu restes le vendeur, donc redevable dans le pays de chaque acheteur.</p>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://docs.whop.com/fees">Whop</a><span class="outil-prix">2,7 % + 0,30 $, plus suppléments</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Vend l’accès à un espace ou à une communauté, avec paiement et gestion des membres au même endroit.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le seul du lot qui vend un accès récurrent à une communauté sans rien assembler soi-même.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Il ne dit pas ce qu’il entend par carte domestique, alors que trois lignes de frais en dépendent.</p>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://www.lemonsqueezy.com/pricing">Lemon Squeezy</a><span class="outil-prix">5 % + 0,50 $</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Vend à ta place en tant que revendeur de référence : il facture, collecte la TVA et te reverse.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le seul des quatre qui retire la TVA européenne de tes mains.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Il coûte plus de trois fois Stripe. Sur un produit à faible marge, l’écart mange le temps qu’il fait gagner.</p>
+      </div>
+      <div class="outil">
+        <p class="outil-nom"><a href="https://gumroad.com/pricing">Gumroad</a><span class="outil-prix">10 % + 0,50 $, 30 % via sa place de marché</span><span class="outil-prix-date">relevé le 2026-08-23</span></p>
+        <p class="outil-fait">Boutique complète en quelques minutes : page, paiement, livraison du fichier.</p>
+        <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> Le plus court chemin entre un fichier et une première vente, sans rien configurer.</p>
+        <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> Le taux le plus élevé, et il triple si le client vient de leur place de marché plutôt que de ton lien.</p>
+      </div>
+    </section>
+    <footer>
+      <p>Behind The Scale · CC BY 4.0</p>
+      <p><a href="/ressources/">Tous les chapitres</a> · <a href="/data/chapitres/5-encaisser-et-garder.json">les données de cette page</a></p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

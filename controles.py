@@ -247,118 +247,102 @@ def controler_decorticage(r):
     c2_attributs_chiffres(r)
 
 
-# --- Controles d'un chapitre et de ses items -------------------------------
-# Un chapitre accueille cinq types d'item. Le contrat par type est ce qui
-# permet d'ajouter un sujet nouveau sans casser le gabarit.
+# --- Controles d'un chapitre, de ses sous-parties et de ses lecons ---------
+#
+# Le controle central est la longueur. Une lecon qui deborde ne se publie pas :
+# c'est la seule facon de tenir la brievete sans dependre d'un jugement, et
+# c'est la lecon des hooks du depot — une regle qui doit tenir se code.
 
-TYPES_ITEM = {"mesure", "zone_blanche", "principe", "cas", "a_rediger"}
+LEAD_MAX = 120
+TEXTE_MAX = 420
 
-CHAMPS_PAR_TYPE = {
-    "mesure":       ["texte", "verifie_le"],
-    "zone_blanche": ["ce_qu_il_faudrait", "qui_pourrait_le_mesurer", "verifie_le"],
-    "principe":     ["texte", "fondement", "verifie_le"],
-    "cas":          ["texte", "cas_slug", "verifie_le"],
-    "a_rediger":    ["etat_estime"],
-}
-
-CHAMPS_OUTIL = ["nom", "fait", "pourquoi", "url", "verifie_le"]
-
-# Champs rediges d'un item, soumis a l'interdiction de nombre libre.
-REDIGES_ITEM = ["texte", "fondement", "ce_qu_il_faudrait", "qui_pourrait_le_mesurer"]
-
+NATURES = {"sourcee", "constatee"}
+CHAMPS_OUTIL = ["nom", "fait", "pourquoi", "url", "verifie_le", "ne_fait_pas"]
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
-def ch1_structure(ch):
-    """Le chapitre porte son numero, son nom, son etat et ses items."""
-    for champ in ("n", "slug", "titre", "etat", "items"):
-        if ch.get(champ) in (None, "", []):
-            if champ == "items" and ch.get("etat") == "annonce":
-                continue
-            _echec(ch.get("slug", "?"), "CH1", f"chapitre sans {champ}")
-    if ch["etat"] not in ("complet", "en_cours", "annonce"):
-        _echec(ch["slug"], "CH1", f"etat de chapitre inconnu : {ch['etat']}")
+def _nombres_libres(ou, objet, champs, prefixe):
+    """C3 applique a n'importe quel porteur de texte."""
+    declares = {c["id"] for c in objet.get("chiffres", [])}
+    tolere = {str(n["ecrit"]) for n in objet.get("nombres_hors_mesure", [])}
+    for champ in champs:
+        texte = objet.get(champ) or ""
+        for ref in ANCRE.findall(texte):
+            if ref not in declares:
+                _echec(ou, prefixe, f"{champ} ancre un chiffre non declare : {ref}")
+        for brut in re.findall(r"\d+(?:[\s.,  ]\d+)*", ANCRE.sub(" ", texte)):
+            nombre = re.sub(r"[\s  ]+", " ", brut).strip()
+            if nombre not in tolere:
+                _echec(ou, prefixe, f"nombre libre dans {champ} : « {nombre} »")
 
 
-def ch2_types(ch):
-    """Chaque item declare un type admis et porte les champs de ce type."""
-    for it in ch.get("items", []):
-        t = it.get("type")
-        if t not in TYPES_ITEM:
-            _echec(ch["slug"], "CH2", f"item '{it.get('id', '?')}' de type inconnu : {t}")
-        if not it.get("titre"):
-            _echec(ch["slug"], "CH2", f"item '{it.get('id', '?')}' sans titre")
-        for champ in CHAMPS_PAR_TYPE[t]:
-            if it.get(champ) in (None, "", []):
-                _echec(ch["slug"], "CH2",
-                       f"item '{it['id']}' de type {t} sans {champ}")
+def l1_longueur(ou, lec):
+    """Le controle qui empeche la charge de revenir."""
+    lead = lec.get("lead") or ""
+    texte = lec.get("texte") or ""
+    if not lead:
+        _echec(ou, "L1", "leçon sans titre-affirmation")
+    if not texte:
+        _echec(ou, "L1", f"leçon « {lead[:40]} » sans texte")
+    if len(lead) > LEAD_MAX:
+        _echec(ou, "L1", f"titre-affirmation de {len(lead)} caracteres, maximum {LEAD_MAX} : "
+                         f"« {lead[:60]}… ». Le couper, ou en faire deux leçons.")
+    if len(texte) > TEXTE_MAX:
+        _echec(ou, "L1", f"texte de {len(texte)} caracteres, maximum {TEXTE_MAX}, sous "
+                         f"« {lead[:50]} ». En faire deux leçons plutot que d'allonger.")
 
 
-def ch3_fraicheur(ch):
-    """Une date de verification lisible, ou rien ne se publie (P10).
-
-    Un item 'a_rediger' n'affirme rien : il est dispense, et c'est pour ca
-    qu'il ne peut porter aucun texte.
-    """
-    for it in ch.get("items", []):
-        if it["type"] == "a_rediger":
-            if it.get("texte"):
-                _echec(ch["slug"], "CH3",
-                       f"item '{it['id']}' est a rediger mais porte deja un texte : "
-                       f"le publier suppose de le sourcer d'abord")
-            continue
-        d = it.get("verifie_le") or ""
-        if not DATE.match(d):
-            _echec(ch["slug"], "CH3", f"item '{it['id']}' : verifie_le illisible ({d!r})")
+def l2_nature(ou, lec):
+    """Une lecon dit d'ou elle vient, et une constatation ne se deguise pas en mesure."""
+    n = lec.get("nature")
+    if n not in NATURES:
+        _echec(ou, "L2", f"leçon « {lec.get('lead', '?')[:40]} » de nature inconnue : {n}")
+    if n == "sourcee" and not lec.get("sources"):
+        _echec(ou, "L2", f"leçon sourcée sans source : « {lec['lead'][:50]} »")
+    if n == "constatee" and lec.get("sources"):
+        _echec(ou, "L2", f"leçon constatée qui porte une source : « {lec['lead'][:50]} ». "
+                         f"Si la source existe, la nature est 'sourcee'.")
+    if not DATE.match(lec.get("verifie_le") or ""):
+        _echec(ou, "L2", f"leçon sans date de verification lisible : « {lec.get('lead', '?')[:40]} »")
 
 
-def ch4_outils(ch):
-    """Un outil dit ce qu'il fait, pourquoi lui, et ce qu'il ne fait pas.
-
-    Un prix sans date de relevé est un chiffre orphelin (P7) : il est refuse.
-    """
-    for o in ch.get("outils", []):
+def l3_outils(ou, outils):
+    for o in outils:
         for champ in CHAMPS_OUTIL:
             if o.get(champ) in (None, "", []):
-                _echec(ch["slug"], "CH4", f"outil '{o.get('nom', '?')}' sans {champ}")
+                _echec(ou, "L3", f"outil '{o.get('nom', '?')}' sans {champ}")
         if o.get("prix") and not DATE.match(o.get("prix_verifie_le") or ""):
-            _echec(ch["slug"], "CH4",
-                   f"outil '{o['nom']}' affiche un prix sans date de releve lisible")
-        if not o.get("ne_fait_pas"):
-            _echec(ch["slug"], "CH4",
-                   f"outil '{o['nom']}' sans 'ne_fait_pas' : un outil qu'on ne borne pas "
-                   f"est une recommandation deguisee")
+            _echec(ou, "L3", f"outil '{o['nom']}' affiche un prix sans date de releve")
 
 
-def ch5_nombres_libres(ch):
-    """C3 etendu aux champs rediges des items et des outils."""
-    for it in ch.get("items", []):
-        declares = {c["id"] for c in it.get("chiffres", [])}
-        tolere = {str(n["ecrit"]) for n in it.get("nombres_hors_mesure", [])}
-        for champ in REDIGES_ITEM:
-            texte = it.get(champ) or ""
-            for ref in ANCRE.findall(texte):
-                if ref not in declares:
-                    _echec(ch["slug"], "CH5",
-                           f"item '{it['id']}' {champ} ancre un chiffre non declare : {ref}")
-            nu = ANCRE.sub(" ", texte)
-            for brut in re.findall(r"\d+(?:[\s.,  ]\d+)*", nu):
-                nombre = re.sub(r"[\s  ]+", " ", brut).strip()
-                if nombre not in tolere:
-                    _echec(ch["slug"], "CH5",
-                           f"nombre libre dans l'item '{it['id']}' ({champ}) : « {nombre} »")
+def l4_livrables(ou, livrables):
+    """Un livrable dit a quoi il sert et se copie, ou renvoie a sa page."""
+    for l in livrables:
+        for champ in ("titre", "a_quoi_ca_sert"):
+            if not l.get(champ):
+                _echec(ou, "L4", f"livrable '{l.get('titre', '?')}' sans {champ}")
+        if not (l.get("contenu") or l.get("page")):
+            _echec(ou, "L4", f"livrable '{l['titre']}' sans contenu ni page dediee")
+        if l.get("contenu") and len(l["contenu"]) > 600 and not l.get("page"):
+            _echec(ou, "L4", f"livrable '{l['titre']}' trop long pour une fin de chapitre "
+                             f"({len(l['contenu'])} caracteres) : lui donner sa page")
 
 
-def ch6_cas_existants(ch, cas_connus):
-    for it in ch.get("items", []):
-        if it["type"] == "cas" and it["cas_slug"] not in cas_connus:
-            _echec(ch["slug"], "CH6", f"item '{it['id']}' renvoie a un cas absent : {it['cas_slug']}")
+def controler_chapitre(ch):
+    ou = ch.get("slug", "?")
+    for champ in ("n", "slug", "titre", "annonce"):
+        if not ch.get(champ):
+            _echec(ou, "CH1", f"chapitre sans {champ}")
 
+    for sp in ch.get("sous_parties", []):
+        if not sp.get("titre"):
+            _echec(ou, "CH2", "sous-partie sans titre")
+        if not sp.get("lecons"):
+            _echec(ou, "CH2", f"sous-partie « {sp['titre']} » sans leçon")
+        for lec in sp["lecons"]:
+            l1_longueur(ou, lec)
+            l2_nature(ou, lec)
+            _nombres_libres(ou, lec, ("lead", "texte"), "L5")
 
-def controler_chapitre(ch, cas_connus=()):
-    ch1_structure(ch)
-    ch2_types(ch)
-    ch3_fraicheur(ch)
-    ch4_outils(ch)
-    ch5_nombres_libres(ch)
-    ch6_cas_existants(ch, set(cas_connus))
+    l3_outils(ou, ch.get("outils", []))
+    l4_livrables(ou, ch.get("livrables", []))

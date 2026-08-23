@@ -21,11 +21,12 @@ import figures
 
 RACINE = pathlib.Path(__file__).parent
 PUBLIC = RACINE / "public"
-DATA = json.loads((PUBLIC / "data" / "perimetre.json").read_text(encoding="utf-8"))
+EDITEUR = "Behind The Scale"
+LICENCE = "CC BY 4.0"
+AUJOURD_HUI = datetime.date(2026, 8, 23)
+
 CHAPITRES = PUBLIC / "data" / "chapitres"
 CAS = PUBLIC / "data" / "cas"
-
-AUJOURD_HUI = datetime.date.fromisoformat(DATA["date"])
 
 TETE = """<!doctype html>
 <html lang="fr">
@@ -135,127 +136,137 @@ def page_porte(chapitres, cas):
             som.append(f'    <a href="/ressources/cas/{c["id"]}/"><span class="som-n">→</span>'
                        f'{html.escape(c["titre"])}</a>\n')
 
-    publies = sum(len(publiables(ch)) for ch in chapitres)
-
+    total = sum(n_lecons(ch) for ch in chapitres)
     out = [TETE.format(
         titre="Le manuel",
-        desc=html.escape("Le manuel de la monétisation d’audience pour un créateur francophone. "
-                         "Chaque affirmation dit d’où elle vient et quand elle a été vérifiée."),
+        desc=html.escape("Ce que je découvre en montant un système d’opérateur, chapitre par "
+                         "chapitre. Chaque leçon dit d’où elle vient et quand je l’ai vérifiée."),
         sommaire="".join(som),
-        telechargement="/data/perimetre.json",
+        telechargement="/data/chapitres/1-ce-que-gagne-un-createur.json",
     )]
 
-    out.append(f'''    <p class="doc-eyebrow">Behind The Scale</p>
+    out.append(f'''    <p class="doc-eyebrow">Behind The Scale · Aloïs Fouquet</p>
     <h1>Le manuel</h1>
-    <p class="doc-lede">Ce qu’il faut savoir entre une audience et une première vente encaissée,
-      en neuf chapitres. Chaque affirmation dit d’où elle vient et quand elle a été vérifiée
-      pour la dernière fois.</p>
-    <p class="doc-resume">Le périmètre est fermé à {DATA["total"]} questions : une question qui
-      n’entre pas dans ces neuf chapitres ne sera pas traitée. <strong>{publies} sont publiées</strong>
-      à ce jour. Les autres sont listées à leur place, sans réponse, parce qu’annoncer un manuel
-      complet qui ne l’est pas serait la première chose à ne pas croire ici.</p>
+    <p class="doc-lede">Je monte un système pour accompagner des créateurs dans leur monétisation.
+      Je n’ai encore signé personne. En attendant, je remonte chaque chiffre à sa source, j’éprouve
+      les outils, et j’écris ici ce que je trouve.</p>
+    <p class="doc-resume">{total} leçons publiées à ce jour. Chacune porte sa date, et dit si elle
+      vient d’une source que tu peux vérifier ou d’une chose que j’ai constatée moi-même. Les deux
+      ne se valent pas, alors je les distingue.</p>
 ''')
 
     for ch in chapitres:
-        n_pub, n_tot = len(publiables(ch)), len(ch.get("items", []))
-        n_out = len(ch.get("outils", []))
-        etat = {"complet": "complet", "en_cours": "en cours", "annonce": "annoncé"}[ch["etat"]]
+        n = n_lecons(ch)
+        etat = f"{n} leçons" if n else "en préparation"
         out.append(f'''
     <a class="carte" href="/ressources/{ch["n"]}-{ch["slug"]}/">
       <span class="carte-eyebrow">Chapitre {ch["n"]} · {etat}</span>
       <span class="carte-titre">{html.escape(ch["titre"])}</span>
       <span class="carte-sous">{html.escape(ch["annonce"])}</span>
-      <span class="carte-pied">{n_pub} publié{"s" if n_pub > 1 else ""} sur {n_tot}{f" · {n_out} outils" if n_out else ""}</span>
     </a>''')
 
-    if cas:
-        out.append('''
-    <section class="bloc">
-      <p class="bloc-n">À part</p>
-      <h2 class="bloc-titre">Les cas</h2>
-      <p class="bloc-pourquoi">Un chapitre dit ce qu’on sait. Un cas montre un système entier qui
-        tourne, décision par décision, avec le verdict de ce qui se copie et de ce qui ne se copie
-        pas. Les chapitres y renvoient.</p>
-    </section>''')
-        for c in cas:
-            n_cop = sum(1 for x in c["decisions"] if x["verdict"] == "copiable")
-            out.append(f'''
+    for c in cas:
+        n_cop = sum(1 for x in c["decisions"] if x["verdict"] == "copiable")
+        out.append(f'''
     <a class="carte" href="/ressources/cas/{c["id"]}/">
       <span class="carte-eyebrow">Cas · {html.escape(c["cout_de_lecture"])}</span>
       <span class="carte-titre">{html.escape(c["titre"])}</span>
       <span class="carte-sous">{html.escape(c["sujet"])}</span>
-      <span class="carte-pied">{len(c["decisions"])} décisions · {n_cop} copiables telles quelles ·
-        observé le {c["date_observation"]}</span>
+      <span class="carte-pied">{len(c["decisions"])} décisions · {n_cop} copiables telles quelles</span>
     </a>''')
 
-    out.append(PIED.format(editeur=html.escape(DATA["editeur"]), licence=DATA["licence"],
-                           donnees="/data/perimetre.json"))
+    out.append(PIED.format(editeur=html.escape(EDITEUR), licence=LICENCE,
+                           donnees="/data/chapitres/1-ce-que-gagne-un-createur.json"))
     return "".join(out)
 
 
-def rendu_item(it):
-    chiffres = {c["id"]: c for c in it.get("chiffres", [])}
-    t = it["type"]
+def n_lecons(ch):
+    return sum(len(sp["lecons"]) for sp in ch.get("sous_parties", []))
+
+
+def rendu_lecon(lec):
+    chiffres = {c["id"]: c for c in lec.get("chiffres", [])}
     out = [f'''
-    <section class="bloc" id="{it["id"].lower()}">
-      <p class="bloc-n"><span class="etiq etiq-{t}">{LIBELLE_TYPE[t]}</span>{it["id"]}</p>
-      <h2 class="bloc-titre">{html.escape(it["titre"])}</h2>''']
+      <div class="lecon">
+        <p class="lecon-lead">{ancrer(lec["lead"], chiffres)}</p>
+        <p class="lecon-texte">{ancrer(lec["texte"], chiffres)}</p>''']
 
-    if t == "a_rediger":
-        out.append('''
-      <p class="bloc-attente">Pas encore publié. Le recensement signale qu’une source pourrait
-        exister ; tant qu’elle n’est pas lue et datée, rien n’est affirmé ici.</p>''')
-
-    elif t == "zone_blanche":
+    srcs = lec.get("sources", [])
+    if lec["nature"] == "constatee":
         out.append(f'''
-      <p class="bloc-fait">{FORMULE_ZONE_BLANCHE}</p>
-      <p class="bloc-pourquoi"><strong>Ce qu’il faudrait pour la combler.</strong>
-        {ancrer(it["ce_qu_il_faudrait"], chiffres)}</p>
-      <p class="bloc-pourquoi"><strong>Qui pourrait le mesurer.</strong>
-        {ancrer(it["qui_pourrait_le_mesurer"], chiffres)}</p>''')
-
-    elif t == "cas":
-        out.append(f'''
-      <p class="bloc-fait">{ancrer(it["texte"], chiffres)}</p>
-      <p class="preuve"><a href="/ressources/cas/{it["cas_slug"]}/">Lire le cas entier</a></p>''')
-
+        <p class="lecon-trace"><span class="chip chip-constate">constaté</span>{lec["verifie_le"]}</p>''')
     else:
-        out.append(f'''
-      <p class="bloc-fait">{ancrer(it["texte"], chiffres)}</p>''')
-        if it.get("limites"):
-            out.append(f'''
-      <p class="bloc-pourquoi">{ancrer(it["limites"], chiffres)}</p>''')
-        if t == "principe":
-            out.append(f'''
-      <p class="bloc-pourquoi"><strong>D’où vient ce raisonnement.</strong>
-        {ancrer(it["fondement"], chiffres)}</p>''')
-
-    srcs = it.get("sources", [])
-    if len(srcs) == 1:
-        s = srcs[0]
-        i = s.get("interet")
-        mention = ("éditeur sans intérêt dans le champ" if i == 0
-                   else f"intérêt de l’éditeur : niveau {i}" if i is not None else "")
-        out.append(f'''
-      <p class="preuve">{html.escape(s["titre"])} ·
-        <a href="{html.escape(s["url"])}">source</a>{" · " + mention if mention else ""}</p>''')
-    elif srcs:
-        # plusieurs sources : une seule ligne, sinon la trace pese plus que le texte
         liens = " · ".join(f'<a href="{html.escape(s["url"])}" title="{html.escape(s["titre"])}">'
-                           f'{html.escape(s.get("court") or s["titre"].split()[-1])}</a>'
-                           for s in srcs)
-        niveaux = {s.get("interet") for s in srcs}
-        n = (f"tous de niveau {niveaux.pop()}" if len(niveaux) == 1
-             else "niveaux d’intérêt mêlés")
+                           f'{html.escape(s.get("court") or "source")}</a>' for s in srcs)
         out.append(f'''
-      <p class="preuve">Sources : {liens} · intérêt de l’éditeur : {n}</p>''')
-
-    if it.get("verifie_le"):
-        out.append(f'''
-      <p class="preuve">Vérifié le {it["verifie_le"]}</p>{bandeau_fraicheur(it["verifie_le"])}''')
-
+        <p class="lecon-trace"><span class="chip">sourcé</span>{liens} · {lec["verifie_le"]}</p>''')
+    out.append(bandeau_fraicheur(lec["verifie_le"]))
     out.append('''
+      </div>''')
+    return "".join(out)
+
+
+def page_chapitre(ch, chapitres):
+    som = ['    <p class="som-titre">Les chapitres</p>\n']
+    for c in chapitres:
+        actif = ' class="actif"' if c["n"] == ch["n"] else ""
+        som.append(f'    <a href="/ressources/{c["n"]}-{c["slug"]}/"{actif}>'
+                   f'<span class="som-n">{c["n"]}</span>{html.escape(c["titre"])}</a>\n')
+    if ch.get("sous_parties"):
+        som.append('    <p class="som-titre">Dans ce chapitre</p>\n')
+        for i, sp in enumerate(ch["sous_parties"], 1):
+            som.append(f'    <a href="#s{i}"><span class="som-n">·</span>'
+                       f'{html.escape(sp["titre"])}</a>\n')
+    if ch.get("outils") or ch.get("livrables"):
+        som.append('    <a href="#outils"><span class="som-n">·</span>À emporter</a>\n')
+
+    out = [TETE.format(
+        titre=html.escape(ch["titre"]),
+        desc=html.escape(ch["annonce"]),
+        sommaire="".join(som),
+        telechargement=f'/data/chapitres/{ch["n"]}-{ch["slug"]}.json',
+    )]
+
+    out.append(f'''    <p class="doc-eyebrow">Chapitre {ch["n"]}</p>
+    <h1>{html.escape(ch["titre"])}</h1>
+    <p class="doc-lede">{html.escape(ch["annonce"])}</p>
+''')
+
+    if not ch.get("sous_parties"):
+        out.append('''
+    <p class="doc-resume">Ce chapitre n’est pas encore écrit. Il le sera quand j’aurai de quoi le
+      remplir sans inventer, et il portera alors la date de ce que j’aurai vérifié.</p>''')
+
+    for i, sp in enumerate(ch.get("sous_parties", []), 1):
+        out.append(f'''
+    <section class="sp" id="s{i}">
+      <h2 class="sp-titre">{html.escape(sp["titre"])}</h2>''')
+        for lec in sp["lecons"]:
+            out.append(rendu_lecon(lec))
+        out.append('''
     </section>''')
+
+    if ch.get("outils") or ch.get("livrables"):
+        out.append('''
+    <section class="sp" id="outils">
+      <h2 class="sp-titre">À emporter</h2>''')
+        for l in ch.get("livrables", []):
+            corps = (f'<pre class="livrable-contenu">{html.escape(l["contenu"])}</pre>'
+                     if l.get("contenu") else
+                     f'<p class="preuve"><a href="/ressources/outils/{l["page"]}/">Ouvrir</a></p>')
+            out.append(f'''
+      <div class="livrable">
+        <p class="livrable-titre">{html.escape(l["titre"])}</p>
+        <p class="livrable-sert">{html.escape(l["a_quoi_ca_sert"])}</p>
+        {corps}
+      </div>''')
+        for o in ch.get("outils", []):
+            out.append(rendu_outil(o))
+        out.append('''
+    </section>''')
+
+    out.append(PIED.format(editeur=html.escape(EDITEUR), licence=LICENCE,
+                           donnees=f'/data/chapitres/{ch["n"]}-{ch["slug"]}.json'))
     return "".join(out)
 
 
@@ -270,60 +281,6 @@ def rendu_outil(o):
         <p class="outil-pourquoi"><strong>Pourquoi celui-là.</strong> {html.escape(o["pourquoi"])}</p>
         <p class="outil-limite"><strong>Ce qu’il ne fait pas.</strong> {html.escape(o["ne_fait_pas"])}</p>
       </div>'''
-
-
-def page_chapitre(ch, chapitres):
-    som = ['    <p class="som-titre">Les chapitres</p>\n']
-    for c in chapitres:
-        actif = ' class="actif"' if c["n"] == ch["n"] else ""
-        som.append(f'    <a href="/ressources/{c["n"]}-{c["slug"]}/"{actif}>'
-                   f'<span class="som-n">{c["n"]}</span>{html.escape(c["titre"])}</a>\n')
-    pub = publiables(ch)
-    if pub:
-        som.append('    <p class="som-titre">Dans ce chapitre</p>\n')
-        for it in pub:
-            som.append(f'    <a href="#{it["id"].lower()}"><span class="som-n">·</span>'
-                       f'{html.escape(it["titre"][:58])}</a>\n')
-    if ch.get("outils"):
-        som.append('    <p class="som-titre">Les outils</p>\n')
-        som.append('    <a href="#outils"><span class="som-n">·</span>Ce avec quoi on le fait</a>\n')
-
-    out = [TETE.format(
-        titre=html.escape(ch["titre"]),
-        desc=html.escape(ch["annonce"]),
-        sommaire="".join(som),
-        telechargement=f'/data/chapitres/{ch["n"]}-{ch["slug"]}.json',
-    )]
-
-    n_pub, n_tot = len(pub), len(ch.get("items", []))
-    out.append(f'''    <p class="doc-eyebrow">Chapitre {ch["n"]}</p>
-    <h1>{html.escape(ch["titre"])}</h1>
-    <p class="doc-lede">{html.escape(ch["annonce"])}</p>''')
-    if ch.get("intro"):
-        out.append(f'''
-    <p class="doc-resume">{html.escape(ch["intro"])}</p>''')
-    out.append(f'''
-    <p class="preuve">{n_pub} publié{"s" if n_pub > 1 else ""} sur {n_tot} · chapitre {ch["etat"].replace("_", " ")}</p>
-''')
-
-    for it in ch.get("items", []):
-        out.append(rendu_item(it))
-
-    if ch.get("outils"):
-        out.append('''
-    <section class="bloc" id="outils">
-      <p class="bloc-n">Les outils</p>
-      <h2 class="bloc-titre">Ce avec quoi on le fait</h2>
-      <p class="bloc-pourquoi">Un outil se juge dans le problème qu’il règle, jamais dans une liste
-        à part. Chacun porte ce qu’il ne fait pas, sinon c’est une recommandation déguisée.</p>''')
-        for o in ch["outils"]:
-            out.append(rendu_outil(o))
-        out.append('''
-    </section>''')
-
-    out.append(PIED.format(editeur=html.escape(DATA["editeur"]), licence=DATA["licence"],
-                           donnees=f'/data/chapitres/{ch["n"]}-{ch["slug"]}.json'))
-    return "".join(out)
 
 
 def page_cas(r):
@@ -397,7 +354,7 @@ def page_cas(r):
     </section>
 ''')
 
-    out.append(PIED.format(editeur=html.escape(DATA["editeur"]), licence=DATA["licence"],
+    out.append(PIED.format(editeur=html.escape(EDITEUR), licence=LICENCE,
                            donnees=f'/data/cas/{r["id"]}.json'))
     return "".join(out)
 
@@ -428,10 +385,9 @@ def page_redirection(vers, motif):
 def main():
     chapitres = sorted(charger(CHAPITRES), key=lambda c: c["n"])
     cas = charger(CAS)
-    slugs_cas = {c["id"] for c in cas}
 
     for ch in chapitres:
-        controles.controler_chapitre(ch, slugs_cas)
+        controles.controler_chapitre(ch)
     for c in cas:
         controles.controler_decorticage(c)
 
@@ -444,10 +400,12 @@ def main():
         d = base / f'{ch["n"]}-{ch["slug"]}'
         d.mkdir(exist_ok=True)
         (d / "index.html").write_text(page_chapitre(ch, chapitres), encoding="utf-8")
-        n_out = len(ch.get("outils", []))
+        n, sp = n_lecons(ch), len(ch.get("sous_parties", []))
+        extra = []
+        if ch.get("outils"):    extra.append(f"{len(ch['outils'])} outils")
+        if ch.get("livrables"): extra.append(f"{len(ch['livrables'])} livrable")
         print(f"écrit : /ressources/{ch['n']}-{ch['slug']}/ "
-              f"({len(publiables(ch))}/{len(ch.get('items', []))} publiés"
-              f"{f', {n_out} outils' if n_out else ''})")
+              f"({n} leçons en {sp} sous-parties{', ' + ', '.join(extra) if extra else ''})")
 
     for c in cas:
         d = base / "cas" / c["id"]
@@ -459,11 +417,16 @@ def main():
         print(f"écrit : /ressources/cas/{c['id']}/ ({len(c['decisions'])} décisions)")
 
     for ancienne, vers, motif in [
-        ("r-004", "/ressources/0-le-seuil/#r-004",
-         "Les repères sont devenus les items des chapitres. Celui-ci vit désormais dans le "
-         "chapitre 0, à la même place dans le parcours."),
+        ("r-004", "/ressources/1-ce-que-gagne-un-createur/",
+         "Les repères sont devenus des leçons. Celle-ci ouvre le premier chapitre."),
         ("jeff-nippard", "/ressources/cas/jeff-nippard/",
          "Les cas ont désormais leur propre dossier."),
+        ("0-le-seuil", "/ressources/1-ce-que-gagne-un-createur/",
+         "Les chapitres ont été redécoupés autour de ce que je découvre en construisant."),
+        ("6-encaisser", "/ressources/5-encaisser-et-garder/",
+         "Ce chapitre a changé de numéro dans le nouveau découpage."),
+        ("3-le-prix", "/ressources/cas/jeff-nippard/",
+         "Le chapitre sur le prix a été absorbé ; ce qu’il portait vit dans le cas Jeff Nippard."),
     ]:
         d = base / ancienne
         d.mkdir(exist_ok=True)

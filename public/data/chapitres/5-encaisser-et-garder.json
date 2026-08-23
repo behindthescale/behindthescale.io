@@ -1,0 +1,285 @@
+{
+  "n": 5,
+  "slug": "encaisser-et-garder",
+  "titre": "Encaisser, et garder",
+  "annonce": "J’ai relevé le même jour ce que prennent quatre prestataires. L’écart m’a surpris, et les petites lignes encore plus.",
+  "verifie_le": "2026-08-23",
+  "sous_parties": [
+    {
+      "titre": "Ce que prend le prestataire",
+      "lecons": [
+        {
+          "lead": "Entre le moins cher et le plus cher, le facteur dépasse six.",
+          "texte": "Relevé le même jour : Stripe France {{c:t_st}}, Whop {{c:t_wh}}, Lemon Squeezy {{c:t_le}}, Gumroad {{c:t_gu}}. Sur mille euros encaissés, l’écart entre les extrêmes se compte en dizaines d’euros par mois.",
+          "nature": "sourcee",
+          "verifie_le": "2026-08-23",
+          "chiffres": [
+            {
+              "id": "t_st",
+              "valeur": "1,5 % + 0,25 €",
+              "unite": "par transaction",
+              "libelle": "Stripe, carte européenne standard",
+              "source": "tarifs"
+            },
+            {
+              "id": "t_wh",
+              "valeur": "2,7 % + 0,30 $",
+              "unite": "par transaction",
+              "libelle": "Whop, carte dite domestique",
+              "source": "tarifs"
+            },
+            {
+              "id": "t_le",
+              "valeur": "5 % + 0,50 $",
+              "unite": "par transaction",
+              "libelle": "Lemon Squeezy, tarif unique",
+              "source": "tarifs"
+            },
+            {
+              "id": "t_gu",
+              "valeur": "10 % + 0,50 $",
+              "unite": "par transaction",
+              "libelle": "Gumroad, vente directe",
+              "source": "tarifs"
+            }
+          ],
+          "sources": [
+            {
+              "titre": "Grille tarifaire publique de Stripe France",
+              "court": "Stripe",
+              "url": "https://stripe.com/fr/pricing",
+              "interet": 2
+            },
+            {
+              "titre": "Documentation publique des frais de Whop",
+              "court": "Whop",
+              "url": "https://docs.whop.com/fees",
+              "interet": 2
+            },
+            {
+              "titre": "Page tarifaire publique de Lemon Squeezy",
+              "court": "Lemon Squeezy",
+              "url": "https://www.lemonsqueezy.com/pricing",
+              "interet": 2
+            },
+            {
+              "titre": "Page tarifaire publique de Gumroad",
+              "court": "Gumroad",
+              "url": "https://gumroad.com/pricing",
+              "interet": 2
+            }
+          ]
+        },
+        {
+          "lead": "Le taux affiché n’est jamais le taux payé.",
+          "texte": "Whop ajoute {{c:s_int}} si la carte est internationale et {{c:s_conv}} si une conversion s’applique. Pour un vendeur français encaissant des euros vers un compte en dollars, les deux peuvent tomber en même temps.",
+          "nature": "sourcee",
+          "verifie_le": "2026-08-23",
+          "chiffres": [
+            {
+              "id": "s_int",
+              "valeur": "1,5 %",
+              "unite": "supplément",
+              "libelle": "Whop, supplément carte internationale",
+              "source": "tarifs"
+            },
+            {
+              "id": "s_conv",
+              "valeur": "1 %",
+              "unite": "supplément",
+              "libelle": "Whop, supplément conversion de devise",
+              "source": "tarifs"
+            }
+          ],
+          "sources": [
+            {
+              "titre": "Documentation publique des frais de Whop",
+              "court": "Whop",
+              "url": "https://docs.whop.com/fees",
+              "interet": 2
+            }
+          ]
+        },
+        {
+          "lead": "Personne ne définit ce qu’est une carte « domestique ».",
+          "texte": "Trois lignes de frais en dépendent chez Whop, et la documentation ne dit pas si une carte française l’est pour un vendeur français. Selon la réponse, le coût change du simple au double. Je n’ai pas trouvé de quoi trancher.",
+          "nature": "sourcee",
+          "verifie_le": "2026-08-23",
+          "sources": [
+            {
+              "titre": "Documentation publique des frais de Whop",
+              "court": "Whop",
+              "url": "https://docs.whop.com/fees",
+              "interet": 2
+            }
+          ]
+        },
+        {
+          "lead": "Chez Gumroad, la même vente ne rapporte pas pareil selon d’où vient le client.",
+          "texte": "{{c:g_dir}} si l’acheteur vient de ton lien, {{c:g_mkt}} s’il vient de leur place de marché. Le produit est identique, le prix aussi, et ta part est divisée par trois.",
+          "nature": "sourcee",
+          "verifie_le": "2026-08-23",
+          "chiffres": [
+            {
+              "id": "g_dir",
+              "valeur": "10 % + 0,50 $",
+              "unite": "par transaction",
+              "libelle": "Gumroad, vente directe",
+              "source": "tarifs"
+            },
+            {
+              "id": "g_mkt",
+              "valeur": "30 %",
+              "unite": "par transaction",
+              "libelle": "Gumroad, vente issue de sa place de marché",
+              "source": "tarifs"
+            }
+          ],
+          "sources": [
+            {
+              "titre": "Page tarifaire publique de Gumroad",
+              "court": "Gumroad",
+              "url": "https://gumroad.com/pricing",
+              "interet": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titre": "Qui doit la TVA",
+      "lecons": [
+        {
+          "lead": "Tout dépend de qui est le vendeur au sens du droit.",
+          "texte": "Si la plateforme se déclare revendeur de référence, c’est elle qui facture l’acheteur, elle qui collecte la TVA, et toi qui lui vends. Si elle n’est qu’un encaisseur, le vendeur c’est toi, et la TVA du pays de l’acheteur t’incombe dès le premier euro.",
+          "nature": "sourcee",
+          "verifie_le": "2026-08-23",
+          "sources": [
+            {
+              "titre": "Grille tarifaire publique de Stripe France",
+              "court": "Stripe",
+              "url": "https://stripe.com/fr/pricing",
+              "interet": 2
+            },
+            {
+              "titre": "Documentation publique des frais de Whop",
+              "court": "Whop",
+              "url": "https://docs.whop.com/fees",
+              "interet": 2
+            },
+            {
+              "titre": "Page tarifaire publique de Lemon Squeezy",
+              "court": "Lemon Squeezy",
+              "url": "https://www.lemonsqueezy.com/pricing",
+              "interet": 2
+            },
+            {
+              "titre": "Page tarifaire publique de Gumroad",
+              "court": "Gumroad",
+              "url": "https://gumroad.com/pricing",
+              "interet": 2
+            }
+          ]
+        },
+        {
+          "lead": "Le tarif le plus bas est rarement le coût le plus bas.",
+          "texte": "Un revendeur de référence coûte trois fois Stripe et te retire la déclaration des mains. Selon ton volume et le temps que te coûte une déclaration multi-pays, l’écart de taux peut être le moins cher des deux.",
+          "nature": "sourcee",
+          "verifie_le": "2026-08-23",
+          "sources": [
+            {
+              "titre": "Grille tarifaire publique de Stripe France",
+              "court": "Stripe",
+              "url": "https://stripe.com/fr/pricing",
+              "interet": 2
+            },
+            {
+              "titre": "Documentation publique des frais de Whop",
+              "court": "Whop",
+              "url": "https://docs.whop.com/fees",
+              "interet": 2
+            },
+            {
+              "titre": "Page tarifaire publique de Lemon Squeezy",
+              "court": "Lemon Squeezy",
+              "url": "https://www.lemonsqueezy.com/pricing",
+              "interet": 2
+            },
+            {
+              "titre": "Page tarifaire publique de Gumroad",
+              "court": "Gumroad",
+              "url": "https://gumroad.com/pricing",
+              "interet": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "titre": "Ce que je n’ai pas encore vérifié",
+      "lecons": [
+        {
+          "lead": "Je ne sais pas ce qui déclenche vraiment un gel de compte.",
+          "texte": "Le sujet revient partout dans les témoignages de créateurs, au pire moment, celui du pic de lancement. Je n’ai trouvé aucune règle publiée, seulement des conditions générales qui autorisent tout. À creuser avant d’en dire quoi que ce soit.",
+          "nature": "constatee",
+          "verifie_le": "2026-08-23"
+        },
+        {
+          "lead": "Je n’ai pas mesuré ce que coûte un impayé.",
+          "texte": "Les frais de contestation sont publiés, mais pas le taux au-delà duquel un prestataire durcit ses conditions. Tant que je n’ai pas ce seuil, je ne peux pas dire à partir de quand il y a danger.",
+          "nature": "constatee",
+          "verifie_le": "2026-08-23"
+        }
+      ]
+    }
+  ],
+  "outils": [
+    {
+      "nom": "Stripe",
+      "url": "https://stripe.com/fr/pricing",
+      "prix": "1,5 % + 0,25 €",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Encaisse une carte et verse sur ton compte. La brique de paiement, rien d’autre.",
+      "pourquoi": "Le tarif le plus bas des quatre pour un vendeur européen, et la seule grille publiée en euros.",
+      "ne_fait_pas": "Ni boutique, ni page de vente, ni TVA. Tu restes le vendeur, donc redevable dans le pays de chaque acheteur.",
+      "verifie_le": "2026-08-23"
+    },
+    {
+      "nom": "Whop",
+      "url": "https://docs.whop.com/fees",
+      "prix": "2,7 % + 0,30 $, plus suppléments",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Vend l’accès à un espace ou à une communauté, avec paiement et gestion des membres au même endroit.",
+      "pourquoi": "Le seul du lot qui vend un accès récurrent à une communauté sans rien assembler soi-même.",
+      "ne_fait_pas": "Il ne dit pas ce qu’il entend par carte domestique, alors que trois lignes de frais en dépendent.",
+      "verifie_le": "2026-08-23"
+    },
+    {
+      "nom": "Lemon Squeezy",
+      "url": "https://www.lemonsqueezy.com/pricing",
+      "prix": "5 % + 0,50 $",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Vend à ta place en tant que revendeur de référence : il facture, collecte la TVA et te reverse.",
+      "pourquoi": "Le seul des quatre qui retire la TVA européenne de tes mains.",
+      "ne_fait_pas": "Il coûte plus de trois fois Stripe. Sur un produit à faible marge, l’écart mange le temps qu’il fait gagner.",
+      "verifie_le": "2026-08-23"
+    },
+    {
+      "nom": "Gumroad",
+      "url": "https://gumroad.com/pricing",
+      "prix": "10 % + 0,50 $, 30 % via sa place de marché",
+      "prix_verifie_le": "2026-08-23",
+      "fait": "Boutique complète en quelques minutes : page, paiement, livraison du fichier.",
+      "pourquoi": "Le plus court chemin entre un fichier et une première vente, sans rien configurer.",
+      "ne_fait_pas": "Le taux le plus élevé, et il triple si le client vient de leur place de marché plutôt que de ton lien.",
+      "verifie_le": "2026-08-23"
+    }
+  ],
+  "livrables": [
+    {
+      "titre": "Les quatre questions à poser avant de choisir",
+      "a_quoi_ca_sert": "À trancher en dix minutes plutôt qu’en trois soirs. Copie-les et réponds dans l’ordre.",
+      "contenu": "1. Où sont mes acheteurs : mon pays, l’Europe, hors Europe ?\n2. Est-ce que j’accepte de déclarer la TVA moi-même, ou je paie pour ne pas le faire ?\n3. Est-ce que je vends un fichier, un accès récurrent, ou les deux ?\n4. Quel est mon panier moyen ? Sous 20 €, le montant fixe par transaction pèse plus que le pourcentage."
+    }
+  ]
+}
