@@ -10,11 +10,13 @@ import json
 import pathlib
 
 import controles
+import figures
 
 RACINE = pathlib.Path(__file__).parent
 PUBLIC = RACINE / "public"  # seul ce dossier est servi ; le reste du depot ne l'est pas
 DATA = json.loads((PUBLIC / "data" / "perimetre.json").read_text(encoding="utf-8"))
 PUBLIES = {f.stem.upper() for f in (PUBLIC / "data" / "reperes").glob("*.json")}
+DECORTICAGES = PUBLIC / "data" / "decorticages"
 
 TETE = """<!doctype html>
 <html lang="fr">
@@ -66,11 +68,28 @@ def page_index():
     )]
 
     out.append(f'''  <p class="brand">{html.escape(d["editeur"])}</p>
-  <h1>{html.escape(d["titre"])}</h1>
-  <p class="lede">{d["total"]} questions entre une audience et une première vente encaissée.
-    <strong>{r["vide"]} d'entre elles n'ont aucune source connue.</strong></p>
-  <p class="note">{html.escape(d["sous_titre"])}. Périmètre fermé : une question qui n'est pas
-    dans ces neuf étapes ne sera pas traitée.</p>
+  <h1>Ressources</h1>
+  <p class="lede">Des systèmes de créateurs, démontés décision par décision.
+    Chaque affirmation porte sa preuve, sa date, et le verdict de ce que tu peux en copier.</p>
+''')
+
+    decorticages = charger_decorticages()
+    for dec in decorticages:
+        n_cop = sum(1 for x in dec["decisions"] if x["verdict"] == "copiable")
+        out.append(f'''
+  <a class="card" href="/ressources/{dec["id"]}/">
+    <span class="kicker">Décorticage · {html.escape(dec["cout_de_lecture"])}</span>
+    <span class="title">{html.escape(dec["titre"])}</span>
+    <span class="sub">{html.escape(dec["sujet"])}
+      {len(dec["decisions"])} décisions relevées, dont {n_cop} copiables telles quelles.</span>
+  </a>''')
+
+    out.append(f'''
+  <h2>La bibliothèque</h2>
+  <p>Sous les décorticages, une liste fermée de {d["total"]} questions qui vont d'une audience à une
+    première vente encaissée. Elle sert de réserve de preuves : quand un décorticage avance un
+    chiffre, il renvoie ici. <strong>{r["vide"]} de ces questions n'ont aucune source connue</strong>,
+    et c'est le résultat le plus utile de la liste.</p>
 
   <div class="legend">
     <span class="st-S">{r["solide"]} source solide</span>
@@ -79,7 +98,7 @@ def page_index():
   </div>
 
   <div class="warn">
-    <strong>Ce que cette page ne sait pas encore.</strong>
+    <strong>Ce que cette liste ne sait pas encore.</strong>
     {html.escape(d["avertissement"])}
     Un astérisque signale un état nuancé : source partielle, adjacente, ou contredite.
   </div>
@@ -261,8 +280,116 @@ def main():
         page.write_text(page_repere(r), encoding="utf-8")
         print(f"écrit : {page} ({len(r.get('chiffres', []))} chiffres déclarés, tous contrôlés)")
 
+    for r in charger_decorticages():
+        controles.controler_decorticage(r)
+        dossier = PUBLIC / "ressources" / r["id"]
+        dossier.mkdir(parents=True, exist_ok=True)
+        (dossier / "index.html").write_text(page_decorticage(r), encoding="utf-8")
+        (dossier / "carte-du-systeme.svg").write_text(
+            figures.svg_autonome(figures.carte_du_systeme()), encoding="utf-8")
+        print(f"écrit : {dossier}/index.html ({len(r['decisions'])} décisions, "
+              f"{len(r['chiffres'])} chiffres, 3 figures)")
+
     for a in alertes:
         print(f"  ⚠ {a}")
+
+
+
+
+# --- Le decorticage --------------------------------------------------------
+
+LIBELLE_VERDICT = {
+    "copiable": "Copiable tel quel",
+    "conditionnel": "Copiable sous condition",
+    "non_copiable": "À ne pas reproduire",
+}
+
+
+def page_decorticage(r):
+    chiffres = {c["id"]: c for c in r.get("chiffres", [])}
+    src = r["sources"][0]
+    d = DATA
+    catalogue = figures.charger_catalogue(RACINE)
+
+    out = [TETE.format(
+        titre=html.escape(r["titre"]),
+        desc=html.escape(r["sujet"]),
+    )]
+
+    out.append(f'''  <p class="brand"><a href="/ressources/">Ressources</a> · décorticage</p>
+  <h1>{html.escape(r["titre"])}</h1>
+  <p class="lede">{html.escape(r["sujet"])}</p>
+  <div class="legend">
+    <span>Lecture : {html.escape(r["cout_de_lecture"])}</span>
+    <span>Observé le {r["date_observation"]}</span>
+    <span>Tout est vérifiable, rien n’est estimé</span>
+  </div>
+
+  <p class="reponse">{ancrer(r["resume"], chiffres)}</p>
+
+{figures.carte_du_systeme()}
+
+  <h2>Le catalogue, prix par prix</h2>
+{figures.chronologie_des_prix(catalogue)}
+
+  <h2>Les décisions</h2>
+''')
+
+    for i, dec in enumerate(r["decisions"], 1):
+        p = dec["preuve"]
+        out.append(f'''
+  <section class="decision">
+    <p class="dec-n">Décision {i}</p>
+    <h3>{ancrer(dec["titre"], chiffres)}</h3>
+    <p class="dec-fait">{ancrer(dec["fait"], chiffres)}</p>
+    <p>{ancrer(dec["pourquoi"], chiffres)}</p>
+    <div class="verdict v-{dec["verdict"]}">
+      <span class="v-label">{LIBELLE_VERDICT[dec["verdict"]]}</span>
+      <span class="v-texte">{ancrer(dec["verdict_texte"], chiffres)}</span>
+    </div>
+    <p class="preuve">Preuve : {html.escape(p["quoi"])} ·
+      <a href="{html.escape(p["url"])}">source</a> · relevé le {p["date"]}</p>
+  </section>''')
+        if dec["id"] == "d3":
+            out.append("\n" + figures.grille_des_axes())
+
+    out.append(f'''
+  <h2>Ce qui n’est pas visible</h2>
+  <p>{ancrer(r["invisible"], chiffres)}</p>
+
+  <h2>Ce que tu fais cette semaine</h2>
+  <ol class="actions">''')
+    for a in r["actions"]:
+        out.append(f'\n    <li>{ancrer(a, chiffres)}</li>')
+    out.append('''
+  </ol>
+
+  <div class="cta">
+    <a class="bouton bouton-plein" href="/ressources/jeff-nippard/carte-du-systeme.svg" download>
+      Télécharger la carte du système</a>
+    <a class="bouton" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">
+      Travailler avec nous</a>
+  </div>
+''')
+
+    out.append(f'''
+  <h2>Comment ceci a été relevé</h2>
+  <p class="note">{html.escape(src["methode"])}</p>
+  <p class="note">Source : <a href="{html.escape(src["url"])}">{html.escape(src["titre"])}</a>,
+    consultée le {src["date_consultation"]} ·
+    <a href="/data/cas/{r["id"]}/collecte.json">les données brutes archivées</a></p>
+  <p class="note mono">{html.escape(r["citation_suggeree"])}</p>
+''')
+
+    out.append(PIED.format(editeur=html.escape(d["editeur"]), version=d["version"],
+                           date=d["date"], licence=d["licence"]))
+    return "".join(out)
+
+
+def charger_decorticages():
+    if not DECORTICAGES.exists():
+        return []
+    return [json.loads(f.read_text(encoding="utf-8")) for f in sorted(DECORTICAGES.glob("*.json"))]
 
 
 if __name__ == "__main__":

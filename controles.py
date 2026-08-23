@@ -155,3 +155,93 @@ def controler(r, deja_vues=None):
     c6_zone_blanche(r)
     c11_liens(r)
     return c13_inversion(r, deja_vues)
+
+
+# --- Controles propres au decorticage -------------------------------------
+# Un decorticage decrit un systeme reel. Ses tentations sont differentes de
+# celles d'un repere : combler un trou par une estimation, et decrire un succes
+# sans jamais dire quoi en faire.
+
+VERDICTS = {"copiable", "conditionnel", "non_copiable"}
+
+CHAMPS_REQUIS_DECORTICAGE = [
+    "id", "titre", "sujet", "cout_de_lecture", "date_observation",
+    "version", "resume", "invisible", "citation_suggeree",
+]
+
+CHAMPS_REDIGES_DECORTICAGE = [
+    "resume", "invisible", "fait", "pourquoi", "verdict_texte", "actions",
+]
+
+
+def d1_champs(r):
+    for champ in CHAMPS_REQUIS_DECORTICAGE:
+        if not r.get(champ):
+            _echec(r.get("id", "?"), "D1", f"champ obligatoire absent ou vide : {champ}")
+
+
+def d2_verdicts(r):
+    """Chaque decision porte un verdict, et il rend la page actionnable.
+
+    Sans verdict, on decrit un succes : c'est ce que fait deja tout le champ.
+    """
+    decisions = r.get("decisions", [])
+    if not 3 <= len(decisions) <= 9:
+        _echec(r["id"], "D2", f"{len(decisions)} decisions ; il en faut entre 3 et 9")
+    for d in decisions:
+        for champ in ("titre", "fait", "pourquoi", "verdict", "verdict_texte", "preuve"):
+            if not d.get(champ):
+                _echec(r["id"], "D2", f"decision '{d.get('id', '?')}' sans {champ}")
+        if d["verdict"] not in VERDICTS:
+            _echec(r["id"], "D2",
+                   f"decision '{d['id']}' : verdict '{d['verdict']}' hors des trois valeurs admises")
+
+
+def d3_preuves(r):
+    """Toute affirmation sur le systeme observe renvoie a une preuve datee."""
+    for d in r.get("decisions", []):
+        p = d["preuve"]
+        for champ in ("quoi", "url", "date"):
+            if not p.get(champ):
+                _echec(r["id"], "D3", f"decision '{d['id']}' : preuve sans {champ}")
+
+
+def d4_actions(r):
+    """Trois actions, pas dix. Une liste longue ne se fait pas."""
+    a = r.get("actions", [])
+    if len(a) != 3:
+        _echec(r["id"], "D4", f"{len(a)} actions ; il en faut exactement trois")
+
+
+def d5_nombres_libres(r):
+    """C3 applique aux champs rediges du decorticage, decisions comprises."""
+    declares = {c["id"] for c in r.get("chiffres", [])}
+    tolere = {str(n["ecrit"]) for n in r.get("nombres_hors_mesure", [])}
+
+    textes = [(champ, r.get(champ)) for champ in ("resume", "invisible")]
+    textes += [("actions", " ".join(r.get("actions", [])))]
+    for d in r.get("decisions", []):
+        for champ in ("titre", "fait", "pourquoi", "verdict_texte"):
+            textes.append((f'{d["id"]}.{champ}', d.get(champ)))
+
+    for champ, texte in textes:
+        texte = texte or ""
+        for ref in ANCRE.findall(texte):
+            if ref not in declares:
+                _echec(r["id"], "D5", f"{champ} ancre un chiffre non declare : {ref}")
+        nu = ANCRE.sub(" ", texte)
+        for brut in re.findall(r"\d+(?:[\s.,  ]\d+)*", nu):
+            nombre = re.sub(r"[\s  ]+", " ", brut).strip()
+            if nombre not in tolere:
+                _echec(r["id"], "D5",
+                       f"nombre libre dans {champ} : « {nombre} ». "
+                       f"L'ancrer a un chiffre declare, ou le declarer dans nombres_hors_mesure.")
+
+
+def controler_decorticage(r):
+    d1_champs(r)
+    d2_verdicts(r)
+    d3_preuves(r)
+    d4_actions(r)
+    d5_nombres_libres(r)
+    c2_attributs_chiffres(r)

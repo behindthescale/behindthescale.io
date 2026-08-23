@@ -1,0 +1,264 @@
+{
+  "type": "decorticage",
+  "id": "jeff-nippard",
+  "titre": "Jeff Nippard : vingt‑huit produits, un seul prix",
+  "sujet": "Comment un créateur fitness a bâti une gamme où le travail n'est plus de vendre, mais d'orienter.",
+  "cout_de_lecture": "6 min",
+  "date_observation": "2026-08-23",
+  "version": "1.0",
+  "sources": [
+    {
+      "id": "boutique",
+      "famille": "observation",
+      "titre": "Boutique et pages publiques de jeffnippard.com",
+      "url": "https://jeffnippard.com/products.json?limit=250",
+      "date_consultation": "2026-08-23",
+      "methode": "Catalogue lu sur l'adresse publique products.json de la boutique, pages et dates de dernière modification lues dans le plan du site, rendu des pages obtenu avec un navigateur sans interface. Aucun accès authentifié, aucun achat, aucune donnée privée."
+    }
+  ],
+  "chiffres": [
+    {
+      "id": "nb_produits",
+      "valeur": "28",
+      "unite": "produits",
+      "libelle": "Produits au catalogue",
+      "source": "boutique"
+    },
+    {
+      "id": "prix_principal",
+      "valeur": "49,99 $",
+      "unite": "USD",
+      "libelle": "Prix de la moitié des versions vendues",
+      "source": "boutique"
+    },
+    {
+      "id": "variantes_49",
+      "valeur": "31",
+      "unite": "versions",
+      "libelle": "Versions vendues à 49,99 $",
+      "source": "boutique"
+    },
+    {
+      "id": "variantes_total",
+      "valeur": "62",
+      "unite": "versions",
+      "libelle": "Versions vendues, toutes options confondues",
+      "source": "boutique"
+    },
+    {
+      "id": "nb_petits",
+      "valeur": "9",
+      "unite": "produits",
+      "libelle": "Produits vendus sous 30 $, tous publiés le même jour",
+      "source": "boutique"
+    },
+    {
+      "id": "petit_min",
+      "valeur": "9,99 $",
+      "unite": "USD",
+      "libelle": "Prix le plus bas du catalogue",
+      "source": "boutique"
+    },
+    {
+      "id": "petit_max",
+      "valeur": "29,99 $",
+      "unite": "USD",
+      "libelle": "Prix le plus haut du bas de gamme",
+      "source": "boutique"
+    },
+    {
+      "id": "nb_axes",
+      "valeur": "deux",
+      "unite": "axes",
+      "libelle": "Axes de positionnement affichés sur chaque programme",
+      "source": "boutique"
+    },
+    {
+      "id": "nb_pages_quiz",
+      "valeur": "88",
+      "unite": "pages",
+      "libelle": "Pages de résultat du questionnaire de 2022",
+      "source": "boutique"
+    },
+    {
+      "id": "nb_pages_total",
+      "valeur": "122",
+      "unite": "pages",
+      "libelle": "Pages publiées au plan du site",
+      "source": "boutique"
+    },
+    {
+      "id": "note_min",
+      "valeur": "4,61",
+      "unite": "sur 5",
+      "libelle": "Note la plus basse des six programmes en tête de catalogue",
+      "source": "boutique"
+    },
+    {
+      "id": "note_max",
+      "valeur": "5,0",
+      "unite": "sur 5",
+      "libelle": "Note la plus haute des six programmes en tête de catalogue",
+      "source": "boutique"
+    },
+    {
+      "id": "nb_tva",
+      "valeur": "5",
+      "unite": "regroupements",
+      "libelle": "Regroupements de produits créés pour porter un taux de TVA national",
+      "source": "boutique"
+    },
+    {
+      "id": "nb_bundles",
+      "valeur": "3",
+      "unite": "lots",
+      "libelle": "Lots de plusieurs programmes",
+      "source": "boutique"
+    },
+    {
+      "id": "prix_bundle_max",
+      "valeur": "99,99 $",
+      "unite": "USD",
+      "libelle": "Prix du lot le plus cher",
+      "source": "boutique"
+    }
+  ],
+  "nombres_hors_mesure": [
+    {
+      "ecrit": "2022",
+      "motif": "Année, portée par la date de publication relevée au catalogue."
+    },
+    {
+      "ecrit": "2023",
+      "motif": "Année, portée par la date de publication relevée au catalogue."
+    },
+    {
+      "ecrit": "2025",
+      "motif": "Année, portée par la date de publication relevée au catalogue."
+    },
+    {
+      "ecrit": "2026",
+      "motif": "Année, portée par la date de publication relevée au catalogue."
+    },
+    {
+      "ecrit": "1",
+      "motif": "Fragment d'une adresse de page citée en exemple, pas une grandeur mesurée."
+    },
+    {
+      "ecrit": "2",
+      "motif": "Fragment d'une adresse de page citée en exemple, pas une grandeur mesurée."
+    },
+    {
+      "ecrit": "3",
+      "motif": "Fragment d'une adresse de page citée en exemple, pas une grandeur mesurée."
+    }
+  ],
+  "resume": "Jeff Nippard vend des programmes d'entraînement en PDF, adossés à une chaîne YouTube de vulgarisation scientifique. Son catalogue compte {{c:nb_produits}} produits, et {{c:variantes_49}} des {{c:variantes_total}} versions vendues portent le même prix : {{c:prix_principal}}. Ce prix n'a pas bougé depuis février 2022, y compris sur le programme sorti en juillet 2026. Quand tout coûte pareil, vendre ne consiste plus à convaincre, mais à orienter, et c'est là qu'est passé tout son travail.",
+  "decisions": [
+    {
+      "id": "d1",
+      "titre": "Un seul prix, tenu quatre ans",
+      "fait": "{{c:variantes_49}} des {{c:variantes_total}} versions vendues sont à {{c:prix_principal}}. La première à ce prix date de février 2022, la dernière de juillet 2026. Aucune augmentation entre les deux.",
+      "pourquoi": "Un catalogue à prix unique supprime la question « lequel vaut le plus ». Deux programmes au même prix ne se comparent plus en valeur, seulement en pertinence, et la pertinence est une question à laquelle le vendeur peut répondre à la place du client. Le prix cesse d'être un argument, ce qui oblige le reste du site à en devenir un.",
+      "verdict": "conditionnel",
+      "verdict_texte": "Copiable si tes offres sont des alternatives, pas des étages. Deux formations qui s'adressent au même moment du parcours peuvent partager un prix. Une initiation et un accompagnement ne le peuvent pas : là, l'écart de prix porte une information que tu détruirais en l'effaçant.",
+      "preuve": {
+        "quoi": "Catalogue public, champ prix de chaque version, avec date de publication",
+        "url": "https://jeffnippard.com/products.json?limit=250",
+        "date": "2026-08-23"
+      }
+    },
+    {
+      "id": "d2",
+      "titre": "Le bas de gamme arrêté net, et jamais repris",
+      "fait": "{{c:nb_petits}} produits entre {{c:petit_min}} et {{c:petit_max}}, tous publiés le même jour de mars 2022. Aucun n'a été ajouté depuis, alors que le catalogue a continué de s'étoffer chaque année.",
+      "pourquoi": "Ces produits ciblent une seule partie du corps. Ils sont rapides à fabriquer et faciles à vendre, et c'est exactement ce qui les rend dangereux : ils remplissent un catalogue sans amener personne vers un programme complet. Les arrêter est une décision qui coûte du chiffre à court terme et n'en rapporte qu'à la lecture du catalogue.",
+      "verdict": "copiable",
+      "verdict_texte": "Copiable tel quel, et c'est la décision la plus simple à prendre ce mois-ci : arrête d'ajouter des petits produits. Ils se vendent, ils ne construisent rien.",
+      "preuve": {
+        "quoi": "Neuf produits sous trente dollars, tous datés du même jour au catalogue, aucun postérieur",
+        "url": "https://jeffnippard.com/collections/body-part-programs",
+        "date": "2026-08-23"
+      }
+    },
+    {
+      "id": "d3",
+      "titre": "Différencier par la position, pas par le prix",
+      "fait": "Chaque programme affiche sa position sur {{c:nb_axes}} axes : le niveau, de débutant à avancé, et l'objectif, entre prise de muscle et prise de force. Un programme peut occuper une plage plutôt qu'un point, par exemple intermédiaire à avancé.",
+      "pourquoi": "C'est ce qui rend le prix unique tenable. La différence entre deux offres doit s'afficher quelque part ; si elle n'est pas dans le prix, il faut un autre langage. Deux axes suffisent, et ils sont lisibles d'un coup d'œil, ce qu'une liste de caractéristiques ne permet jamais.",
+      "verdict": "copiable",
+      "verdict_texte": "Copiable tel quel, quel que soit ton domaine. Trouve les deux questions qui séparent réellement tes offres et affiche la réponse sur chaque page. Si tu n'arrives pas à en trouver deux, c'est que tes offres n'en font qu'une.",
+      "preuve": {
+        "quoi": "Axes « Experience » et « Goal » affichés sur chaque carte produit de la grille",
+        "url": "https://jeffnippard.com/collections/training-programs",
+        "date": "2026-08-23"
+      }
+    },
+    {
+      "id": "d4",
+      "titre": "Le choix se fait à la place du visiteur",
+      "fait": "Un questionnaire oriente le visiteur vers un programme plutôt que de le laisser choisir dans une grille. Sa page a été retravaillée en juillet 2026, ce qui en fait l'un des éléments les plus récemment entretenus du site.",
+      "pourquoi": "Un catalogue à prix unique déplace la difficulté du client : il ne se demande plus s'il peut se le permettre, mais lequel lui convient. Une grille de vingt-huit produits laisse cette question sans réponse ; un questionnaire y répond, et il capte au passage ce que le visiteur dit de lui-même.",
+      "verdict": "conditionnel",
+      "verdict_texte": "Copiable dès que tu as plus de deux offres, et inutile en dessous. La condition n'est pas technique, elle est éditoriale : tu dois savoir formuler les questions qui séparent tes offres, ce qui suppose la décision précédente déjà prise.",
+      "preuve": {
+        "quoi": "Page du questionnaire, et sa date de dernière modification au plan du site",
+        "url": "https://jeffnippard.com/pages/quiz",
+        "date": "2026-08-23"
+      }
+    },
+    {
+      "id": "d5",
+      "titre": "L'ancien système d'orientation est resté en ligne",
+      "fait": "{{c:nb_pages_quiz}} pages de résultat portent des adresses de la forme « male-a1-b2-c3-d1 ». Toutes datent d'août 2022 et aucune n'a été modifiée depuis. Elles restent publiées et référencées au plan du site, qui compte {{c:nb_pages_total}} pages au total.",
+      "pourquoi": "C'est la trace d'une première version du questionnaire, construite comme un arbre de pages fixes, une par combinaison de réponses. Elle a été remplacée sans être retirée. Rendues aujourd'hui, ces pages n'affichent plus le parcours qu'elles servaient, seulement la grille de produits standard.",
+      "verdict": "non_copiable",
+      "verdict_texte": "À ne pas reproduire. Quand tu remplaces un parcours, supprime l'ancien ou redirige-le. Ce qui reste en ligne sans être entretenu continue d'exister pour les moteurs de recherche et pour quiconque tombe dessus par un lien ancien.",
+      "preuve": {
+        "quoi": "Plan du site : quatre-vingt-huit adresses de branche, toutes datées d'août 2022",
+        "url": "https://jeffnippard.com/sitemap_pages_1.xml",
+        "date": "2026-08-23"
+      }
+    },
+    {
+      "id": "d6",
+      "titre": "Les lots sont arrivés après, pas avant",
+      "fait": "{{c:nb_bundles}} lots regroupent plusieurs programmes, le plus cher à {{c:prix_bundle_max}}. Ils apparaissent en janvier 2023, presque un an après la mise en ligne du catalogue.",
+      "pourquoi": "Un lot n'a de sens qu'une fois qu'on sait quels produits sont achetés ensemble. Construit d'avance, il ne fait qu'imposer une combinaison arbitraire et casser le prix unique dès le premier jour.",
+      "verdict": "copiable",
+      "verdict_texte": "Copiable tel quel, et surtout dans cet ordre : les offres d'abord, les lots quand tes ventes t'ont dit lesquelles vont ensemble. Un lot lancé le premier jour est une remise déguisée.",
+      "preuve": {
+        "quoi": "Trois lots au catalogue, datés de janvier 2023, contre un catalogue ouvert en février 2022",
+        "url": "https://jeffnippard.com/collections/program-bundles",
+        "date": "2026-08-23"
+      }
+    },
+    {
+      "id": "d7",
+      "titre": "La TVA européenne traitée pays par pays",
+      "fait": "{{c:nb_tva}} regroupements de produits existent uniquement pour porter un taux de taxe national : Irlande, Autriche, Belgique, Finlande, Espagne. Chacun contient tout ou presque du catalogue, dupliqué.",
+      "pourquoi": "Un produit numérique vendu à un particulier européen est taxé au taux du pays de l'acheteur, et plusieurs États appliquent au livre numérique un taux réduit, voire nul. Sans ce découpage, le vendeur facture un taux uniforme et se trompe dans les deux sens.",
+      "verdict": "conditionnel",
+      "verdict_texte": "À regarder dès que tu vends hors de ton pays, et à ne pas bricoler. Ce que ce cas montre n'est pas la méthode à copier, c'est qu'un créateur de cette taille a jugé le sujet assez sérieux pour tordre l'architecture de sa boutique. La plupart des créateurs francophones ne s'en aperçoivent qu'au premier contrôle.",
+      "preuve": {
+        "quoi": "Cinq regroupements nommés par pays et par taux, chacun contenant le catalogue",
+        "url": "https://jeffnippard.com/collections/belgium-6-vat",
+        "date": "2026-08-23"
+      }
+    }
+  ],
+  "invisible": "Rien de ce qui précède ne dit combien il gagne. Le nombre de ventes, le chiffre d'affaires, la taille de sa liste de diffusion, le trafic de la boutique et l'efficacité réelle du questionnaire ne sont publiés nulle part, et aucune estimation n'en est proposée ici. Sa boutique a par ailleurs été mise en ligne en bloc en février 2022 : tout ce qui précède cette date est invisible, y compris l'ordre dans lequel ses premiers programmes sont sortis, et les dates du catalogue ne doivent donc pas se lire comme une chronologie de création. Enfin, la taille de son audience n'a pas été mesurée : elle circule dans la presse spécialisée sans source primaire consultable, et elle n'est de toute façon pas nécessaire pour lire l'architecture décrite ici.",
+  "actions": [
+    "Ouvre la liste de tes offres et écris le prix de chacune à côté. Pour chaque écart de prix, demande-toi ce qu'il dit au client, en dehors de ton hésitation au moment de le fixer. Les écarts qui ne disent rien sont ceux à supprimer.",
+    "Écris les deux questions qui séparent réellement tes offres, puis affiche la réponse sur chaque page de vente, en haut. Si tu n'arrives pas à formuler la seconde question, tu n'as qu'une offre.",
+    "Compte tes produits vendus moins de trente euros. Pour chacun, cherche un acheteur qui a ensuite pris une offre plus chère. Si tu n'en trouves aucun sur les six derniers mois, arrête d'en fabriquer."
+  ],
+  "citation_suggeree": "Behind The Scale, « Jeff Nippard : vingt-huit produits, un seul prix », https://behindthescale.io/ressources/jeff-nippard/",
+  "journal": [
+    {
+      "version": "1.0",
+      "date": "2026-08-23",
+      "note": "Première publication. Catalogue et plan du site relevés le jour même, aucune donnée reprise d'un tiers."
+    }
+  ]
+}

@@ -1,0 +1,730 @@
+{
+ "collecte": {
+  "date": "2026-08-23",
+  "methode": "Catalogue lu sur l'endpoint public products.json de la boutique Shopify ; pages et dates de derniere modification lues dans le sitemap public ; rendu des pages obtenu avec un navigateur sans interface. Aucun acces authentifie, aucun achat.",
+  "sources": [
+   "https://jeffnippard.com/products.json?limit=250",
+   "https://jeffnippard.com/sitemap_pages_1.xml",
+   "https://jeffnippard.com/pages/start-quiz"
+  ]
+ },
+ "catalogue": [
+  {
+   "titre": "High Frequency Full Body Program",
+   "publie": "2022-02-23",
+   "cree": "2022-02-23",
+   "prix": [
+    "39.99"
+   ]
+  },
+  {
+   "titre": "Upper Lower Size and Strength Program",
+   "publie": "2022-02-23",
+   "cree": "2022-02-23",
+   "prix": [
+    "39.99"
+   ]
+  },
+  {
+   "titre": "The Powerbuilding System",
+   "publie": "2022-02-24",
+   "cree": "2022-02-24",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "Push/Pull/Legs Hypertrophy Program",
+   "publie": "2022-02-24",
+   "cree": "2022-02-24",
+   "prix": [
+    "39.99"
+   ]
+  },
+  {
+   "titre": "Powerbuilding Phase 2.0",
+   "publie": "2022-02-24",
+   "cree": "2022-02-24",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "Fundamentals Hypertrophy Program",
+   "publie": "2022-02-24",
+   "cree": "2022-02-24",
+   "prix": [
+    "39.99"
+   ]
+  },
+  {
+   "titre": "The Ultimate Guide To Body Recomposition",
+   "publie": "2022-02-24",
+   "cree": "2022-02-24",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "Back Hypertrophy Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "19.99"
+   ]
+  },
+  {
+   "titre": "Arm Hypertrophy Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "19.99"
+   ]
+  },
+  {
+   "titre": "Men's Shoulder Hypertrophy Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "19.99"
+   ]
+  },
+  {
+   "titre": "Forearm Hypertrophy Guide",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "9.99"
+   ]
+  },
+  {
+   "titre": "Neck And Trap Guide",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "9.99"
+   ]
+  },
+  {
+   "titre": "Chest Hypertrophy Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "19.99"
+   ]
+  },
+  {
+   "titre": "Squat Specialization Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "19.99"
+   ]
+  },
+  {
+   "titre": "Glute Hypertrophy Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "29.99"
+   ]
+  },
+  {
+   "titre": "Women's Shoulder Hypertrophy Program",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "19.99"
+   ]
+  },
+  {
+   "titre": "Powerbuilding Phase 3.0",
+   "publie": "2022-03-01",
+   "cree": "2022-03-01",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "The Essentials Program",
+   "publie": "2022-10-23",
+   "cree": "2022-10-19",
+   "prix": [
+    "39.99"
+   ]
+  },
+  {
+   "titre": "Jeff Nippard Fitness Gift Card",
+   "publie": "2022-12-09",
+   "cree": "2022-12-09",
+   "prix": [
+    "10.00",
+    "100.00",
+    "25.00",
+    "50.00"
+   ]
+  },
+  {
+   "titre": "The Ultimate Push Pull Legs System",
+   "publie": "2023-01-02",
+   "cree": "2022-12-29",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "The Essentials Program Bundle",
+   "publie": "2023-01-22",
+   "cree": "2023-01-06",
+   "prix": [
+    "60.00"
+   ]
+  },
+  {
+   "titre": "Powerbuilding Bundle",
+   "publie": "2023-01-22",
+   "cree": "2023-01-06",
+   "prix": [
+    "99.99"
+   ]
+  },
+  {
+   "titre": "The Pure Bodybuilding Program - Phase 1",
+   "publie": "2023-11-05",
+   "cree": "2023-10-31",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "The Pure Bodybuilding Program Bundle",
+   "publie": "2023-11-06",
+   "cree": "2023-11-06",
+   "prix": [
+    "59.00"
+   ]
+  },
+  {
+   "titre": "The Pure Bodybuilding Program - Phase 2",
+   "publie": "2024-03-17",
+   "cree": "2024-02-28",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "The Bodybuilding Transformation System",
+   "publie": "2025-05-04",
+   "cree": "2025-04-25",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "MIN-MAX PROGRAM - PHASE 1",
+   "publie": "2025-10-12",
+   "cree": "2025-10-08",
+   "prix": [
+    "49.99"
+   ]
+  },
+  {
+   "titre": "MIN-MAX PROGRAM - PHASE 2",
+   "publie": "2026-07-11",
+   "cree": "2026-07-10",
+   "prix": [
+    "49.99"
+   ]
+  }
+ ],
+ "pages": [
+  {
+   "page": "about",
+   "derniere_modification": "2022-02-22"
+  },
+  {
+   "page": "privacy-policy",
+   "derniere_modification": "2022-02-22"
+  },
+  {
+   "page": "comeback-program",
+   "derniere_modification": "2022-02-23"
+  },
+  {
+   "page": "high-frequency-full-body-program",
+   "derniere_modification": "2022-02-23"
+  },
+  {
+   "page": "upper-lower-size-and-strength-program",
+   "derniere_modification": "2022-02-23"
+  },
+  {
+   "page": "male-a1-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b2-c1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b2-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b2-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b2-c3-d1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b2-c3-d2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b3-c1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b3-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b3-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b3-c3-d1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a1-b3-c3-d2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2-e1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2-e2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2-e3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2-e3-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2-e3-b2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a2-e3-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b2-c1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b2-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b3-c3-d1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b2-c3-d2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b2-c1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b2-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b3-c1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b3-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b2-c3-d1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b3-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a3-b3-c3-d2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b2-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b2-c3-d2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b3-c3-d1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "male-a4-b3-c3-d2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a1-f1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "a1-f2-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a1-f2-b2-c1-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a1-f2-b2-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a1-f3-b1-b2-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a2-e1-e2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a2-e3-b1-b2-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a3-f1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a3-f2-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a3-f2-b2-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a3-f2-b2-c1-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a3-f3-b1-b2-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a4-f1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a4-f2-b1",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a4-f2-b2-c3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a4-f2-b2-c1-c2",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "female-a4-f3-b1-b2-b3",
+   "derniere_modification": "2022-08-09"
+  },
+  {
+   "page": "others-a1-f1",
+   "derniere_modification": "2022-08-10"
+  },
+  {
+   "page": "others-a1-f2-b1",
+   "derniere_modification": "2022-08-10"
+  },
+  {
+   "page": "others-a1-f2-b2-c3",
+   "derniere_modification": "2022-08-10"
+  },
+  {
+   "page": "muscle-iq-quiz",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a1-f2-b2-c1-c2",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a1-f3-b1-b2-b3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a2-e1-e2",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a2-e3-b1-b2-b3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a3-b1-b2-b3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a3-b2-c1-c2-c3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a3-b2-c1-e1-e2-e2",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a3-b2-c3-d1-d2-d3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a3-b3-d1-d2",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b1-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b2",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b2-c1-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b3-c3-d1-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b2-c2-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b2-c3-d2-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b3-c1-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b3-c2-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b3-c3",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "others-a4-b3-c3-d2-result",
+   "derniere_modification": "2022-08-11"
+  },
+  {
+   "page": "male-quiz",
+   "derniere_modification": "2022-08-16"
+  },
+  {
+   "page": "i-am-female",
+   "derniere_modification": "2022-08-16"
+  },
+  {
+   "page": "release-of-rights",
+   "derniere_modification": "2022-09-07"
+  },
+  {
+   "page": "results",
+   "derniere_modification": "2022-09-08"
+  },
+  {
+   "page": "stalled-quiz",
+   "derniere_modification": "2022-09-12"
+  },
+  {
+   "page": "others",
+   "derniere_modification": "2022-09-19"
+  },
+  {
+   "page": "male-a1-b1-1",
+   "derniere_modification": "2022-09-26"
+  },
+  {
+   "page": "male-main",
+   "derniere_modification": "2022-09-28"
+  },
+  {
+   "page": "female-main",
+   "derniere_modification": "2022-09-29"
+  },
+  {
+   "page": "free-quiz",
+   "derniere_modification": "2022-10-03"
+  },
+  {
+   "page": "test",
+   "derniere_modification": "2022-10-13"
+  },
+  {
+   "page": "more-plates-survey-start",
+   "derniere_modification": "2022-11-14"
+  },
+  {
+   "page": "more-plates-survey",
+   "derniere_modification": "2022-11-16"
+  },
+  {
+   "page": "more-plates-thank-you",
+   "derniere_modification": "2022-11-16"
+  },
+  {
+   "page": "start-quiz",
+   "derniere_modification": "2023-03-26"
+  },
+  {
+   "page": "refund-policy",
+   "derniere_modification": "2023-05-08"
+  },
+  {
+   "page": "start-quiz-50",
+   "derniere_modification": "2023-06-29"
+  },
+  {
+   "page": "terms-and-conditions",
+   "derniere_modification": "2024-05-15"
+  },
+  {
+   "page": "release",
+   "derniere_modification": "2024-07-16"
+  },
+  {
+   "page": "bonus-pdf",
+   "derniere_modification": "2024-10-17"
+  },
+  {
+   "page": "1repmaxcalculator",
+   "derniere_modification": "2025-08-01"
+  },
+  {
+   "page": "ffmi-calculator",
+   "derniere_modification": "2025-08-01"
+  },
+  {
+   "page": "ffmi",
+   "derniere_modification": "2025-08-01"
+  },
+  {
+   "page": "get-started",
+   "derniere_modification": "2026-01-15"
+  },
+  {
+   "page": "newsletter",
+   "derniere_modification": "2026-01-15"
+  },
+  {
+   "page": "accessibility",
+   "derniere_modification": "2026-06-26"
+  },
+  {
+   "page": "subscribe",
+   "derniere_modification": "2026-07-05"
+  },
+  {
+   "page": "the-muscle-ladder",
+   "derniere_modification": "2026-07-05"
+  },
+  {
+   "page": "bonus-pdf-muscle-ladder",
+   "derniere_modification": "2026-07-05"
+  },
+  {
+   "page": "test-quiz",
+   "derniere_modification": "2026-07-09"
+  },
+  {
+   "page": "contact",
+   "derniere_modification": "2026-07-10"
+  },
+  {
+   "page": "quiz",
+   "derniere_modification": "2026-07-16"
+  }
+ ]
+}

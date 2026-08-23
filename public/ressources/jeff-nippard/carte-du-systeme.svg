@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" style="background:#0A0B0D" viewBox="0 0 380 542" role="img" aria-label="Chaîne YouTube vers calculateurs et PDF gratuits, vers liste de diffusion, vers questionnaire d&#x27;orientation, vers un catalogue de vingt-huit produits à prix unique, puis vers trois lots." class="schema">
+  <style>
+    text { font-family: Archivo, Helvetica, Arial, sans-serif; }
+    .boite      { fill: #101216; stroke: #343A45; stroke-width: 1; }
+    .boite-cle  { fill: #14182a; stroke: #93A9F4; stroke-width: 1; }
+    .arete      { stroke: #343A45; stroke-width: 1.2; fill: none; }
+    .t-titre    { fill: #ECEEF2; font-size: 13px; font-weight: 600; }
+    .t-sous     { fill: #7C8493; font-size: 11.5px; }
+    .t-arete    { fill: #545B69; font-size: 11px; font-family: monospace; }
+    .t-note     { fill: #545B69; font-size: 11px; }
+  </style>
+
+<defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor"/></marker></defs>
+<rect class="boite" x="40" y="20" width="300" height="54" rx="2"/>
+<text class="t-titre" x="56" y="43">Chaîne YouTube</text>
+<text class="t-sous" x="56" y="61">et les autres réseaux</text>
+<rect class="boite" x="40" y="112" width="300" height="54" rx="2"/>
+<text class="t-titre" x="56" y="135">Calculateurs et PDF</text>
+<text class="t-sous" x="56" y="153">gratuits, sans achat</text>
+<line class="arete" x1="68" y1="74" x2="68" y2="108" marker-end="url(#fl)"/>
+<text class="t-arete" x="84" y="98">amènent sur le site</text>
+<rect class="boite" x="40" y="204" width="300" height="54" rx="2"/>
+<text class="t-titre" x="56" y="227">Liste de diffusion</text>
+<text class="t-sous" x="56" y="245">adresse collectée</text>
+<line class="arete" x1="68" y1="166" x2="68" y2="200" marker-end="url(#fl)"/>
+<text class="t-arete" x="84" y="190">échange contre l&#x27;adresse</text>
+<rect class="boite" x="40" y="296" width="300" height="54" rx="2"/>
+<text class="t-titre" x="56" y="319">Questionnaire</text>
+<text class="t-sous" x="56" y="337">oriente vers un programme</text>
+<line class="arete" x1="68" y1="258" x2="68" y2="292" marker-end="url(#fl)"/>
+<text class="t-arete" x="84" y="282">ou accès direct depuis le site</text>
+<rect class="boite-cle" x="40" y="388" width="300" height="54" rx="2"/>
+<text class="t-titre" x="56" y="411">28 produits</text>
+<text class="t-sous" x="56" y="429">un seul prix : 49,99 $</text>
+<line class="arete" x1="68" y1="350" x2="68" y2="384" marker-end="url(#fl)"/>
+<text class="t-arete" x="84" y="374">recommande</text>
+<rect class="boite" x="40" y="480" width="300" height="54" rx="2"/>
+<text class="t-titre" x="56" y="503">3 lots</text>
+<text class="t-sous" x="56" y="521">arrivés un an après</text>
+<line class="arete" x1="68" y1="442" x2="68" y2="476" marker-end="url(#fl)"/>
+<text class="t-arete" x="84" y="466">une fois les paires connues</text>
+</svg>

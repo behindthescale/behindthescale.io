@@ -175,11 +175,11 @@ strong { font-weight: 600; }
 
 /* toute valeur affichee vient d'un chiffre declare : rien ne s'ecrit a la main */
 .v {
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--accent);
   border-bottom: 1px dotted var(--rule-hi);
   cursor: help;
+  white-space: nowrap;
 }
 
 .barre {
@@ -208,3 +208,117 @@ footer {
   line-height: 1.6;
 }
 footer a { color: var(--muted); }
+
+/* ---- decorticage ------------------------------------------------------- */
+:root { --refus: #D98A80; }
+
+.decision {
+  margin-top: 2.4rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+.dec-n {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0;
+}
+.decision h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  margin: 0.3rem 0 0;
+  text-wrap: balance;
+}
+.dec-fait {
+  color: var(--ink);
+  font-size: 1.03125rem;
+}
+
+.verdict {
+  display: grid;
+  grid-template-columns: 11.5rem 1fr;
+  gap: 0 1.1rem;
+  margin-top: 1.2rem;
+  padding: 0.9rem 1.1rem;
+  border-left: 2px solid var(--rule-hi);
+  background: #101216;
+}
+.v-label {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  padding-top: 0.2rem;
+}
+.v-texte { color: var(--ink-soft); font-size: 0.9375rem; }
+.v-copiable      { border-left-color: var(--solide); }
+.v-copiable      .v-label { color: var(--solide); }
+.v-conditionnel  { border-left-color: var(--faible); }
+.v-conditionnel  .v-label { color: var(--faible); }
+.v-non_copiable  { border-left-color: var(--refus); }
+.v-non_copiable  .v-label { color: var(--refus); }
+
+@media (max-width: 34rem) {
+  .verdict { grid-template-columns: 1fr; gap: 0.4rem; }
+}
+
+.preuve {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  color: var(--faint);
+  line-height: 1.7;
+  margin-top: 0.8rem;
+}
+.preuve a { color: var(--muted); }
+
+.actions { margin: 1.2rem 0 0; padding-left: 1.4rem; color: var(--ink-soft); }
+.actions li { margin-bottom: 0.9rem; padding-left: 0.4rem; }
+.actions li::marker { color: var(--accent); font-family: "IBM Plex Mono", monospace; }
+
+.cta { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 2.6rem; }
+.bouton {
+  display: inline-block;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid var(--rule-hi);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  transition: border-color .15s, background .15s;
+}
+.bouton:hover { border-color: var(--accent); }
+.bouton-plein { border-color: var(--accent); color: var(--accent); }
+.bouton-plein:hover { background: rgba(147,169,244,.09); }
+
+/* ---- figures ----------------------------------------------------------- */
+.fig { margin: 2rem 0 0; padding: 0; overflow-x: auto; }
+.schema { display: block; width: 100%; max-width: 100%; height: auto; color: var(--ink-soft); }
+.fig figcaption {
+  margin-top: 0.7rem;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 42rem;
+}
+
+.boite      { fill: #101216; stroke: var(--rule-hi); stroke-width: 1; }
+.boite-cle  { fill: rgba(147,169,244,.07); stroke: var(--accent); stroke-width: 1; }
+.arete      { stroke: var(--rule-hi); stroke-width: 1.2; fill: none; }
+.grille     { stroke: var(--rule); stroke-width: 1; }
+.grille-v   { stroke: var(--rule); stroke-width: 1; stroke-dasharray: 2 4; }
+.ligne-cle  { stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.case-plage { fill: rgba(147,169,244,.08); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+.pt         { fill: var(--faint); }
+.pt-cle     { fill: var(--accent); }
+
+.schema text { font-family: Archivo, Arial, sans-serif; }
+.t-titre { fill: var(--ink); font-size: 13px; font-weight: 600; }
+.t-sous  { fill: var(--muted); font-size: 11.5px; }
+.t-arete { fill: var(--faint); font-size: 11px; font-family: "IBM Plex Mono", monospace; }
+.t-axe   { fill: var(--muted); font-size: 12px; font-family: "IBM Plex Mono", monospace; }
+.t-cle   { fill: var(--accent); font-size: 12.5px; font-family: "IBM Plex Mono", monospace; }
+.t-note  { fill: var(--faint); font-size: 11px; }
