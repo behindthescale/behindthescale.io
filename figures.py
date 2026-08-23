@@ -58,8 +58,8 @@ def chronologie_des_prix(catalogue):
     pts = sorted((p["publie"], min(float(v) for v in p["prix"]), p["titre"])
                  for p in catalogue if "gift card" not in p["titre"].lower())
 
-    W, H = 1000, 420
-    GA, GD, GH, GB = 70, 210, 34, 54
+    W, H = 640, 330
+    GA, GD, GH, GB = 48, 118, 26, 44
     d0, d1 = _jour(pts[0][0]), _jour(pts[-1][0])
     span = (d1 - d0).days or 1
     pmax = 110.0
@@ -92,16 +92,16 @@ def chronologie_des_prix(catalogue):
         corps.append(f'<rect class="zone" x="{x - 16:.1f}" y="{y_haut - 12:.1f}" width="32" '
                      f'height="{y_bas - y_haut + 24:.1f}" rx="3"/>')
         corps.append(f'<line class="rappel" x1="{x + 18:.1f}" y1="{(y_haut + y_bas) / 2:.1f}" '
-                     f'x2="{x + 92:.1f}" y2="{(y_haut + y_bas) / 2:.1f}"/>')
-        corps.append(f'<text class="t-annot" x="{x + 100:.1f}" y="{(y_haut + y_bas) / 2 - 3:.1f}">'
+                     f'x2="{x + 70:.1f}" y2="{(y_haut + y_bas) / 2:.1f}"/>')
+        corps.append(f'<text class="t-annot" x="{x + 78:.1f}" y="{(y_haut + y_bas) / 2 - 3:.1f}">'
                      f'{len(bas)} produits sous 30 $,</text>')
-        corps.append(f'<text class="t-annot" x="{x + 100:.1f}" y="{(y_haut + y_bas) / 2 + 15:.1f}">'
+        corps.append(f'<text class="t-annot" x="{x + 78:.1f}" y="{(y_haut + y_bas) / 2 + 15:.1f}">'
                      f'tous le même jour, aucun depuis</text>')
 
     for d, prix, titre in pts:
         cle = abs(prix - 49.99) < 0.01
         corps.append(f'<circle class="{"pt-cle" if cle else "pt"}" cx="{px(d):.1f}" '
-                     f'cy="{py(prix):.1f}" r="{6 if cle else 4.5}"><title>'
+                     f'cy="{py(prix):.1f}" r="{5 if cle else 3.6}"><title>'
                      f'{html.escape(titre)} — {prix:.2f} $ — {d}</title></circle>')
 
     return figure(f"0 0 {W} {H}", "\n".join(corps),

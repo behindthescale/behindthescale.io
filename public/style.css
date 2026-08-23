@@ -333,8 +333,8 @@ footer a { color: var(--muted); }
 .t-titre { fill: var(--ink); font-size: 13px; font-weight: 600; }
 .t-sous  { fill: var(--muted); font-size: 11.5px; }
 .t-arete { fill: var(--faint); font-size: 11px; font-family: "IBM Plex Mono", monospace; }
-.t-axe   { fill: var(--muted); font-size: 12px; font-family: "IBM Plex Mono", monospace; }
-.t-cle   { fill: var(--accent); font-size: 12.5px; font-family: "IBM Plex Mono", monospace; }
+.t-axe   { fill: var(--muted); font-size: 10.5px; font-family: "IBM Plex Mono", monospace; }
+.t-cle   { fill: var(--accent); font-size: 12px; font-family: "IBM Plex Mono", monospace; }
 .t-note  { fill: var(--faint); font-size: 11px; }
 
 /* annotations sur une capture ou une mesure */
@@ -342,8 +342,8 @@ footer a { color: var(--muted); }
 .rappel   { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
 .rappel-h { stroke: var(--accent); stroke-width: 1; }
 .zone     { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
-.t-annot  { fill: var(--ink-soft); font-size: 13px; }
-.t-annot-s{ fill: var(--muted);    font-size: 12px; }
+.t-annot  { fill: var(--ink-soft); font-size: 11px; }
+.t-annot-s{ fill: var(--muted);    font-size: 10px; }
 .t-groupe {
   fill: var(--muted); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
   font-family: "IBM Plex Mono", monospace;
@@ -363,3 +363,179 @@ h2 + .decision { border-top: none; padding-top: 0.4rem; margin-top: 1rem; }
 .fig { margin: 2.2rem 0 0; }
 .fig + h2 { margin-top: 3.4rem; }
 h2 + .fig { margin-top: 1rem; }
+
+/* =======================================================================
+   Le chassis d'un decorticage : un sommaire fixe, une colonne unique.
+   Aucune alternance de largeur : c'est ce qui cassait la lecture.
+   ======================================================================= */
+
+body.doc {
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.side {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem 1.4rem 1.4rem;
+  border-right: 1px solid var(--rule);
+  overflow-y: auto;
+}
+
+.side-marque {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+}
+.side-marque:hover { color: var(--accent); }
+
+.sommaire { margin-top: 2.2rem; display: flex; flex-direction: column; }
+.som-titre {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 1.5rem 0 0.6rem;
+}
+.som-titre:first-child { margin-top: 0; }
+.sommaire a {
+  display: grid;
+  grid-template-columns: 1.9rem 1fr;
+  gap: 0 0.2rem;
+  padding: 0.32rem 0;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  color: var(--muted);
+  text-decoration: none;
+}
+.sommaire a:hover { color: var(--ink); }
+.som-n {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  color: var(--faint);
+}
+
+.side-cta {
+  margin-top: auto;
+  padding: 0.65rem 1rem;
+  text-align: center;
+  border: 1px solid var(--rule-hi);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.8125rem;
+}
+.side-cta:hover { border-color: var(--accent); color: var(--accent); }
+
+.doc-col { position: relative; }
+.doc-dl {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--rule-hi);
+  color: var(--muted);
+  text-decoration: none;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+.doc-dl:hover { border-color: var(--accent); color: var(--accent); }
+
+.doc-main { max-width: 40rem; margin: 0 auto; padding: 4.2rem 1.6rem 6rem; }
+
+.doc-eyebrow {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0;
+}
+.doc-main h1 {
+  font-size: clamp(1.7rem, 3.2vw, 2.2rem);
+  line-height: 1.15;
+  margin-top: 0.9rem;
+}
+.doc-lede { font-size: 1.0625rem; color: var(--muted); margin-top: 0.9rem; }
+.doc-resume {
+  font-size: 1.0625rem;
+  color: var(--ink-soft);
+  margin-top: 1.6rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule);
+}
+
+/* un bloc = un titre-affirmation, son fait, sa raison, son verdict */
+.bloc { padding-top: 2.2rem; margin-top: 2.2rem; border-top: 1px solid var(--rule); }
+.bloc-n {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin: 0;
+}
+.bloc-titre {
+  font-family: Archivo, Arial, sans-serif;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  text-transform: none;
+  color: var(--ink);
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 0.45rem 0 0;
+}
+.bloc-fait { color: var(--ink); }
+.bloc p { font-size: 0.96875rem; line-height: 1.62; color: var(--ink-soft); }
+
+.doc-main .verdict {
+  display: block;
+  background: none;
+  padding: 0 0 0 0.95rem;
+  margin-top: 1.1rem;
+  font-size: 0.9375rem;
+}
+.doc-main .v-label {
+  display: inline;
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  padding: 0;
+  margin-right: 0.35rem;
+}
+
+.action { display: grid; grid-template-columns: 1.7rem 1fr; margin-top: 1.1rem; }
+.action-n {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+
+.doc-main .bloc .preuve,
+.doc-main .preuve {
+  margin-top: 0.9rem;
+  font-size: 0.6875rem;
+  line-height: 1.75;
+  color: var(--faint);
+}
+.doc-main .fig { margin: 2rem 0 0; }
+.doc-main footer { margin-top: 3.5rem; }
+
+@media (max-width: 62rem) {
+  body.doc { grid-template-columns: 1fr; }
+  .side { position: static; height: auto; border-right: none;
+          border-bottom: 1px solid var(--rule); }
+  .side-cta { margin-top: 1.6rem; }
+  .doc-dl { position: static; display: inline-block; margin: 1.6rem 0 0 1.6rem; }
+  .doc-main { padding-top: 1.6rem; }
+}

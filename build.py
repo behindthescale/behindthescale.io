@@ -46,6 +46,45 @@ PIED = """
 """
 
 
+TETE_DOC = """<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{titre}</title>
+<meta name="description" content="{desc}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="doc">
+
+<aside class="side">
+  <a class="side-marque" href="/">Behind The Scale</a>
+  <nav class="sommaire">
+{sommaire}  </nav>
+  <a class="side-cta" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">Travailler avec nous</a>
+</aside>
+
+<div class="doc-col">
+  <a class="doc-dl" href="{telechargement}" download>Télécharger</a>
+  <main class="doc-main">
+"""
+
+PIED_DOC = """
+    <footer>
+      <p>{editeur} · {licence}</p>
+      <p><a href="/ressources/">Toutes les ressources</a> ·
+         <a href="/data/decorticages/{ident}.json">les données de cette page</a></p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
+"""
+
+
 def classe_etat(etat):
     """Rend la classe CSS d'un état, sans jamais réinterpréter sa valeur."""
     tete = etat[0] if etat else "?"
@@ -309,85 +348,83 @@ LIBELLE_VERDICT = {
 
 
 def page_decorticage(r):
+    """Une colonne unique, un sommaire fixe, aucune alternance de largeur.
+
+    Modele : eptwts.com, la reference donnee par Alois. Une seule figure y est
+    admise, celle qui porte une donnee qu'aucune phrase ne remplace.
+    """
     chiffres = {c["id"]: c for c in r.get("chiffres", [])}
     src = r["sources"][0]
-    d = DATA
-    catalogue = figures.charger_catalogue(RACINE)
 
-    out = [TETE.format(
-        classe="",
+    entrees = [(f'd{i}', f'{i:02d}', dec["titre"]) for i, dec in enumerate(r["decisions"], 1)]
+    sommaire = ['    <p class="som-titre">Les décisions</p>\n']
+    for ancre, n, titre in entrees:
+        sommaire.append(f'    <a href="#{ancre}"><span class="som-n">{n}</span>'
+                        f'{html.escape(titre)}</a>\n')
+    sommaire.append('    <p class="som-titre">Et ensuite</p>\n')
+    sommaire.append('    <a href="#invisible"><span class="som-n">·</span>Ce qui n’est pas visible</a>\n')
+    sommaire.append('    <a href="#actions"><span class="som-n">·</span>Ce que tu fais cette semaine</a>\n')
+    sommaire.append('    <a href="#methode"><span class="som-n">·</span>Comment ceci a été relevé</a>\n')
+
+    out = [TETE_DOC.format(
         titre=html.escape(r["titre"]),
         desc=html.escape(r["sujet"]),
+        sommaire="".join(sommaire),
+        telechargement=f'/ressources/{r["id"]}/chronologie-des-prix.svg',
     )]
 
-    out.append(f'''  <p class="brand"><a href="/ressources/">Ressources</a> · décorticage</p>
-  <h1>{html.escape(r["titre"])}</h1>
-  <p class="lede">{html.escape(r["sujet"])}</p>
-  <div class="legend">
-    <span>Lecture : {html.escape(r["cout_de_lecture"])}</span>
-    <span>Observé le {r["date_observation"]}</span>
-    <span>Tout est vérifiable, rien n’est estimé</span>
-  </div>
-
-  <p class="reponse">{ancrer(r["resume"], chiffres)}</p>
-
-{figures.preuve_des_prix()}
-
-  <h2>Le catalogue, prix par prix</h2>
-{figures.chronologie_des_prix(catalogue)}
-
-  <h2>Les décisions</h2>
+    out.append(f'''    <p class="doc-eyebrow">Décorticage · observé le {r["date_observation"]}</p>
+    <h1>{html.escape(r["titre"])}</h1>
+    <p class="doc-lede">{html.escape(r["sujet"])}</p>
+    <p class="doc-resume">{ancrer(r["resume"], chiffres)}</p>
 ''')
 
     for i, dec in enumerate(r["decisions"], 1):
-        p = dec["preuve"]
+        pr = dec["preuve"]
         out.append(f'''
-  <section class="decision">
-    <p class="dec-n">Décision {i}</p>
-    <h3>{ancrer(dec["titre"], chiffres)}</h3>
-    <p class="dec-fait">{ancrer(dec["fait"], chiffres)}</p>
-    <p>{ancrer(dec["pourquoi"], chiffres)}</p>
-    <div class="verdict v-{dec["verdict"]}">
-      <span class="v-label">{LIBELLE_VERDICT[dec["verdict"]]}</span>
-      <span class="v-texte">{ancrer(dec["verdict_texte"], chiffres)}</span>
-    </div>
-    <p class="preuve">Preuve : {html.escape(p["quoi"])} ·
-      <a href="{html.escape(p["url"])}">source</a> · relevé le {p["date"]}</p>
-  </section>''')
-        if dec["id"] == "d3" and r.get("filtres"):
-            g = {k: [tuple(x) for x in v] for k, v in r["filtres"]["groupes"].items()}
-            out.append("\n" + figures.distribution_du_catalogue(g))
+    <section class="bloc" id="d{i}">
+      <p class="bloc-n">Décision {i:02d}</p>
+      <h2 class="bloc-titre">{ancrer(dec["titre"], chiffres)}</h2>
+      <p class="bloc-fait">{ancrer(dec["fait"], chiffres)}</p>
+      <p>{ancrer(dec["pourquoi"], chiffres)}</p>
+      <p class="verdict v-{dec["verdict"]}"><span class="v-label">{LIBELLE_VERDICT[dec["verdict"]]}.</span>
+        {ancrer(dec["verdict_texte"], chiffres)}</p>
+      <p class="preuve">{html.escape(pr["quoi"])} ·
+        <a href="{html.escape(pr["url"])}">source</a> · relevé le {pr["date"]}</p>
+    </section>''')
+        if dec["id"] == "d1":
+            out.append("\n" + figures.chronologie_des_prix(figures.charger_catalogue(RACINE)))
 
     out.append(f'''
-  <h2>Ce qui n’est pas visible</h2>
-  <p>{ancrer(r["invisible"], chiffres)}</p>
+    <section class="bloc" id="invisible">
+      <p class="bloc-n">La limite</p>
+      <h2 class="bloc-titre">Ce qui n’est pas visible</h2>
+      <p>{ancrer(r["invisible"], chiffres)}</p>
+    </section>
 
-  <h2>Ce que tu fais cette semaine</h2>
-  <ol class="actions">''')
-    for a in r["actions"]:
-        out.append(f'\n    <li>{ancrer(a, chiffres)}</li>')
+    <section class="bloc" id="actions">
+      <p class="bloc-n">À faire</p>
+      <h2 class="bloc-titre">Ce que tu fais cette semaine</h2>''')
+    for i, a in enumerate(r["actions"], 1):
+        out.append(f'''
+      <p class="action"><span class="action-n">{i}</span>{ancrer(a, chiffres)}</p>''')
     out.append('''
-  </ol>
-
-  <div class="cta">
-    <a class="bouton bouton-plein" href="/ressources/jeff-nippard/chronologie-des-prix.svg" download>
-      Télécharger la chronologie des prix</a>
-    <a class="bouton" href="mailto:alois@behindthescale.io?subject=Behind%20The%20Scale">
-      Travailler avec nous</a>
-  </div>
-''')
+    </section>''')
 
     out.append(f'''
-  <h2>Comment ceci a été relevé</h2>
-  <p class="note">{html.escape(src["methode"])}</p>
-  <p class="note">Source : <a href="{html.escape(src["url"])}">{html.escape(src["titre"])}</a>,
-    consultée le {src["date_consultation"]} ·
-    <a href="/data/cas/{r["id"]}/collecte.json">les données brutes archivées</a></p>
-  <p class="note mono">{html.escape(r["citation_suggeree"])}</p>
+    <section class="bloc" id="methode">
+      <p class="bloc-n">La méthode</p>
+      <h2 class="bloc-titre">Comment ceci a été relevé</h2>
+      <p>{html.escape(src["methode"])}</p>
+      <p class="preuve"><a href="{html.escape(src["url"])}">{html.escape(src["titre"])}</a>,
+        consultée le {src["date_consultation"]} ·
+        <a href="/data/cas/{r["id"]}/collecte.json">les données brutes archivées</a></p>
+      <p class="preuve">{html.escape(r["citation_suggeree"])}</p>
+    </section>
 ''')
 
-    out.append(PIED.format(editeur=html.escape(d["editeur"]), version=d["version"],
-                           date=d["date"], licence=d["licence"]))
+    out.append(PIED_DOC.format(editeur=html.escape(DATA["editeur"]),
+                              licence=DATA["licence"], ident=r["id"]))
     return "".join(out)
 
 
