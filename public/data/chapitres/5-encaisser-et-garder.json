@@ -9,8 +9,8 @@
       "titre": "Ce que prend le prestataire",
       "lecons": [
         {
-          "lead": "Entre le moins cher et le plus cher, le facteur dépasse six.",
-          "texte": "Relevé le même jour : Stripe France {{c:t_st}}, Whop {{c:t_wh}}, Lemon Squeezy {{c:t_le}}, Gumroad {{c:t_gu}}. Sur mille euros encaissés, l’écart entre les extrêmes se compte en dizaines d’euros par mois.",
+          "lead": "Sur le pourcentage seul, le plus cher prend près de sept fois le moins cher.",
+          "texte": "Relevé le même jour : Stripe France {{c:t_st}}, Whop {{c:t_wh}}, Lemon Squeezy {{c:t_le}}, Gumroad {{c:t_gu}}. Le rapport ne vaut que sur le pourcentage : parts fixes comprises, l’écart réel dépend de ton panier moyen, et les grilles ne sont pas toutes dans la même devise.",
           "nature": "sourcee",
           "verifie_le": "2026-08-23",
           "chiffres": [
@@ -72,7 +72,7 @@
         },
         {
           "lead": "Le taux affiché n’est jamais le taux payé.",
-          "texte": "Whop ajoute {{c:s_int}} si la carte est internationale et {{c:s_conv}} si une conversion s’applique. Pour un vendeur français encaissant des euros vers un compte en dollars, les deux peuvent tomber en même temps.",
+          "texte": "Whop ajoute {{c:s_int}} si la carte est internationale et {{c:s_conv}} si une conversion s’applique. Les deux peuvent tomber ensemble, et le taux passe alors de {{c:w_bas}} à {{c:w_haut}}.",
           "nature": "sourcee",
           "verifie_le": "2026-08-23",
           "chiffres": [
@@ -89,6 +89,20 @@
               "unite": "supplément",
               "libelle": "Whop, supplément conversion de devise",
               "source": "tarifs"
+            },
+            {
+              "id": "w_bas",
+              "valeur": "2,7 %",
+              "unite": "taux",
+              "libelle": "Whop, taux de base annoncé",
+              "source": "whop"
+            },
+            {
+              "id": "w_haut",
+              "valeur": "5,2 %",
+              "unite": "taux",
+              "libelle": "Whop, taux de base plus les deux suppléments, addition des taux publiés",
+              "source": "whop"
             }
           ],
           "sources": [
@@ -101,8 +115,8 @@
           ]
         },
         {
-          "lead": "Personne ne définit ce qu’est une carte « domestique ».",
-          "texte": "Trois lignes de frais en dépendent chez Whop, et la documentation ne dit pas si une carte française l’est pour un vendeur français. Selon la réponse, le coût change du simple au double. Je n’ai pas trouvé de quoi trancher.",
+          "lead": "Whop ne définit pas ce qu’est une carte « domestique ».",
+          "texte": "Trois lignes de frais en dépendent, et la documentation ne dit pas si une carte française l’est pour un vendeur français. Selon la réponse, le taux passe de {{c:w_dom}} à {{c:w_int}} : une hausse de moitié, pas un doublement. Je n’ai pas trouvé de quoi trancher.",
           "nature": "sourcee",
           "verifie_le": "2026-08-23",
           "sources": [
@@ -112,11 +126,27 @@
               "url": "https://docs.whop.com/fees",
               "interet": 2
             }
+          ],
+          "chiffres": [
+            {
+              "id": "w_dom",
+              "valeur": "2,7 %",
+              "unite": "par transaction",
+              "libelle": "Whop, taux carte dite domestique",
+              "source": "tarifs"
+            },
+            {
+              "id": "w_int",
+              "valeur": "4,2 %",
+              "unite": "par transaction",
+              "libelle": "Whop, taux carte internationale : taux de base plus supplément",
+              "source": "tarifs"
+            }
           ]
         },
         {
           "lead": "Chez Gumroad, la même vente ne rapporte pas pareil selon d’où vient le client.",
-          "texte": "{{c:g_dir}} si l’acheteur vient de ton lien, {{c:g_mkt}} s’il vient de leur place de marché. Le produit est identique, le prix aussi, et ta part est divisée par trois.",
+          "texte": "{{c:g_dir}} si l’acheteur vient de ton lien, {{c:g_mkt}} s’il vient de leur place de marché. Le produit est identique, le prix aussi, et ta part passe de {{c:g_p1}} à {{c:g_p2}} hors part fixe.",
           "nature": "sourcee",
           "verifie_le": "2026-08-23",
           "chiffres": [
@@ -133,6 +163,20 @@
               "unite": "par transaction",
               "libelle": "Gumroad, vente issue de sa place de marché",
               "source": "tarifs"
+            },
+            {
+              "id": "g_p1",
+              "valeur": "90 %",
+              "unite": "part vendeur",
+              "libelle": "Part restant au vendeur en vente directe, hors part fixe",
+              "source": "gumroad"
+            },
+            {
+              "id": "g_p2",
+              "valeur": "70 %",
+              "unite": "part vendeur",
+              "libelle": "Part restant au vendeur via la place de marché, hors part fixe",
+              "source": "gumroad"
             }
           ],
           "sources": [
@@ -141,6 +185,20 @@
               "court": "Gumroad",
               "url": "https://gumroad.com/pricing",
               "interet": 2
+            }
+          ],
+          "nombres_hors_mesure": [
+            {
+              "ecrit": "100",
+              "motif": "Montant d’exemple choisi pour illustrer, pas une grandeur relevée."
+            },
+            {
+              "ecrit": "70",
+              "motif": "Résultat du calcul sur ce montant d’exemple, au taux relevé de la place de marché."
+            },
+            {
+              "ecrit": "89,50",
+              "motif": "Résultat du calcul sur ce montant d’exemple, au tarif relevé de la vente directe."
             }
           ]
         }
@@ -151,7 +209,7 @@
       "lecons": [
         {
           "lead": "Tout dépend de qui est le vendeur au sens du droit.",
-          "texte": "Si la plateforme se déclare revendeur de référence, c’est elle qui facture l’acheteur, elle qui collecte la TVA, et toi qui lui vends. Si elle n’est qu’un encaisseur, le vendeur c’est toi, et la TVA du pays de l’acheteur t’incombe dès le premier euro.",
+          "texte": "Si la plateforme se déclare revendeur de référence, c’est elle qui facture l’acheteur final, elle qui collecte la TVA, et toi qui lui vends. Si elle n’est qu’un encaisseur, le vendeur c’est toi. Ce que ça implique exactement pour ta déclaration dépend de seuils que je n’ai pas encore vérifiés dans le texte applicable.",
           "nature": "sourcee",
           "verifie_le": "2026-08-23",
           "sources": [
@@ -183,35 +241,9 @@
         },
         {
           "lead": "Le tarif le plus bas est rarement le coût le plus bas.",
-          "texte": "Un revendeur de référence coûte trois fois Stripe et te retire la déclaration des mains. Selon ton volume et le temps que te coûte une déclaration multi-pays, l’écart de taux peut être le moins cher des deux.",
-          "nature": "sourcee",
-          "verifie_le": "2026-08-23",
-          "sources": [
-            {
-              "titre": "Grille tarifaire publique de Stripe France",
-              "court": "Stripe",
-              "url": "https://stripe.com/fr/pricing",
-              "interet": 2
-            },
-            {
-              "titre": "Documentation publique des frais de Whop",
-              "court": "Whop",
-              "url": "https://docs.whop.com/fees",
-              "interet": 2
-            },
-            {
-              "titre": "Page tarifaire publique de Lemon Squeezy",
-              "court": "Lemon Squeezy",
-              "url": "https://www.lemonsqueezy.com/pricing",
-              "interet": 2
-            },
-            {
-              "titre": "Page tarifaire publique de Gumroad",
-              "court": "Gumroad",
-              "url": "https://gumroad.com/pricing",
-              "interet": 2
-            }
-          ]
+          "texte": "Un revendeur de référence coûte plus de trois fois Stripe et te retire la déclaration des mains. Lequel des deux revient le moins cher dépend de ton volume et du temps que te coûte une déclaration. Je n’ai encaissé avec aucun des quatre : c’est un raisonnement, pas un retour d’expérience.",
+          "nature": "constatee",
+          "verifie_le": "2026-08-23"
         }
       ]
     },
@@ -260,7 +292,7 @@
       "prix": "5 % + 0,50 $",
       "prix_verifie_le": "2026-08-23",
       "fait": "Vend à ta place en tant que revendeur de référence : il facture, collecte la TVA et te reverse.",
-      "pourquoi": "Le seul des quatre qui retire la TVA européenne de tes mains.",
+      "pourquoi": "Il annonce vendre en tant que revendeur de référence, donc collecter la TVA à ta place. Je n’ai pas vérifié ce que les trois autres déclarent sur ce point, seulement leurs tarifs.",
       "ne_fait_pas": "Il coûte plus de trois fois Stripe. Sur un produit à faible marge, l’écart mange le temps qu’il fait gagner.",
       "verifie_le": "2026-08-23"
     },
@@ -279,7 +311,7 @@
     {
       "titre": "Les quatre questions à poser avant de choisir",
       "a_quoi_ca_sert": "À trancher en dix minutes plutôt qu’en trois soirs. Copie-les et réponds dans l’ordre.",
-      "contenu": "1. Où sont mes acheteurs : mon pays, l’Europe, hors Europe ?\n2. Est-ce que j’accepte de déclarer la TVA moi-même, ou je paie pour ne pas le faire ?\n3. Est-ce que je vends un fichier, un accès récurrent, ou les deux ?\n4. Quel est mon panier moyen ? Sous 20 €, le montant fixe par transaction pèse plus que le pourcentage."
+      "contenu": "1. Où sont mes acheteurs : mon pays, l’Europe, hors Europe ?\n2. Est-ce que j’accepte de déclarer la TVA moi-même, ou je paie pour ne pas le faire ?\n3. Est-ce que je vends un fichier, un accès récurrent, ou les deux ?\n4. Quel est mon panier moyen ? Le montant fixe pèse plus que le pourcentage en dessous du seuil « part fixe ÷ taux » : environ 17 € chez Stripe, 11 $ chez Whop, 10 $ chez Lemon Squeezy, 5 $ chez Gumroad."
     }
   ]
 }

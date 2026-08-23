@@ -137,9 +137,11 @@ def distribution_du_catalogue(groupes):
             corps.append(f'<text class="t-val" x="{GA + L + 12:.1f}" y="{y + 20}">{val}</text>')
             y += LIG
     return figure(f"0 0 {W} {H}", "\n".join(corps),
-                  "Ce que les filtres du site comptent, relevé tel qu’affiché. La somme dépasse le "
-                  "nombre de programmes de la collection : un même programme est compté sur "
-                  "plusieurs niveaux. Nous n’expliquons pas cet écart, nous le signalons. "
+                  "Ce que les filtres du site comptent, relevé tel qu’affiché. Sur les deux axes, la "
+                  "somme dépasse le nombre de programmes de la collection : un même programme est "
+                  "compté plusieurs fois, y compris sur l’objectif, où « Les deux » devrait pourtant "
+                  "être la catégorie d’intersection. Nous n’expliquons pas cet écart, nous le "
+                  "signalons. "
                   "<a href=\"https://jeffnippard.com/collections/training-programs\">Voir les filtres</a>.",
                   "Barres horizontales du nombre de programmes par niveau couvert et par objectif, "
                   "telles que les filtres du site les comptent.")

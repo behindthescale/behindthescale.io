@@ -1,0 +1,80 @@
+{
+  "source": {
+    "titre": "« Rich-Get-Richer »? Platform Attention and Earnings Inequality using Patreon Earnings Data",
+    "auteurs": "Ilan Strauss, Jangho Yang, Mariana Mazzucato",
+    "reference": "arXiv:2509.26523v3 — préprint, pas une publication en revue à comité de lecture",
+    "url": "https://arxiv.org/abs/2509.26523",
+    "pdf": "https://arxiv.org/pdf/2509.26523"
+  },
+  "collecte": {
+    "date": "2026-08-23",
+    "methode": "PDF téléchargé depuis arXiv, texte extrait avec pdftotext -layout, puis lu directement. Aucune citation ne passe par un résumé automatique : chacune est relevée dans le texte extrait."
+  },
+  "citations_verifiees": [
+    {
+      "verbatim": "closer to concentrated capital income than labor income",
+      "ou": "Résumé, premier résultat",
+      "ligne": 22,
+      "texte_brut": "in a Pareto exponent α ≈ 2, which is closer to concentrated capital income than labor income."
+    },
+    {
+      "verbatim": "draws gains disproportionately from mid-tier",
+      "ou": "Corps, deuxième résultat",
+      "ligne": 154,
+      "texte_brut": "ranges (Q25-Q75). The “rich-get-richer” dynamic draws gains disproportionately from mid-tier cre-"
+    },
+    {
+      "verbatim": "restrict the dataset to include only content creators with monthly earnings exceeding",
+      "ou": "Section 2.1, données",
+      "ligne": 313,
+      "texte_brut": "then restrict the dataset to include only content creators with monthly earnings exceeding $10 USD."
+    },
+    {
+      "verbatim": "no detailed public data on these",
+      "ou": "Section 2.1, limites des données",
+      "ligne": 293,
+      "texte_brut": "with viewership (Influencer Marketing Hub 2023). Unfortunately, no detailed public data on these"
+    },
+    {
+      "verbatim": "month of March for years 2018, 2021, and 2024",
+      "ou": "Section 2.1, périmètre",
+      "ligne": 267,
+      "texte_brut": "Patreon platform, for the month of March for years 2018, 2021, and 2024 (n = 104,719)."
+    }
+  ],
+  "tableaux": {
+    "table_1_agrege_trois_releves": {
+      "note": "Médianes agrégées sur mars 2018, 2021 et 2024. Ce ne sont PAS les valeurs publiées sur le site.",
+      "valeurs": {
+        "Facebook": 47,
+        "Instagram": 59,
+        "Patreon": 57,
+        "Twitch": 46,
+        "Twitter": 72,
+        "YouTube": 47
+      },
+      "observations": {
+        "Facebook": 8458,
+        "Instagram": 35879,
+        "Patreon": 83950,
+        "Twitch": 1793,
+        "Twitter": 47564,
+        "YouTube": 23435
+      },
+      "somme_observations": 201079
+    },
+    "table_2_mars_2024": {
+      "note": "Médianes du seul relevé de mars 2024. Ce sont les valeurs publiées sur le site.",
+      "valeurs": {
+        "Facebook": 44,
+        "Instagram": 53,
+        "Patreon": 55,
+        "Twitch": 42,
+        "Twitter": 72,
+        "YouTube": 43
+      }
+    },
+    "n_annonce_section_2_1": 104719,
+    "ecart_non_explique": "La somme des observations du tableau 1 (201 079) vaut près du double du n annoncé en section 2.1 (104 719). Le texte lu n'explique pas le rapport entre les deux."
+  }
+}

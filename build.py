@@ -231,6 +231,11 @@ def page_chapitre(ch, chapitres):
     <h1>{html.escape(ch["titre"])}</h1>
     <p class="doc-lede">{html.escape(ch["annonce"])}</p>
 ''')
+    if ch.get("collecte"):
+        c = ch["collecte"]
+        out.append(f'''    <p class="preuve">{html.escape(c["titre"])} ·
+      <a href="{html.escape(c["url"])}">les vérifier</a></p>
+''')
 
     if not ch.get("sous_parties"):
         out.append('''

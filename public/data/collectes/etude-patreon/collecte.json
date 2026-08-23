@@ -1,0 +1,66 @@
+{
+ "collecte": {
+  "date": "2026-08-23",
+  "objet": "Strauss, Yang et Mazzucato, « Rich-Get-Richer »? Platform Attention and Earnings Inequality using Patreon Earnings Data",
+  "reference": "arXiv:2509.26523v3 [econ.GN], 15 juillet 2026",
+  "statut_de_publication": "Preprint arXiv. Aucune mention d'acceptation en revue dans le document. Ne pas le presenter comme un article a comite de lecture.",
+  "url_pdf": "https://arxiv.org/pdf/2509.26523v3",
+  "sha256_pdf": "abba4740c33e2d61d180e0562b07eb39af635bbead0f3a2ef34d91de1e352d30",
+  "pages": 36,
+  "methode": "PDF telecharge depuis arxiv.org, empreinte relevee, texte extrait localement par « pdftotext -layout ». Les verbatims ci-dessous sont copies de cette extraction, pas d'un resume d'outil tiers. Le texte integral n'est pas redistribue ici : la source est publique et son empreinte permet de rejouer l'extraction.",
+  "rejouer": "curl -sL -o arxiv.pdf https://arxiv.org/pdf/2509.26523v3 && shasum -a 256 arxiv.pdf && pdftotext -layout arxiv.pdf -"
+ },
+ "verbatims": [
+  {
+   "texte": "closer to concentrated capital income than labor income",
+   "ou": "Resume, page 1",
+   "phrase_entiere": "First, platforms exhibit “rich-get-richer” earnings dynamics (Barabasi and Albert 1999), reflected in a Pareto exponent α ≈ 2, which is closer to concentrated capital income than labor income."
+  },
+  {
+   "texte": "The “rich-get-richer” dynamic draws gains disproportionately from mid-tier creators.",
+   "ou": "Section 1, page 3"
+  },
+  {
+   "texte": "We then restrict the dataset to include only content creators with monthly earnings exceeding $10 USD.",
+   "ou": "Section 2.1, la phrase court de la page 5 a la page 6"
+  }
+ ],
+ "tables": [
+  {
+   "table": "Table 1. Summary Statistics: Patreon monthly earnings by social media platform",
+   "page": 6,
+   "portee": "Agregat des trois releves de mars 2018, 2021 et 2024. A NE PAS lire comme les valeurs 2024.",
+   "colonnes": ["Platform", "Obs", "Mean", "Median"],
+   "lignes": [
+    ["Facebook", 8458, 149, 47],
+    ["Instagram", 35879, 226, 59],
+    ["Patreon", 83950, 278, 57],
+    ["Twitch", 1793, 198, 46],
+    ["Twitter", 47564, 373, 72],
+    ["Youtube", 23435, 250, 47]
+   ],
+   "somme_obs": 201079,
+   "note": "8458 + 35879 + 83950 + 1793 + 47564 + 23435 = 201 079. Le n annonce en section 2.1, page 5, est de 104 719. Le texte lu n'explique pas le rapport entre les deux."
+  },
+  {
+   "table": "Table 2. Further statistics of Patreon monthly earnings by platform with NSFW",
+   "page": 25,
+   "portee": "Detail par annee. C'est de cette table que viennent les medianes de mars 2024 publiees dans le chapitre 1.",
+   "colonnes": ["Platform", "Year", "Num_Observations", "Mean_Earnings", "Median_Earnings"],
+   "lignes_2024": [
+    ["Facebook", 2024, 2520, 146, 44],
+    ["Instagram", 2024, 20876, 216, 53],
+    ["Patreon", 2024, 37961, 307, 55],
+    ["Twitch", 2024, 870, 236, 42],
+    ["Twitter", 2024, 23966, 399, 72],
+    ["Youtube", 2024, 14457, 243, 43]
+   ]
+  }
+ ],
+ "n_annonce": {
+  "valeur": 104719,
+  "ou": "Section 2.1, page 5",
+  "phrase": "We use official Patreon monthly earnings data for content creators purchased directly from the Patreon platform, for the month of March for years 2018, 2021, and 2024 (n = 104,719).",
+  "note": "Le papier ne qualifie pas ce n de nombre de createurs distincts. Ne pas l'ecrire « cent mille createurs »."
+ }
+}
