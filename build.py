@@ -117,7 +117,7 @@ def page_index():
 
 
 def main():
-    cible = RACINE / "reperes" / "index.html"
+    cible = RACINE / "ressources" / "index.html"
     cible.parent.mkdir(exist_ok=True)
     cible.write_text(page_index(), encoding="utf-8")
 

@@ -1,9 +1,9 @@
 {
-  "titre": "Derrière le chiffre",
-  "sous_titre": "Le périmètre du premier produit payant",
+  "titre": "Le premier produit payant",
+  "sous_titre": "Le périmètre : de l'audience à la première vente encaissée",
   "version": "v1",
   "date": "2026-08-23",
-  "editeur": "Behind The Scale, Aloïs Fouquet",
+  "editeur": "Behind The Scale",
   "licence": "CC BY 4.0",
   "avertissement": "La colonne d'état est une estimation de conception produite en une passe, pas une mesure. Le recensement méthodique reste à faire et la remplacera.",
   "total": 97,
@@ -658,5 +658,6 @@
         }
       ]
     }
-  ]
+  ],
+  "url": "https://behindthescale.io/ressources/"
 }
